@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Practice Overview (Modernized)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00f2ff",
+                        "accent": "#7000ff",
+                        "background": "#05070a",
+                        "card-bg": "#0f172a",
+                    },
+                    fontFamily: {
+                        "sans": ["Plus Jakarta Sans", "Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background text-slate-200 antialiased;
+            }
+        }
+        .neon-glow {
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.15);
+        }
+        .resistance-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 3s ease-in-out forwards;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+        .floating-card {
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-sans">
+<div class="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto bg-background overflow-x-hidden">
+<header class="flex items-center justify-between px-6 pt-8 pb-4 sticky top-0 bg-background/80 backdrop-blur-xl z-30">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full border border-primary/30 p-0.5 overflow-hidden">
+<div class="w-full h-full rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCDbaKdAq7X8ldA74FB-CxKyMCP69UsPU5ZeGFR50J2s0WRNyJhPpAs6rxuOrUIcGeXn8W-k7Kq8cIk9E46Mrn-1C-GDXh2EBTU247a3e-K_pzIA4n8IIr_mtrHg8Sqn2MYu2YIoyOsruLhcjbPM1Sm_P3XWa4yxm-aK-BlMWvcJMZgh1BcSyhiIEXPD18CJkrWNLl-CKnrBVZhGtdEqCEANtfPrIfFE_5oCQm8enObknM2PBMBZRzuOmef3fvswuc5F-3Kry2G7dzs");'></div>
+</div>
+<div>
+<h1 class="text-xs font-bold uppercase tracking-[0.2em] text-primary/70">Performance</h1>
+<p class="text-xl font-extrabold text-white tracking-tight">Practice Overview</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1.5 bg-accent/10 border border-accent/20 px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-accent text-sm fill-1">bolt</span>
+<span class="text-xs font-bold text-accent">12 DAY STREAK</span>
+</div>
+</div>
+</header>
+<main class="px-6 py-4 space-y-8 pb-32">
+<section>
+<div class="relative group p-6 rounded-3xl bg-gradient-to-br from-card-bg to-background border border-slate-800/50 neon-border">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase">Framework Progression</span>
+<h2 class="text-2xl font-bold text-white mt-1">Advanced Mastery</h2>
+</div>
+<div class="bg-primary/10 p-2 rounded-xl">
+<span class="material-symbols-outlined text-primary text-2xl">verified</span>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-bold text-slate-400">
+<span>EXPOSURE INTENSITY</span>
+<span class="text-primary">LEVEL 4 UNLOCKED</span>
+</div>
+<div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full w-[85%] bg-gradient-to-r from-accent to-primary rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold tracking-widest text-slate-500 uppercase">Resistance Exposure Map</h3>
+<span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">LIVE METRIC</span>
+</div>
+<div class="relative aspect-[4/3] w-full bg-slate-900/40 rounded-3xl border border-slate-800 flex items-center justify-center p-4 overflow-hidden">
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, #334155 1px, transparent 0); background-size: 24px 24px;"></div>
+<svg class="w-full h-full relative z-10" viewBox="0 0 200 150">
+<defs>
+<filter id="glow">
+<feGaussianBlur result="coloredBlur" stdDeviation="2.5"></feGaussianBlur>
+<feMerge>
+<feMergeNode in="coloredBlur"></feMergeNode>
+<feMergeNode in="SourceGraphic"></feMergeNode>
+</feMerge>
+</filter>
+</defs>
+<path class="resistance-line opacity-80" d="M 40,110 L 100,40 L 160,80" fill="none" filter="url(#glow)" stroke="#00f2ff" stroke-width="2.5"></path>
+<path class="opacity-40" d="M 40,110 L 70,130 L 130,120 L 160,80" fill="none" stroke="#7000ff" stroke-dasharray="4 2" stroke-width="1.5"></path>
+<circle cx="40" cy="110" fill="#00f2ff" filter="url(#glow)" r="4"></circle>
+<circle cx="100" cy="40" fill="#00f2ff" filter="url(#glow)" r="6"></circle>
+<circle cx="160" cy="80" fill="#00f2ff" filter="url(#glow)" r="4"></circle>
+<text fill="#94a3b8" font-size="7" font-weight="bold" text-anchor="middle" x="40" y="125">TYPE A: INTERMEDIATE</text>
+<text fill="#00f2ff" font-size="7" font-weight="extrabold" text-anchor="middle" x="100" y="30">TYPE B: ADVANCED</text>
+<text fill="#94a3b8" font-size="7" font-weight="bold" text-anchor="middle" x="160" y="95">TYPE C: PROFICIENT</text>
+</svg>
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-center px-4 py-2 bg-black/40 backdrop-blur-md rounded-2xl border border-white/5">
+<div class="text-[10px] font-bold text-slate-300">SYSTEM ADAPTABILITY</div>
+<div class="text-[10px] font-bold text-primary">88.4%</div>
+</div>
+</div>
+</section>
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold tracking-widest text-slate-500 uppercase">Recent Exposure</h3>
+<button class="text-xs font-bold text-primary">EXPAND ALL</button>
+</div>
+<div class="floating-card group relative p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-primary/40 transition-all">
+<div class="flex gap-4">
+<div class="flex-1 space-y-3">
+<div class="flex items-center gap-2">
+<span class="text-[9px] font-black px-2 py-0.5 rounded bg-accent/20 text-accent border border-accent/30 uppercase tracking-tighter">OPPOSITION</span>
+<span class="text-[9px] font-medium text-slate-500 uppercase tracking-widest">Yesterday • 14:20</span>
+</div>
+<div>
+<h4 class="text-white font-bold text-base leading-tight">Direct Executive Pushback</h4>
+<p class="text-slate-400 text-xs mt-1 leading-relaxed">High-stakes refusal of departmental budget reallocation.</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">psychology</span> ADVANCED
+                                </span>
+<span class="text-[10px] font-bold text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">timer</span> 14m 2s
+                                </span>
+</div>
+</div>
+<div class="w-16 h-16 rounded-xl bg-cover bg-center border border-slate-700/50 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB_L5rak-hYw1dI5inFYUa17HBBNaUt3RIixMBqcz2iF0HrSc2lmN41V6yFliHRyM9QTR1a864efHdSDWBGbHZgB_GL9tFO9lULd_mBpHZR5DSkjfLNpKuzTbflAIqU6TKXZB2SEHxf9jExh6BD-5nm8UWVf1uNJTpWW-tsNyYBhocXYgYxynlXx3JdIyvE9wpkmlF57EnCSmTD-tzmHvYDED9J1_oM7olzwDCYvAzpHvvE4_tBRplpPxZoMxd7bxHrV8hauxFlzdxs");'></div>
+</div>
+</div>
+<div class="floating-card group relative p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-primary/40 transition-all">
+<div class="flex gap-4">
+<div class="flex-1 space-y-3">
+<div class="flex items-center gap-2">
+<span class="text-[9px] font-black px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/30 uppercase tracking-tighter">INERTIA</span>
+<span class="text-[9px] font-medium text-slate-500 uppercase tracking-widest">3 Days Ago</span>
+</div>
+<div>
+<h4 class="text-white font-bold text-base leading-tight">Bureaucratic Inertia</h4>
+<p class="text-slate-400 text-xs mt-1 leading-relaxed">Navigating stalled procurement via indirect influence.</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">psychology</span> PROFICIENT
+                                </span>
+<span class="text-[10px] font-bold text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">timer</span> 22m 10s
+                                </span>
+</div>
+</div>
+<div class="w-16 h-16 rounded-xl bg-cover bg-center border border-slate-700/50 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD6TyBRmBPlOdAM1hQkvnxxlB87vcA3UolMTtk03BXhTEXdNWfczFgllIDt3LmW9e-xubkrSR-63fUhgSNx9mTYBa9tsAx1M7xuuUkKGarcjs8oz9TeOqsafGIT-5RUSGYUfTVe8VtLw8D348OHuibNOy3RE1liaLndf2XtsALEwcSPZR9eo-ry1gdlYFl9_dxy17-afLKDIgK-4Qgqi6zLgUiWDK6EkCeWeWdtApyhhCXd6y9kzkdNtri2ySamPej_t8dZc8JpxlHW");'></div>
+</div>
+</div>
+</section>
+</main>
+<div class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-6 bg-gradient-to-t from-background via-background to-transparent z-40">
+<button class="w-full h-14 bg-primary text-background font-black text-sm uppercase tracking-widest rounded-2xl shadow-[0_0_30px_rgba(0,242,255,0.3)] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined fill-1">play_arrow</span>
+                START EXPOSURE SESSION
+            </button>
+<div class="h-4"></div>
+</div>
+</div>
+
+</body></html>

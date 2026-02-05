@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>General Live Interaction</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ddff2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102122",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .frosted-glass {
+            background: rgba(40, 56, 57, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-border {
+            box-shadow: 0 0 10px rgba(13, 223, 242, 0.3);
+            border: 1px solid #0ddff2;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b5254;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white antialiased">
+<!-- Main Container (iOS Phone Form Factor) -->
+<div class="relative flex h-screen w-full max-w-[430px] mx-auto flex-col bg-background-light dark:bg-background-dark overflow-hidden border-x border-white/5 shadow-2xl">
+<!-- TopAppBar -->
+<header class="flex flex-col bg-background-light dark:bg-background-dark z-20 pt-4 px-4 pb-2 border-b border-white/5">
+<div class="flex items-center justify-between h-14">
+<div class="flex items-center gap-2">
+<button class="text-white hover:bg-white/10 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+<h2 class="text-white text-lg font-bold tracking-tight">Executive Simulation</h2>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 text-[#9cb7ba] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">restart_alt</span>
+<span class="text-xs font-bold uppercase tracking-wider">Restart</span>
+</button>
+<button class="flex items-center gap-1 text-primary hover:bg-primary/10 px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[20px]">pause_circle</span>
+<span class="text-xs font-bold uppercase tracking-wider">Pause</span>
+</button>
+</div>
+</div>
+<!-- Progress Indicator -->
+<div class="flex flex-col gap-2 py-3">
+<div class="flex justify-between items-end">
+<p class="text-[#9cb7ba] text-[11px] font-bold uppercase tracking-[0.1em]">Scenario Mastery</p>
+<p class="text-primary text-sm font-bold">72%</p>
+</div>
+<div class="h-1.5 w-full bg-[#1c2e30] rounded-full overflow-hidden">
+<div class="h-full bg-primary shadow-[0_0_8px_rgba(13,223,242,0.6)]" style="width: 72%;"></div>
+</div>
+</div>
+</header>
+<!-- Chat Area -->
+<main class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- AI Message -->
+<div class="flex items-start gap-3">
+<div class="relative group">
+<div class="absolute -inset-0.5 bg-primary/20 rounded-full blur opacity-75"></div>
+<div class="relative bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 border border-primary/40 shrink-0" data-alt="Professional woman in a suit acting as senior manager" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWcq4ECMCpwoJ7tk5gVq2slYaOxoQsUHzwcALc9xFaANYEhbVojX8ElYeHyhbJ_7EGYXvME4ujNlwKl8Tkcy5SKRZHGNww8J6U38X35KLf-XRfD1l5V_4NTxeC34RBaGar-uHXbBNmsaUYCZkMwdXgty4bZtTl76B9eHKPIkQqK6GnP4DljHC1E1_HflsO3K3rMS1sBgkjC8Uk2D7bk7zvwokpF3A1Cthqr06n0lrNrxbK3e0fu4Tuvn51QJJVqWHZQRmP57dDzXB0");'>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 max-w-[85%]">
+<div class="flex items-center gap-2">
+<p class="text-primary text-[11px] font-bold uppercase tracking-widest">Senior Manager</p>
+<span class="h-1 w-1 rounded-full bg-primary/50"></span>
+<p class="text-white/40 text-[10px]">Active now</p>
+</div>
+<div class="frosted-glass rounded-lg rounded-tl-none px-4 py-3 text-white text-[15px] leading-relaxed border-l-2 border-l-primary shadow-lg">
+                        I've analyzed your departmental reorganization strategy. It addresses the overhead, but I'm concerned about the impact on team morale during the transition. How do you intend to maintain productivity while shifting roles?
+                    </div>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex items-end gap-3 justify-end">
+<div class="flex flex-col gap-1.5 max-w-[85%] items-end">
+<p class="text-[#9cb7ba] text-[11px] font-bold uppercase tracking-widest">Response</p>
+<div class="bg-primary/90 text-[#102122] rounded-lg rounded-br-none px-4 py-3 text-[15px] font-medium leading-relaxed shadow-[0_4px_20px_rgba(13,223,242,0.15)]">
+                        We're implementing a 'Transparent Transition' program. Every affected employee will have a 1-on-1 session this week, and we've set up a dedicated internal FAQ for the changes.
+                    </div>
+<div class="flex items-center gap-1 text-primary/60">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+<span class="text-[10px] font-bold">SENT</span>
+</div>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 border border-white/10 shrink-0" data-alt="Modern professional headshot of user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD4cjvaHxPInDZesLEOvSi-QNmCOGSzuZoOjMwfPG90IO1Ki0EfJcYMY_-ibnI3DudUnvSVqELnNdZ2lKYcmysGFgGHxstGtXS9FjEQk6uxonUprDUvnmKcTBeOl_WSCO5S69TtZj9GwXDaZzBLD2uBwStKdYUKqiVi76mn-bgcb6OFtWjmDQsgACtHYGR-x36rKWD5rYI0JNSzNFe7nN6akIJNDKK0186mwjVLu7PE2hkFc4IjlT98LFou0QN3bilVHnRgnSAJfGYm");'>
+</div>
+</div>
+<!-- AI Thinking State -->
+<div class="flex items-start gap-3">
+<div class="relative bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 border border-white/10 shrink-0" data-alt="Professional woman in a suit acting as senior manager" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8BT_zGqV0swULqKsgHQpzEv_cgwHJja2qbCrBE5LlsMjGz0hBPRqPXSxN2y5DFgKQRP7vaEkutPfg4GzBquB_NGWkQXNW7sVLJtgka_5yQjqNmbUKxelY-FwXGfG-XftWHhDPMOc3NW8GK_99Cr0EYQW7NBjzQt_1E325qO3mQ6F1R6IDmyIAn4udtA9CQVEV08tL76SqiCw3dN8n_a8QMEm9w2baTKb3pnGHxWKToMUBOQwd9zSLzSfxancBt9dswefZMY6ZiJ4R");'>
+</div>
+<div class="flex flex-col gap-1.5">
+<p class="text-primary text-[11px] font-bold uppercase tracking-widest">Senior Manager</p>
+<div class="frosted-glass rounded-lg rounded-tl-none px-4 py-3 flex gap-1">
+<span class="w-1.5 h-1.5 bg-primary/60 rounded-full animate-pulse"></span>
+<span class="w-1.5 h-1.5 bg-primary/40 rounded-full animate-pulse delay-75"></span>
+<span class="w-1.5 h-1.5 bg-primary/20 rounded-full animate-pulse delay-150"></span>
+</div>
+</div>
+</div>
+</main>
+<!-- User Input Area -->
+<footer class="p-4 bg-background-light dark:bg-background-dark border-t border-white/5 pb-8">
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-transparent rounded-xl blur transition duration-500 group-focus-within:opacity-100 opacity-50"></div>
+<div class="relative flex items-center gap-3 bg-[#162a2c] neon-border rounded-xl p-2 pl-4">
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 text-white placeholder-white/30 text-[15px] py-2 resize-none" placeholder="Type your strategic response..." rows="1"></textarea>
+<div class="flex items-center gap-1 pr-1">
+<button class="text-white/40 hover:text-white p-2 transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="bg-primary text-[#102122] h-10 w-10 flex items-center justify-center rounded-lg shadow-lg hover:brightness-110 transition-all">
+<span class="material-symbols-outlined font-bold">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Quick Suggestions -->
+<div class="flex gap-2 mt-4 overflow-x-auto pb-2 no-scrollbar">
+<button class="shrink-0 bg-white/5 border border-white/10 text-white/70 text-xs font-medium px-3 py-2 rounded-full hover:bg-white/10 transition-colors">
+                    Address risk metrics
+                </button>
+<button class="shrink-0 bg-white/5 border border-white/10 text-white/70 text-xs font-medium px-3 py-2 rounded-full hover:bg-white/10 transition-colors">
+                    Reiterate timeline
+                </button>
+<button class="shrink-0 bg-white/5 border border-white/10 text-white/70 text-xs font-medium px-3 py-2 rounded-full hover:bg-white/10 transition-colors">
+                    Ask for feedback
+                </button>
+</div>
+</footer>
+<!-- iPhone Notch/Indicator Space -->
+<div class="h-1 bg-white/10 w-32 mx-auto rounded-full mb-2 absolute bottom-2 left-1/2 -translate-x-1/2"></div>
+</div>
+</body></html>

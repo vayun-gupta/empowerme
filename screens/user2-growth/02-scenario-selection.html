@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>General Scenario Selection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "accent-cyan": "#00f2ff",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-border-tough {
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+        .neon-border-moderate {
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+        .neon-border-beginner {
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto">
+<div class="flex items-center bg-background-light/50 dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-50 p-4 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined cursor-pointer">arrow_back_ios</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Select Scenario</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex items-center justify-center rounded-lg h-12 bg-transparent text-white p-0">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+<div class="px-4 pt-6 pb-2">
+<h1 class="text-white text-3xl font-bold leading-tight tracking-[-0.015em]">Growth Scenarios</h1>
+<p class="text-slate-400 text-sm mt-1">Practice workplace communication with AI agents</p>
+</div>
+<div class="flex gap-3 p-4 flex-wrap overflow-x-auto no-scrollbar">
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-5">
+<p class="text-white text-xs font-bold uppercase tracking-wider">All</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 border border-white/10 px-5">
+<p class="text-slate-300 text-xs font-bold uppercase tracking-wider">Leadership</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 border border-white/10 px-5">
+<p class="text-slate-300 text-xs font-bold uppercase tracking-wider">Conflict</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 border border-white/10 px-5">
+<p class="text-slate-300 text-xs font-bold uppercase tracking-wider">Teamwork</p>
+</div>
+</div>
+<div class="flex flex-col gap-4 p-4 pb-24">
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 neon-border-tough relative overflow-hidden group">
+<div class="absolute top-0 right-0 bg-red-500/20 text-red-400 text-[10px] font-bold px-3 py-1 rounded-bl-xl border-b border-l border-red-500/30 uppercase tracking-widest">Tough</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-gradient-to-br from-red-500/20 to-primary/20 rounded-xl flex-shrink-0 relative overflow-hidden">
+<div class="absolute inset-0 bg-[url('https://placeholder.pics/svg/100')] bg-cover opacity-40" data-alt="Office meeting room professional setting"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-red-400 text-3xl">trending_up</span>
+</div>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<h3 class="text-white text-xl font-bold">Ask for Promotion</h3>
+<div class="flex items-center gap-1.5 mt-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-xs font-medium">15 mins</span>
+</div>
+<div class="flex flex-wrap gap-2 mt-3">
+<span class="bg-accent-cyan/10 text-accent-cyan text-[10px] font-bold px-2 py-0.5 rounded border border-accent-cyan/20 uppercase tracking-tighter">Assertiveness</span>
+<span class="bg-accent-cyan/10 text-accent-cyan text-[10px] font-bold px-2 py-0.5 rounded border border-accent-cyan/20 uppercase tracking-tighter">Negotiation</span>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 neon-border-moderate relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-amber-500/20 text-amber-400 text-[10px] font-bold px-3 py-1 rounded-bl-xl border-b border-l border-amber-500/30 uppercase tracking-widest">Moderate</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-gradient-to-br from-amber-500/20 to-primary/20 rounded-xl flex-shrink-0 relative overflow-hidden">
+<div class="absolute inset-0 bg-[url('https://placeholder.pics/svg/100')] bg-cover opacity-40" data-alt="Modern calendar with planning icons"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-amber-400 text-3xl">event_repeat</span>
+</div>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<h3 class="text-white text-xl font-bold">Negotiate Deadline</h3>
+<div class="flex items-center gap-1.5 mt-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-xs font-medium">10 mins</span>
+</div>
+<div class="flex flex-wrap gap-2 mt-3">
+<span class="bg-accent-cyan/10 text-accent-cyan text-[10px] font-bold px-2 py-0.5 rounded border border-accent-cyan/20 uppercase tracking-tighter">Diplomacy</span>
+<span class="bg-accent-cyan/10 text-accent-cyan text-[10px] font-bold px-2 py-0.5 rounded border border-accent-cyan/20 uppercase tracking-tighter">Planning</span>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 neon-border-beginner relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-3 py-1 rounded-bl-xl border-b border-l border-emerald-500/30 uppercase tracking-widest">Beginner</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 bg-gradient-to-br from-emerald-500/20 to-primary/20 rounded-xl flex-shrink-0 relative overflow-hidden">
+<div class="absolute inset-0 bg-[url('https://placeholder.pics/svg/100')] bg-cover opacity-40" data-alt="Boundary and focus abstract visualization"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-emerald-400 text-3xl">block</span>
+</div>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<h3 class="text-white text-xl font-bold">Say No to Extra Work</h3>
+<div class="flex items-center gap-1.5 mt-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-xs font-medium">5 mins</span>
+</div>
+<div class="flex flex-wrap gap-2 mt-3">
+<span class="bg-accent-cyan/10 text-accent-cyan text-[10px] font-bold px-2 py-0.5 rounded border border-accent-cyan/20 uppercase tracking-tighter">Boundaries</span>
+<span class="bg-accent-cyan/10 text-accent-cyan text-[10px] font-bold px-2 py-0.5 rounded border border-accent-cyan/20 uppercase tracking-tighter">Focus</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto flex gap-2 border-t border-white/5 bg-background-dark/80 backdrop-blur-xl px-4 pb-6 pt-2 z-50">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 transition-colors hover:text-white" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Home</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-[filled]">grid_view</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Practice</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 transition-colors hover:text-white" href="#">
+<span class="material-symbols-outlined">insights</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Progress</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 transition-colors hover:text-white" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Profile</p>
+</a>
+</div>
+</div>
+</body></html>
+
