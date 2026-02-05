@@ -1,0 +1,161 @@
+5-
+
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>General Coach Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13c8ec",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#101f22",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .cyan-glow {
+            box-shadow: 0 0 15px rgba(19, 200, 236, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+<div class="relative flex h-auto w-full flex-col overflow-x-hidden max-w-[430px] mx-auto bg-background-light dark:bg-background-dark border-x border-slate-200 dark:border-slate-800 shadow-2xl">
+<!-- Top Bar -->
+<div class="flex items-center p-4 pb-2 justify-between sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md z-10">
+<div class="flex size-10 shrink-0 items-center justify-start cursor-pointer">
+<span class="material-symbols-outlined text-slate-900 dark:text-white">arrow_back_ios</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Practice Feedback</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-transparent text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<!-- Coach Header -->
+<div class="flex p-4 @container">
+<div class="flex w-full flex-col gap-4">
+<div class="flex gap-4 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-20 w-20 ring-2 ring-primary/30" data-alt="AI Communication Coach professional avatar icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA9_3XEIaa20ksw_MxXQwVPauPhvjf-yZ7AUXNXSNWBe8_JNrjdnBvtzetZFb6SyL8jIulhzNGTlEWab4PIKkncomlmT88RNYKTQTbIRt5UFbTmu-2YZ2JTOX6KqPP0ME5q-6XkWWiuyEbu_mH3ZTUZoqcQ1q-B2vfd9KO5BkLIwTUZKbR-mFekttNx2H_8MY64OW-f-GhlregKrjJ5mb74DnFNKVqFL2gm7Qsjjq_r0QuSsIYiOj3nQIyzlDRvh3GQvUH1VGO1yYjo");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">AI Communication Coach</p>
+<p class="text-slate-500 dark:text-[#9db4b9] text-sm font-normal">Active Listening &amp; Clarity Focus</p>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<p class="text-primary text-xs font-semibold uppercase tracking-wider">Analysis complete</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Coach Insights Section -->
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Coach Insights</h2>
+<div class="px-4 pb-4">
+<div class="flex flex-col items-stretch justify-start rounded-xl overflow-hidden shadow-lg bg-white dark:bg-[#1c2527] border border-slate-100 dark:border-slate-800">
+<div class="w-full bg-center bg-no-repeat aspect-[16/7] bg-cover" data-alt="Abstract cyan and dark teal gradient background" style="background-image: linear-gradient(135deg, #13c8ec 0%, #0a6b7e 100%);">
+<div class="flex items-center justify-center h-full">
+<span class="material-symbols-outlined text-white text-5xl">insights</span>
+</div>
+</div>
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 p-5">
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Overall Performance</p>
+<p class="text-slate-600 dark:text-[#9db4b9] text-base font-normal leading-relaxed">
+                        Your communication was professional and clear. You successfully acknowledged the stakeholder's concerns before presenting your solution.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Bulleted Feedback -->
+<div class="grid grid-cols-1 gap-4 px-4 pb-6">
+<div class="space-y-3">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+                    What worked
+                </h3>
+<ul class="space-y-2">
+<li class="flex gap-3 text-slate-600 dark:text-[#9db4b9] text-sm leading-normal">
+<span class="text-primary">•</span>
+                        Maintained an empathetic tone during the conflict stage.
+                    </li>
+<li class="flex gap-3 text-slate-600 dark:text-[#9db4b9] text-sm leading-normal">
+<span class="text-primary">•</span>
+                        Used concise language to describe technical issues.
+                    </li>
+</ul>
+</div>
+<div class="space-y-3 mt-2">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-500">error</span>
+                    Improve this
+                </h3>
+<ul class="space-y-2">
+<li class="flex gap-3 text-slate-600 dark:text-[#9db4b9] text-sm leading-normal">
+<span class="text-amber-500">•</span>
+                        Could provide a more concrete timeline for the next steps.
+                    </li>
+<li class="flex gap-3 text-slate-600 dark:text-[#9db4b9] text-sm leading-normal">
+<span class="text-amber-500">•</span>
+                        Try to avoid "maybe" or "possibly" to sound more confident.
+                    </li>
+</ul>
+</div>
+</div>
+<!-- Suggested Phrasing Card -->
+<div class="px-4 pb-8">
+<div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-5 relative overflow-hidden">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_fix_high</span>
+<h3 class="text-primary text-sm font-bold uppercase tracking-wider">Suggested Phrasing</h3>
+</div>
+<button class="bg-white/10 dark:bg-primary/20 hover:bg-primary/30 p-2 rounded-lg transition-colors group">
+<span class="material-symbols-outlined text-primary text-xl">content_copy</span>
+</button>
+</div>
+<p class="text-slate-800 dark:text-slate-200 italic leading-relaxed text-base">
+                    "I understand the urgency of this request. While I can't guarantee a Tuesday delivery, I will provide a finalized progress report by Monday afternoon."
+                </p>
+<!-- Decorative element -->
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-primary text-8xl">format_quote</span>
+</div>
+</div>
+</div>
+<!-- Bottom Action Bar -->
+<div class="mt-auto p-4 bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
+<button class="cyan-glow w-full bg-primary text-background-dark font-bold h-14 rounded-xl flex items-center justify-center gap-2 text-lg">
+<span class="material-symbols-outlined">refresh</span>
+                Retry Session
+            </button>
+<button class="w-full bg-transparent text-slate-500 dark:text-slate-400 font-semibold h-12 rounded-xl flex items-center justify-center text-sm">
+                Finish &amp; Save Progress
+            </button>
+</div>
+<!-- Spacer for iOS bottom indicator -->
+<div class="h-8"></div>
+</div>
+</body></html>

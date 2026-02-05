@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Interaction: Adversary Agent</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ea5e9",
+                        "adversary": "#f8fafc",
+                        "adversary-dark": "#020617",
+                        "background-dark": "#0a0c12",
+                        "neon-blue": "#00f2ff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .glass {
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .glass-user {
+                background: rgba(14, 165, 233, 0.15);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(14, 165, 233, 0.3);
+            }
+            .adversary-bubble {
+                background: #ffffff;
+                color: #000000;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            }
+            .neon-border {
+                box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 5px rgba(0, 242, 255, 0.1);
+                border-color: rgba(0, 242, 255, 0.5);
+            }
+            .progress-shimmer {
+                background: linear-gradient(90deg, #0ea5e9 0%, #00f2ff 50%, #0ea5e9 100%);
+                background-size: 200% 100%;
+                animation: shimmer 3s infinite linear;
+            }
+            @keyframes shimmer {
+                0% { background-position: 200% 0; }
+                100% { background-position: -200% 0; }
+            }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+        }
+        body {
+            background-color: #0a0c12;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display text-slate-200">
+<div class="relative flex h-screen w-full flex-col max-w-[430px] mx-auto bg-background-dark shadow-2xl overflow-hidden border-x border-white/5">
+<div class="absolute top-0 left-0 w-full h-1 bg-white/5 z-50">
+<div class="h-full progress-shimmer w-[65%]"></div>
+</div>
+<header class="flex items-center bg-background-dark/80 backdrop-blur-md p-4 pt-6 justify-between shrink-0 border-b border-white/5">
+<div class="flex items-center gap-3">
+<div class="text-white flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-white/10 to-transparent border border-white/10">
+<span class="material-symbols-outlined">shield_person</span>
+</div>
+<div>
+<h2 class="text-white text-sm font-bold leading-tight tracking-tight uppercase">Executive Conflict</h2>
+<p class="text-[10px] text-slate-500 font-medium">ADVERSARY SIMULATION</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-full text-slate-400 hover:text-white transition-all border border-transparent hover:border-white/10 hover:bg-white/5">
+<span class="material-symbols-outlined text-[20px]">pause</span>
+</button>
+</div>
+</header>
+<div class="flex items-center justify-center gap-4 py-3 px-4 bg-white/5 border-b border-white/5">
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold text-slate-400 border border-white/10 hover:bg-white/10 transition-colors uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">pause_circle</span> Pause
+        </button>
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold text-slate-400 border border-white/10 hover:bg-white/10 transition-colors uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span> Restart
+        </button>
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold text-slate-400 border border-white/10 hover:bg-white/10 transition-colors uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">trending_down</span> Lower Intensity
+        </button>
+</div>
+<main class="flex-1 overflow-y-auto p-4 space-y-8 bg-gradient-to-b from-background-dark to-black/20">
+<div class="flex flex-col items-center py-2">
+<span class="text-[10px] font-bold text-slate-600 bg-white/5 px-3 py-1 rounded-full border border-white/5 uppercase tracking-[0.2em]">Live Session Active</span>
+</div>
+<div class="flex items-start gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-sm w-10 shrink-0 border border-white/20 filter grayscale" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrZdyO2pJqHx2_FjwpPoNGwWsVD-3mLLzd_Lr4XsRcwoImyj8H_cL0IcVdYMa_7b72jyEhDx8bATF9U_xCL8qTptAmQPFdR_0emTC3anHGCakK6ut2yjG3HaeRZ8qpkN3-yBpPLyyfNhwvbkEf-adsgQWmY1-AG2oEXmkRlUwD843MobJ58SSRg6RbAPPjeYuCLKn_HzRf2YyR4fzSvAMog0u8MxPQntqBGayFubQeUBV6OCub5JquPOzGOIix81pITlcUadN8ElWY");'>
+</div>
+<div class="flex flex-1 flex-col gap-2 items-start">
+<div class="flex items-center gap-2">
+<p class="text-white text-[11px] font-black uppercase tracking-widest">Adversary Agent</p>
+<span class="size-1 rounded-full bg-red-500 animate-pulse"></span>
+</div>
+<div class="adversary-bubble relative rounded-none border-l-4 border-red-600 px-4 py-4 text-[14px] font-medium leading-relaxed tracking-tight shadow-2xl">
+<div class="mb-2 inline-flex items-center gap-1.5 px-2 py-0.5 bg-black/10 border border-black/10 rounded text-[9px] font-black uppercase text-red-700">
+<span class="material-symbols-outlined text-[12px]">bolt</span> Type A: Resistance
+                    </div>
+<p class="text-slate-900">I don't see how this budget realignment benefits my department's long-term goals. Your proposal lacks structural foresight and ignores the operational risks we've already highlighted.</p>
+</div>
+<p class="text-slate-600 text-[10px] font-medium uppercase tracking-tighter">Delivered 2m ago</p>
+</div>
+</div>
+<div class="flex items-start gap-3 justify-end">
+<div class="flex flex-1 flex-col gap-2 items-end">
+<p class="text-primary text-[11px] font-bold uppercase tracking-widest">Leadership Response</p>
+<div class="glass-user rounded-2xl rounded-tr-none px-4 py-3 text-[14px] font-normal leading-relaxed text-slate-200 max-w-[90%] shadow-lg">
+                    I understand the concern regarding operational risk. Let's examine the contingency allocations in Section 4 to address those specific gaps.
+                </div>
+<p class="text-slate-600 text-[10px] font-medium uppercase tracking-tighter">Sent • Read</p>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0 border-2 border-primary/30" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtxH-VjGPC9lW5Wb9w8dZyeaAk6HiG6-LJSqF79VvPCK_lwSHSJiAyI3ljGm2SJwgoScbmWBaWrFRtLNLS04G0xXgOsuLRJXhvvInQwG6BprDhiOb7dnpk5H6Xe9uPmVpNhFcdblFoSl6MfCJDoffakFQLGlamgYXxfMRCInFOA9KwogCLeHM8aiw-UikZIm_Y1vbv3UOhBIH1AfkjRGgYWQNf27EU1syrcHb7XLeCl-cTN_xgGtk5bcU9nid2K87FUPArLxguNGHn");'>
+</div>
+</div>
+<div class="flex items-center gap-3 px-2">
+<div class="flex gap-1.5 bg-white/5 px-3 py-2 rounded-full border border-white/5">
+<span class="size-1.5 rounded-full bg-slate-500 animate-bounce"></span>
+<span class="size-1.5 rounded-full bg-slate-500 animate-bounce [animation-delay:-0.15s]"></span>
+<span class="size-1.5 rounded-full bg-slate-500 animate-bounce [animation-delay:-0.3s]"></span>
+</div>
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Agent Analyzing...</span>
+</div>
+</main>
+<footer class="p-4 bg-background-dark/80 backdrop-blur-xl border-t border-white/5">
+<div class="flex flex-col gap-4">
+<div class="relative group">
+<textarea class="w-full rounded-2xl border-white/10 bg-white/5 p-4 pr-12 text-sm text-white transition-all placeholder:text-slate-600 focus:ring-1 focus:ring-neon-blue neon-border resize-none" placeholder="Craft your strategic response..." rows="3"></textarea>
+<div class="absolute bottom-3 right-3 flex flex-col items-center">
+<span class="text-[9px] font-black text-slate-600">0/280</span>
+</div>
+</div>
+<div class="flex items-center justify-between gap-3">
+<div class="flex gap-2">
+<button class="p-3 rounded-xl glass text-slate-400 hover:text-neon-blue hover:border-neon-blue/40 transition-all">
+<span class="material-symbols-outlined text-[20px]">lightbulb</span>
+</button>
+<button class="p-3 rounded-xl glass text-slate-400 hover:text-neon-blue hover:border-neon-blue/40 transition-all">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</button>
+</div>
+<button class="flex-1 flex items-center justify-center gap-2 bg-primary text-white py-3 px-6 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 active:scale-[0.98] transition-all border border-white/10">
+<span>Send Response</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+<div class="mt-6 flex justify-center">
+<div class="w-32 h-1.5 bg-white/10 rounded-full"></div>
+</div>
+</footer>
+</div>
+
+</body></html>

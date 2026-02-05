@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scenario Selection</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#6366f1",
+                "accent-neon": "#00f5ff",
+                "bg-premium": "#0a0a0c",
+                "card-glass": "rgba(255, 255, 255, 0.03)",
+                "glass-border": "rgba(255, 255, 255, 0.1)",
+              },
+              fontFamily: {
+                "display": ["Inter", "sans-serif"]
+              },
+            },
+          },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .glass-card {
+                @apply bg-card-glass backdrop-blur-xl border border-glass-border;
+            }
+            .neon-badge-beginner {
+                @apply border border-emerald-500/50 text-emerald-400 bg-emerald-500/10 shadow-[0_0_10px_rgba(16,185,129,0.2)];
+            }
+            .neon-badge-moderate {
+                @apply border border-amber-500/50 text-amber-400 bg-amber-500/10 shadow-[0_0_10px_rgba(245,158,11,0.2)];
+            }
+            .neon-badge-tough {
+                @apply border border-rose-500/50 text-rose-400 bg-rose-500/10 shadow-[0_0_10px_rgba(244,63,94,0.2)];
+            }
+            .recommended-glow {
+                box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.4);
+            }
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-bg-premium text-white font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto shadow-2xl bg-bg-premium">
+<header class="sticky top-0 z-30 flex items-center bg-bg-premium/80 backdrop-blur-md p-6 pb-4 justify-between">
+<div class="flex flex-col">
+<h1 class="text-2xl font-bold tracking-tight text-white">Scenarios</h1>
+<p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Leadership Simulations</p>
+</div>
+<div class="flex gap-3">
+<button class="flex size-10 items-center justify-center rounded-full glass-card">
+<span class="material-symbols-outlined text-xl">search</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full glass-card">
+<span class="material-symbols-outlined text-xl">tune</span>
+</button>
+</div>
+</header>
+<div class="flex gap-3 overflow-x-auto no-scrollbar px-6 py-2">
+<button class="flex h-9 shrink-0 items-center justify-center rounded-full bg-primary px-5 shadow-lg shadow-primary/20">
+<p class="text-sm font-semibold">All</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-full glass-card px-5">
+<p class="text-sm font-medium text-gray-400">Logic</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-full glass-card px-5">
+<p class="text-sm font-medium text-gray-400">Rejection</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center rounded-full glass-card px-5">
+<p class="text-sm font-medium text-gray-400">Emotional</p>
+</button>
+</div>
+<main class="flex-1 px-6 space-y-6 pt-4 pb-32">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-xs font-bold uppercase tracking-widest text-primary">Next Recommended</h2>
+<span class="h-[1px] flex-1 bg-gradient-to-r from-primary/50 to-transparent ml-4"></span>
+</div>
+<div class="glass-card recommended-glow rounded-3xl overflow-hidden border-primary/30 relative">
+<div class="absolute top-0 right-0 p-3">
+<span class="neon-badge-tough px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">Tough</span>
+</div>
+<div class="w-full bg-center bg-no-repeat aspect-[21/10] bg-cover opacity-80" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDk-nGcuWxc6sUXHWA4CkJrwU0PZG2z1QJkl9yk593P_zRBlHAkW01mEkFxPfLdKfQ35Lqgxh8S-V_-vsRtnPE85s-FYR0HHDQZNP8DxwT24Dodzix2kRa0U0KNeVocitAQmZK975gRarVt-bqjP2vtWQLkmFlUaEqih1IQq-Jfry1GcQt7NVtDFdZIr2xOXewqaR_C2msTASZ4BWRkSqIxf68gHhjymXhaX13GJRF1QH2SnyBtO90uSdAx-iIjmFDOYspH9reJ3vm_");'></div>
+<div class="p-5 space-y-4">
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold leading-tight">Project Budget Defense</h3>
+<div class="flex items-center gap-4 mt-1 text-gray-400">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-accent-neon">schedule</span>
+<span class="text-xs font-medium">12m</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-accent-neon">bar_chart</span>
+<span class="text-xs font-medium">Level 4</span>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">What you’ll practice</p>
+<ul class="space-y-1.5">
+<li class="flex items-start gap-2 text-sm text-gray-300">
+<span class="text-primary mt-1">•</span>
+                                    Countering "Solution Rejection" frameworks
+                                </li>
+<li class="flex items-start gap-2 text-sm text-gray-300">
+<span class="text-primary mt-1">•</span>
+                                    CFO-level data persuasion
+                                </li>
+</ul>
+</div>
+<button class="w-full h-12 bg-white text-black rounded-2xl font-bold text-sm shadow-xl shadow-white/5 active:scale-95 transition-transform">
+                            Resume Simulation
+                        </button>
+</div>
+</div>
+</div>
+<div class="space-y-4 pt-2">
+<h2 class="text-xs font-bold uppercase tracking-widest text-gray-500">More Scenarios</h2>
+<div class="glass-card rounded-2xl p-4 flex gap-4 items-center">
+<div class="size-20 shrink-0 rounded-xl bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJ_sUCbFiFuBVvbWInBuTSsD8ol4kzEEblcFvtQX-wHwAVAll5sDTjsoB3Ru2FoPvAgdmlQWimpWGR4AedJRaTnINDplKs19iHGy8L0jWfbzs5Rhq8mKGmaUPurq2FJGd075TqkqhqOa6-fHG3BaAa0p13HWqjL4PPM8DUhXpcPZfynccRLmCrnrbXdmc890TKG3D-NNMehRi9N0fBg5Zpwd9VMhb_O2uPFP90oYm9wzvgtzjgPZLZ2TX3f0BVJI-zjC6ciw7LQPco");'></div>
+<div class="flex-1 flex flex-col justify-between h-20">
+<div class="flex justify-between items-start">
+<h4 class="text-sm font-bold line-clamp-1">Underperforming Lead</h4>
+<span class="neon-badge-moderate px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-tighter">Moderate</span>
+</div>
+<div class="flex gap-3 text-gray-500 mb-1">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">schedule</span>
+<span class="text-[10px]">8m</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">bar_chart</span>
+<span class="text-[10px]">Lvl 3</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-1.5">
+<div class="size-4 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
+<span class="text-[6px] font-bold">A</span>
+</div>
+<div class="size-4 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
+<span class="text-[6px] font-bold">C</span>
+</div>
+</div>
+<span class="text-[9px] text-gray-400 font-medium italic">Tactical Empathy Practice</span>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-2xl p-4 flex gap-4 items-center">
+<div class="size-20 shrink-0 rounded-xl bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAo3nbzEHImTJjSBF3uoEICisBixhzxgqHDM5sm-p5GD7TE4JNyaj24eOhJJ5Pxwv-tkD7ivco2cveKtJ31oGqqc3Pm5nibu5FeJMapBgG3aXuSIiKGBXS4vXjwaJNPDo_Fom_hZd72T8G2fK8vhJr2KlFJ2Xv3FOvskqXCmuBlFe_xiIAisdFVJExdj7GBUOo3foSFjrAwxQDeWDsifUTTQI1D05kfx5lTVMwejHOq8FwEcqnNUFBNoG46hDQOqe-ZRj74C9mDnR4N");'></div>
+<div class="flex-1 flex flex-col justify-between h-20">
+<div class="flex justify-between items-start">
+<h4 class="text-sm font-bold line-clamp-1">QBR Resource War</h4>
+<span class="neon-badge-beginner px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-tighter">Beginner</span>
+</div>
+<div class="flex gap-3 text-gray-500 mb-1">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">schedule</span>
+<span class="text-[10px]">15m</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">bar_chart</span>
+<span class="text-[10px]">Lvl 2</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-1.5">
+<div class="size-4 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
+<span class="text-[6px] font-bold">B</span>
+</div>
+</div>
+<span class="text-[9px] text-gray-400 font-medium italic">Logical Anchoring Practice</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-bg-premium/90 backdrop-blur-xl border-t border-glass-border flex justify-around py-4 px-8 z-40">
+<div class="flex flex-col items-center gap-1 text-primary">
+<div class="relative">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">grid_view</span>
+<div class="absolute -top-1 -right-1 size-2 rounded-full bg-accent-neon shadow-[0_0_5px_#00f5ff]"></div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-wider">Sims</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-gray-500">
+<span class="material-symbols-outlined text-2xl">timeline</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Stats</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-gray-500">
+<span class="material-symbols-outlined text-2xl">workspace_premium</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Skills</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-gray-500">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Profile</span>
+</div>
+</nav>
+</div>
+
+</body></html>
