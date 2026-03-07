@@ -195,8 +195,8 @@
 <span class="text-sm text-gray-300">Navigating complex lab hierarchies</span>
 </div>
 </div>
-<button class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-purple-900/40 transition-all active:scale-[0.98]">
-<span>Enter Pathway</span>
+<button class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-purple-600/20 transition-all" onclick="goToLeadershipEntry()">
+<span>Select Path</span>
 <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
 </button>
 </div>
@@ -240,27 +240,6 @@
 <p class="text-gray-600 text-[10px] uppercase tracking-[0.3em] font-medium">System Core v4.0.2 // Protocol 2030-PX</p>
 </footer>
 </div>
-
-<script>
-    const profileBtn = document.getElementById('profileBtn');
-    const closeBtn = document.getElementById('closeBtn');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    
-    function openSidebar() {
-        sidebar.classList.remove('translate-x-full');
-        overlay.classList.remove('opacity-0', 'pointer-events-none');
-    }
-    
-    function closeSidebar() {
-        sidebar.classList.add('translate-x-full');
-        overlay.classList.add('opacity-0', 'pointer-events-none');
-    }
-    
-    profileBtn.addEventListener('click', openSidebar);
-    closeBtn.addEventListener('click', closeSidebar);
-    overlay.addEventListener('click', closeSidebar);
-</script>
-
+<script src="../js/app.js"></script>
 </body></html>
 
