@@ -78,9 +78,17 @@
   }
 
   function initLiveAdversary() {
-    var input = document.getElementById('user-message-input');
+    var input =
+      document.getElementById('user-message-input') ||
+      document.getElementById('messageInput');
+
     var sendBtn = document.getElementById('send-response-button');
-    var thread = document.getElementById('chat-thread');
+    if (!sendBtn) {
+      sendBtn = document.querySelector('button[onclick*="sendMessage"]');
+    }
+
+    var thread =
+      document.getElementById('chat-thread') || document.querySelector('main');
 
     if (!input || !sendBtn || !thread) return;
 
@@ -144,6 +152,9 @@
         handleSend();
       }
     });
+
+    // Support existing inline handler if present
+    window.sendMessage = handleSend;
   }
 
   document.addEventListener('DOMContentLoaded', function () {
