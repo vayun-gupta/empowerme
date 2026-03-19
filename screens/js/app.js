@@ -60,9 +60,10 @@
     if (!titleEl) return;
 
     var scenarioTitles = {
-      'project-budget-defense': 'Project Budget Defense',
-      'underperforming-lead': 'Underperforming Lead',
-      'qbr-resource-war': 'QBR Resource War'
+      'leadership-readiness-review': 'Leadership Readiness Review',
+      'project-budget-defense': 'Leadership Readiness Review',
+      'underperforming-lead': 'Leadership Readiness Review',
+      'qbr-resource-war': 'Leadership Readiness Review'
     };
 
     var selected = null;
@@ -116,7 +117,7 @@
           '</div>' +
           '<div class="adversary-bubble relative rounded-none border-l-4 border-red-600 px-4 py-4 text-[14px] font-medium leading-relaxed tracking-tight shadow-2xl">' +
           '<div class="mb-2 inline-flex items-center gap-1.5 px-2 py-0.5 bg-black/10 border border-black/10 rounded text-[9px] font-black uppercase text-red-700">' +
-          '<span class="material-symbols-outlined text-[12px]">bolt</span> Type A: Resistance' +
+          '<span class="material-symbols-outlined text-[12px]">bolt</span> Evaluation Reframing' +
           '</div>' +
           '<p class="text-slate-900">' +
           escapeHtml(text) +
@@ -138,7 +139,7 @@
 
       setTimeout(function () {
         appendMessage(
-          'This is a simulated adversary response. Use it to practice staying steady under pressure.',
+          'Your outcomes are clear, and the committee values them. The next question is how consistently your visibility and institutional presence are recognized across teams.',
           'adversary'
         );
       }, 800);
