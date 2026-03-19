@@ -56,7 +56,8 @@
   </style>
   </head>
 <body class="font-sans">
-<div class="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto bg-background overflow-x-hidden">
+<div class="min-h-screen bg-background flex justify-center">
+<div class="relative flex min-h-screen w-full flex-col max-w-[1200px] mx-auto px-6 py-8 bg-background overflow-x-hidden">
 <header class="flex items-center justify-between px-6 pt-8 pb-4 sticky top-0 bg-background/80 backdrop-blur-xl z-30">
 <div class="flex items-center gap-3">
 <div class="size-10 rounded-full border border-primary/30 p-0.5 overflow-hidden">
@@ -64,7 +65,7 @@
 </div>
 <div>
 <h1 class="text-xs font-bold uppercase tracking-[0.2em] text-primary/70">Performance</h1>
-<p class="text-xl font-extrabold text-white tracking-tight">Leadership Simulation Progress</p>
+<p class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">Leadership Simulation Progress</p>
 </div>
 </div>
 <div class="flex items-center gap-2">
@@ -74,7 +75,7 @@
 </div>
 </div>
 </header>
-<main class="px-6 py-4 space-y-8 pb-32">
+<main class="px-0 md:px-2 py-6 space-y-10 pb-36">
 <section>
 <div class="relative group p-6 rounded-3xl bg-gradient-to-br from-card-bg to-background border border-slate-800/50 neon-border">
 <div class="flex justify-between items-start mb-6">
@@ -134,6 +135,7 @@
 <h3 class="text-sm font-bold tracking-widest text-slate-500 uppercase">Recent Exposure</h3>
 <button class="text-xs font-bold text-primary">EXPAND ALL</button>
 </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div class="floating-card group relative p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-primary/40 transition-all">
 <div class="flex gap-4">
 <div class="flex-1 space-y-3">
@@ -182,12 +184,13 @@
 </div>
 </section>
 </main>
-<div class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-6 bg-gradient-to-t from-background via-background to-transparent z-40">
-<button class="w-full h-14 bg-primary text-background font-black text-sm uppercase tracking-widest rounded-2xl shadow-[0_0_30px_rgba(0,242,255,0.3)] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform">
+<div class="fixed bottom-0 left-0 right-0 max-w-[1200px] mx-auto p-6 bg-gradient-to-t from-background via-background to-transparent z-40">
+<button class="w-full max-w-[400px] mx-auto h-14 bg-primary text-background font-black text-sm uppercase tracking-widest rounded-2xl shadow-[0_0_30px_rgba(0,242,255,0.3)] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform">
 <span class="material-symbols-outlined fill-1">play_arrow</span>
                 START LEADERSHIP SIMULATION
             </button>
 <div class="h-4"></div>
+</div>
 </div>
 </div>
 

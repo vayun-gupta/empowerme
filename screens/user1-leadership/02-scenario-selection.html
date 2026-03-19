@@ -53,10 +53,11 @@
   </style>
   </head>
 <body class="bg-bg-premium text-white font-display">
-<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto shadow-2xl bg-bg-premium">
+<div class="min-h-screen bg-bg-premium flex justify-center">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden max-w-[1200px] mx-auto px-6 py-8 shadow-2xl bg-bg-premium">
 <header class="sticky top-0 z-30 flex items-center bg-bg-premium/80 backdrop-blur-md p-6 pb-4 justify-between">
 <div class="flex flex-col">
-<h1 class="text-2xl font-bold tracking-tight text-white">Scenarios</h1>
+<h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-white">Scenarios</h1>
 <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Leadership Simulations</p>
 </div>
 <div class="flex gap-3">
@@ -82,13 +83,13 @@
 <p class="text-sm font-medium text-gray-400">Emotional</p>
 </button>
 </div>
-<main class="flex-1 px-6 space-y-6 pt-4 pb-32">
+<main class="flex-1 px-0 md:px-2 space-y-8 pt-6 pb-36">
 <div class="space-y-4">
 <div class="flex items-center justify-between">
 <h2 class="text-xs font-bold uppercase tracking-widest text-primary">Next Recommended</h2>
 <span class="h-[1px] flex-1 bg-gradient-to-r from-primary/50 to-transparent ml-4"></span>
 </div>
-<div class="glass-card recommended-glow rounded-3xl overflow-hidden border-primary/30 relative">
+<div class="glass-card recommended-glow rounded-3xl overflow-hidden border-primary/30 relative w-full">
 <div class="absolute top-0 right-0 p-3">
 <span class="neon-badge-tough px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">Tough</span>
 </div>
@@ -125,7 +126,7 @@
 </ul>
 </div>
 <p class="text-xs text-gray-400">Practice navigating promotion and leadership readiness discussions in institutional settings.</p>
-<button class="w-full h-12 bg-white text-black rounded-2xl font-bold text-sm shadow-xl shadow-white/5 active:scale-95 transition-transform" onclick="selectScenarioAndStart('leadership-readiness-review')">
+<button class="w-full max-w-[400px] mx-auto h-12 bg-white text-black rounded-2xl font-bold text-sm shadow-xl shadow-white/5 active:scale-95 transition-transform" onclick="selectScenarioAndStart('leadership-readiness-review')">
                             Resume Simulation
                         </button>
 </div>
@@ -133,7 +134,8 @@
 </div>
 <div class="space-y-4 pt-2">
 <h2 class="text-xs font-bold uppercase tracking-widest text-gray-500">More Scenarios</h2>
-<div class="glass-card rounded-2xl p-4 flex gap-4 items-center" onclick="selectScenarioAndStart('leadership-readiness-review')">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="glass-card rounded-2xl p-4 flex gap-4 items-center cursor-pointer" onclick="selectScenarioAndStart('leadership-readiness-review')">
 <div class="size-20 shrink-0 rounded-xl bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJ_sUCbFiFuBVvbWInBuTSsD8ol4kzEEblcFvtQX-wHwAVAll5sDTjsoB3Ru2FoPvAgdmlQWimpWGR4AedJRaTnINDplKs19iHGy8L0jWfbzs5Rhq8mKGmaUPurq2FJGd075TqkqhqOa6-fHG3BaAa0p13HWqjL4PPM8DUhXpcPZfynccRLmCrnrbXdmc890TKG3D-NNMehRi9N0fBg5Zpwd9VMhb_O2uPFP90oYm9wzvgtzjgPZLZ2TX3f0BVJI-zjC6ciw7LQPco");'></div>
 <div class="flex-1 flex flex-col justify-between h-20">
 <div class="flex justify-between items-start">
@@ -163,7 +165,7 @@
 </div>
 </div>
 </div>
-<div class="glass-card rounded-2xl p-4 flex gap-4 items-center" onclick="selectScenarioAndStart('leadership-readiness-review')">
+<div class="glass-card rounded-2xl p-4 flex gap-4 items-center cursor-pointer" onclick="selectScenarioAndStart('leadership-readiness-review')">
 <div class="size-20 shrink-0 rounded-xl bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAo3nbzEHImTJjSBF3uoEICisBixhzxgqHDM5sm-p5GD7TE4JNyaj24eOhJJ5Pxwv-tkD7ivco2cveKtJ31oGqqc3Pm5nibu5FeJMapBgG3aXuSIiKGBXS4vXjwaJNPDo_Fom_hZd72T8G2fK8vhJr2KlFJ2Xv3FOvskqXCmuBlFe_xiIAisdFVJExdj7GBUOo3foSFjrAwxQDeWDsifUTTQI1D05kfx5lTVMwejHOq8FwEcqnNUFBNoG46hDQOqe-ZRj74C9mDnR4N");'></div>
 <div class="flex-1 flex flex-col justify-between h-20">
 <div class="flex justify-between items-start">
@@ -191,8 +193,9 @@
 </div>
 </div>
 </div>
+</div>
 </main>
-<nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-bg-premium/90 backdrop-blur-xl border-t border-glass-border flex justify-around py-4 px-8 z-40">
+<nav class="sticky top-0 mt-2 w-full max-w-[1200px] mx-auto bg-bg-premium/90 backdrop-blur-xl border border-glass-border rounded-2xl flex justify-around py-4 px-8 z-40">
 <div class="flex flex-col items-center gap-1 text-primary">
 <div class="relative">
 <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">grid_view</span>
@@ -213,6 +216,7 @@
 <span class="text-[10px] font-medium uppercase tracking-wider">Profile</span>
 </div>
 </nav>
+</div>
 </div>
 
 <script src="../js/app.js"></script>
