@@ -57,7 +57,7 @@
   </head>
 <body class="font-sans">
 <div class="min-h-screen bg-background flex justify-center">
-<div class="relative flex min-h-screen w-full flex-col max-w-[1200px] mx-auto px-6 py-8 bg-background overflow-x-hidden">
+<div class="relative flex min-h-screen flex-col max-w-5xl mx-auto px-6 py-8 bg-background overflow-x-hidden">
 <header class="flex items-center justify-between px-6 pt-8 pb-4 sticky top-0 bg-background/80 backdrop-blur-xl z-30">
 <div class="flex items-center gap-3">
 <div class="size-10 rounded-full border border-primary/30 p-0.5 overflow-hidden">
@@ -75,7 +75,7 @@
 </div>
 </div>
 </header>
-<main class="px-0 md:px-2 py-6 space-y-10 pb-36">
+<main class="px-0 md:px-2 py-6 space-y-8 pb-36">
 <section>
 <div class="relative group p-6 rounded-3xl bg-gradient-to-br from-card-bg to-background border border-slate-800/50 neon-border">
 <div class="flex justify-between items-start mb-6">
@@ -103,7 +103,8 @@
 <h3 class="text-sm font-bold tracking-widest text-slate-500 uppercase">Resistance Exposure Map</h3>
 <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">LIVE METRIC</span>
 </div>
-<div class="relative aspect-[4/3] w-full bg-slate-900/40 rounded-3xl border border-slate-800 flex items-center justify-center p-4 overflow-hidden">
+<div class="max-w-2xl mx-auto">
+<div class="relative h-[250px] bg-slate-900/40 rounded-3xl border border-slate-800 flex items-center justify-center p-4 overflow-hidden">
 <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, #334155 1px, transparent 0); background-size: 24px 24px;"></div>
 <svg class="w-full h-full relative z-10" viewBox="0 0 200 150">
 <defs>
@@ -120,13 +121,14 @@
 <circle cx="40" cy="110" fill="#00f2ff" filter="url(#glow)" r="4"></circle>
 <circle cx="100" cy="40" fill="#00f2ff" filter="url(#glow)" r="6"></circle>
 <circle cx="160" cy="80" fill="#00f2ff" filter="url(#glow)" r="4"></circle>
-<text fill="#94a3b8" font-size="7" font-weight="bold" text-anchor="middle" x="40" y="125">EVALUATION REFRAMING</text>
-<text fill="#00f2ff" font-size="7" font-weight="extrabold" text-anchor="middle" x="100" y="30">CREDIBILITY CHALLENGES</text>
-<text fill="#94a3b8" font-size="7" font-weight="bold" text-anchor="middle" x="160" y="95">PROCEDURAL BARRIERS</text>
+<text fill="#94a3b8" font-size="6" font-weight="bold" text-anchor="middle" x="40" y="125">EVALUATION REFRAMING</text>
+<text fill="#00f2ff" font-size="6" font-weight="extrabold" text-anchor="middle" x="100" y="30">CREDIBILITY CHALLENGES</text>
+<text fill="#94a3b8" font-size="6" font-weight="bold" text-anchor="middle" x="160" y="95">PROCEDURAL BARRIERS</text>
 </svg>
 <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center px-4 py-2 bg-black/40 backdrop-blur-md rounded-2xl border border-white/5">
-<div class="text-[10px] font-bold text-slate-300">SYSTEM ADAPTABILITY</div>
-<div class="text-[10px] font-bold text-primary">88.4%</div>
+<div class="text-sm font-bold text-slate-300">SYSTEM ADAPTABILITY</div>
+<div class="text-sm font-bold text-primary">88.4%</div>
+</div>
 </div>
 </div>
 </section>
@@ -184,8 +186,8 @@
 </div>
 </section>
 </main>
-<div class="fixed bottom-0 left-0 right-0 max-w-[1200px] mx-auto p-6 bg-gradient-to-t from-background via-background to-transparent z-40">
-<button class="w-full max-w-[400px] mx-auto h-14 bg-primary text-background font-black text-sm uppercase tracking-widest rounded-2xl shadow-[0_0_30px_rgba(0,242,255,0.3)] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform">
+<div class="fixed bottom-0 left-0 right-0 max-w-5xl mx-auto p-6 bg-gradient-to-t from-background via-background to-transparent z-40">
+<button class="w-auto px-8 py-3 mx-auto block bg-primary text-background font-black text-sm uppercase tracking-widest rounded-2xl shadow-[0_0_30px_rgba(0,242,255,0.3)] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform">
 <span class="material-symbols-outlined fill-1">play_arrow</span>
                 START LEADERSHIP SIMULATION
             </button>
