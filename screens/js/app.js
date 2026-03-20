@@ -61,6 +61,11 @@
 
     var scenarioTitles = {
       'leadership-readiness-review': 'Leadership Readiness Review',
+      'committee-presence-framing': 'Committee Presence Framing',
+      'budget-pushback-negotiation': 'Budget Pushback Negotiation',
+      'cross-team-credit-attribution': 'Cross-Team Credit Attribution',
+      'strategic-alignment-challenge': 'Strategic Alignment Challenge',
+      // Back-compat for older IDs that may still be in localStorage
       'project-budget-defense': 'Leadership Readiness Review',
       'underperforming-lead': 'Leadership Readiness Review',
       'qbr-resource-war': 'Leadership Readiness Review'
