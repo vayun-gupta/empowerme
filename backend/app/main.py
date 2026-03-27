@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import scenarios, chat
+from app.routes.router import api_router
 from app.database import engine, Base
 
-# Create tables logic moved from database.py
-from app.models.core import *
+# Create tables logic
+import app.models.scenario
+import app.models.user
+import app.models.session
+import app.models.message
+import app.models.feedback
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="EmpowerMe API")
@@ -18,8 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(scenarios.router)
-app.include_router(chat.router)
+app.include_router(api_router)
 
 @app.get("/")
 def home():

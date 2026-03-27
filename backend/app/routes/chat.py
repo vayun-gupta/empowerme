@@ -1,14 +1,13 @@
 from fastapi import APIRouter
-from app.schemas.core import Message
+from app.schemas.message import Message
+from app.services.chat_service import process_chat_message
 
 router = APIRouter(prefix="/session", tags=["Session"])
 
 @router.post("/message")
-def chat(message: Message):
+def chat_route(message: Message):
     user_message = message.message
-
-    # placeholder adversary response
-    reply = "This is a simulated adversary response."
+    reply = process_chat_message(user_message)
 
     return {
         "user_message": user_message,
