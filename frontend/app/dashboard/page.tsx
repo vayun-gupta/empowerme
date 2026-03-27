@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import Layout from "@/components/Layout";
+import MainLayout from "@/components/layout/MainLayout";
 
 export default function DashboardPage() {
   return (
-    <Layout showHeader={false} showNav={true}>
+    <MainLayout showHeader={false} showNav={true}>
       <div className="relative flex h-full w-full flex-col overflow-x-hidden pb-12">
         {/* Top App Bar */}
         <div className="flex items-center pt-2 pb-4 justify-between sticky top-0 z-10 bg-[#0a0a0c]/80 backdrop-blur-md">
@@ -166,6 +166,6 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
-    </Layout>
+    </MainLayout>
   );
 }

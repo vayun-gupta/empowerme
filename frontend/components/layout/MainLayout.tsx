@@ -7,7 +7,7 @@ interface LayoutProps {
   showNav?: boolean;
 }
 
-export default function Layout({ children, showHeader = true, showNav = true }: LayoutProps) {
+export default function MainLayout({ children, showHeader = true, showNav = true }: LayoutProps) {
   return (
     <div className="min-h-screen flex justify-center bg-[#0a0a0c]">
       <div className="relative flex min-h-screen flex-col overflow-x-hidden max-w-5xl mx-auto w-full shadow-2xl bg-[#0a0a0c]">

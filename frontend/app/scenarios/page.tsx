@@ -1,11 +1,11 @@
 import React from "react";
-import Layout from "@/components/Layout";
-import ScenarioCard from "@/components/ScenarioCard";
+import MainLayout from "@/components/layout/MainLayout";
+import ScenarioCard from "@/components/scenarios/ScenarioCard";
 import Link from "next/link";
 
 export default function ScenariosPage() {
   return (
-    <Layout>
+    <MainLayout>
       <div className="flex gap-3 overflow-x-auto no-scrollbar px-2 py-2 mb-6">
         <button className="flex h-9 shrink-0 items-center justify-center rounded-full bg-primary px-5 shadow-lg shadow-primary/20">
           <p className="text-sm font-semibold">Credibility Challenges</p>
@@ -115,6 +115,6 @@ export default function ScenariosPage() {
           />
         </div>
       </div>
-    </Layout>
+    </MainLayout>
   );
 }
