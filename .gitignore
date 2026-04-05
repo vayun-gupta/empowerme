@@ -62,3 +62,6 @@ venv.bak/
 # SQLite
 *.db
 *.sqlite3
+
+# Streamlit secrets
+.streamlit/secrets.toml
