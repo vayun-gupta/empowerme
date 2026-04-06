@@ -44,14 +44,14 @@ export default function ChatBox() {
       };
       setMessages((prev) => [...prev, agentMsg]);
       setIsTyping(false);
-    }, 1000);
+    }, Math.floor(Math.random() * (1500 - 800 + 1)) + 800);
   };
 
   return (
     <>
-      <main className="flex-1 overflow-y-auto p-4 space-y-8 max-w-2xl mx-auto w-full" id="chat-thread">
-        <div className="flex flex-col items-center py-2">
-          <span className="text-[10px] font-bold text-slate-600 bg-white/5 px-3 py-1 rounded-full border border-white/5 uppercase tracking-[0.2em]">
+      <main className="flex-1 overflow-y-auto px-4 py-8 space-y-10 max-w-2xl mx-auto w-full" id="chat-thread">
+        <div className="flex flex-col items-center pb-4">
+          <span className="text-[10px] font-bold text-slate-500 bg-slate-100/50 px-3 py-1 rounded-full border border-slate-200 uppercase tracking-[0.2em]">
             Live Session Active
           </span>
         </div>
@@ -61,15 +61,20 @@ export default function ChatBox() {
         ))}
 
         {isTyping && (
-          <div className="flex items-center gap-3 px-2">
-            <div className="flex gap-1.5 bg-white/5 px-3 py-2 rounded-full border border-white/5">
-              <span className="size-1.5 rounded-full bg-slate-500 animate-bounce"></span>
-              <span className="size-1.5 rounded-full bg-slate-500 animate-bounce [animation-delay:-0.15s]"></span>
-              <span className="size-1.5 rounded-full bg-slate-500 animate-bounce [animation-delay:-0.3s]"></span>
+          <div className="flex flex-col items-start gap-1.5 animate-in fade-in duration-300">
+            <div className="flex items-center gap-2 mb-1">
+              <p className="text-slate-600 text-[10px] font-bold uppercase tracking-wider">
+                Adversary Agent
+              </p>
+              <span className="size-1.5 rounded-full bg-red-400"></span>
             </div>
-            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-              Agent Analyzing...
-            </span>
+            <div className="bg-white rounded-2xl rounded-tl-none border border-slate-100 border-l-[3px] border-l-red-500 px-5 py-4 shadow-sm w-[80px] h-[52px] flex items-center justify-center">
+              <div className="flex gap-1.5 items-center justify-center translate-y-[-2px]">
+                <span className="size-1.5 rounded-full bg-slate-300 animate-bounce"></span>
+                <span className="size-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:-0.15s]"></span>
+                <span className="size-1.5 rounded-full bg-slate-500 animate-bounce [animation-delay:-0.3s]"></span>
+              </div>
+            </div>
           </div>
         )}
         <div ref={bottomRef} />
