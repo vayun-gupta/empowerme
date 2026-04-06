@@ -48,8 +48,8 @@ export default function ChatBox() {
   };
 
   return (
-    <>
-      <main className="flex-1 overflow-y-auto px-4 py-8 space-y-10 max-w-2xl mx-auto w-full" id="chat-thread">
+    <div className="flex flex-col h-full w-full max-w-3xl mx-auto rounded-3xl bg-white border border-slate-100 shadow-sm overflow-hidden">
+      <main className="flex-1 overflow-y-auto px-4 md:px-6 py-6 flex flex-col gap-4" id="chat-thread">
         <div className="flex flex-col items-center pb-4">
           <span className="text-[10px] font-bold text-slate-500 bg-slate-100/50 px-3 py-1 rounded-full border border-slate-200 uppercase tracking-[0.2em]">
             Live Session Active
@@ -80,7 +80,9 @@ export default function ChatBox() {
         <div ref={bottomRef} />
       </main>
 
-      <ChatInput onSend={handleSend} isTyping={isTyping} />
-    </>
+      <div className="shrink-0 w-full px-4 md:px-6 pb-6 pt-2 bg-gradient-to-t from-white to-white/0">
+        <ChatInput onSend={handleSend} isTyping={isTyping} />
+      </div>
+    </div>
   );
 }

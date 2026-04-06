@@ -4,8 +4,8 @@ import ChatBox from "@/components/chat/ChatBox";
 
 export default function ChatPage() {
   return (
-    <div className="min-h-screen bg-slate-50 flex justify-center w-full">
-      <div className="relative flex min-h-screen flex-col w-full max-w-5xl mx-auto px-6 py-8 bg-slate-50 shadow-sm border-x border-slate-200 overflow-hidden">
+    <div className="h-screen bg-slate-50 flex justify-center w-full overflow-hidden">
+      <div className="relative flex h-full flex-col w-full max-w-5xl mx-auto px-6 py-8 bg-slate-50 shadow-sm border-x border-slate-200 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 z-50">
           <div className="h-full bg-primary w-[65%]"></div>
         </div>
@@ -46,8 +46,8 @@ export default function ChatPage() {
           </button>
         </div>
 
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 bg-slate-50 w-full relative z-30">
-          <aside className="hidden lg:block p-4 border-r border-slate-200">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 bg-slate-50 w-full relative z-30 min-h-0 pt-4">
+          <aside className="hidden lg:block border-r border-slate-200 pr-4 overflow-y-auto">
             <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 space-y-3 sticky top-8">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
                 Scenario

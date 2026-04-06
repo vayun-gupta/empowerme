@@ -19,8 +19,7 @@ export default function ChatInput({ onSend, isTyping }: ChatInputProps) {
   };
 
   return (
-    <footer className="sticky bottom-0 w-full p-4 bg-white/90 backdrop-blur-xl border-t border-slate-200 pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-      <form onSubmit={handleSubmit} className="flex flex-col bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden max-w-2xl mx-auto w-full focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+      <form onSubmit={handleSubmit} className="flex flex-col bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden w-full focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
         <div className="relative group">
           <textarea
             className="w-full bg-transparent p-5 pr-12 text-sm text-slate-900 transition-all placeholder:text-slate-400 resize-none focus:outline-none"
@@ -66,9 +65,5 @@ export default function ChatInput({ onSend, isTyping }: ChatInputProps) {
           </button>
         </div>
       </form>
-      <div className="mt-6 flex justify-center">
-        <div className="w-32 h-1.5 bg-slate-200 rounded-full"></div>
-      </div>
-    </footer>
   );
 }
