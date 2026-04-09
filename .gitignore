@@ -63,5 +63,8 @@ venv.bak/
 *.db
 *.sqlite3
 
-# Streamlit secrets
-.streamlit/secrets.toml
+# Streamlit secrets (any subdirectory)
+**/.streamlit/secrets.toml
+
+# Backend env
+backend/.env
