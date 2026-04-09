@@ -4,6 +4,15 @@ import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
 import json
+import os
+import sys
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.append(str(ROOT_DIR))
+
+from backend.services.judge import evaluate_response
 
 # ─── PAGE CONFIG ───────────────────────────────────
 st.set_page_config(
@@ -43,6 +52,7 @@ def save_feedback(row):
 
 # ─── GEMINI SETUP ──────────────────────────────────
 genai.configure(api_key=st.secrets["gemini_api_key"])
+os.environ["GEMINI_API_KEY"] = st.secrets["gemini_api_key"]
 
 def call_gemini(system_prompt, scenario_context, conversation_history, user_message):
     model = genai.GenerativeModel("gemini-2.5-flash")
@@ -95,11 +105,14 @@ with col1:
         st.session_state.history = []
     if "last_prompt_id" not in st.session_state:
         st.session_state.last_prompt_id = selected_prompt["prompt_id"]
+    if "last_judge" not in st.session_state:
+        st.session_state.last_judge = None
 
     # reset conversation if prompt changes
     if st.session_state.last_prompt_id != selected_prompt["prompt_id"]:
         st.session_state.history = []
         st.session_state.last_prompt_id = selected_prompt["prompt_id"]
+        st.session_state.last_judge = None
 
     # display conversation
     for turn in st.session_state.history:
@@ -126,12 +139,18 @@ with col1:
                 history_text,
                 user_message
             )
+        with st.spinner("Evaluating response..."):
+            try:
+                st.session_state.last_judge = evaluate_response(user_message, reply)
+            except Exception:
+                st.session_state.last_judge = None
 
         st.session_state.history.append({"role": "assistant", "content": reply})
         st.rerun()
 
     if st.button("🔄 Reset Conversation"):
         st.session_state.history = []
+        st.session_state.last_judge = None
         st.rerun()
 
 with col2:
@@ -140,8 +159,21 @@ with col2:
     if st.session_state.history and st.session_state.history[-1]["role"] == "assistant":
         last_adversary = st.session_state.history[-1]["content"]
         last_user = st.session_state.history[-2]["content"] if len(st.session_state.history) >= 2 else ""
+        judge_scores = st.session_state.get("last_judge")
 
         st.info(f"**Rating response to:** {last_user[:80]}...")
+
+        if judge_scores:
+            st.markdown("### Gemini Auto-Evaluation")
+            c1, c2 = st.columns(2)
+            with c1:
+                st.metric("Realism", judge_scores["realism"])
+                st.metric("Subtlety", judge_scores["subtlety"])
+            with c2:
+                st.metric("Friction", judge_scores["friction"])
+                st.metric("Relevance", judge_scores["relevance"])
+            st.caption(judge_scores["reasoning"])
+            st.divider()
 
         realism = st.slider("Realism — Does it feel like a real institutional actor?", 1, 5, 3)
         friction = st.slider("Friction — Is the resistance subtle enough?", 1, 5, 3)
