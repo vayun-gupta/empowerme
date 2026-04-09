@@ -7,4 +7,5 @@ class SessionDB(Base):
     user_id = Column(Integer)
     scenario_id = Column(Integer)
     started_at = Column(String)
-    completed_at = Column(String)
+    completed_at = Column(String, nullable=True)
+    status = Column(String, default="active")

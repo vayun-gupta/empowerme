@@ -1,17 +1,10 @@
-from typing import List, Dict, Any
+from sqlalchemy.orm import Session
+from app.models.scenario import ScenarioDB
 
-def get_all_scenarios() -> List[Dict[str, Any]]:
-    # Future logic for pulling scenarios from database goes here
-    # For now, return a placeholder list
-    return [
-        {
-            "id": 1,
-            "title": "Performance Review Bias",
-            "context": "You are discussing promotion readiness with a senior faculty member."
-        },
-        {
-            "id": 2,
-            "title": "Idea Ignored in Meeting",
-            "context": "Your idea was ignored until repeated by a male colleague."
-        }
-    ]
+
+def get_all_scenarios(db: Session):
+    return db.query(ScenarioDB).all()
+
+
+def get_scenario_by_id(db: Session, scenario_id: int):
+    return db.query(ScenarioDB).filter(ScenarioDB.scenario_id == scenario_id).first()

@@ -9,3 +9,4 @@ class ScenarioDB(Base):
     adversary_role = Column(String)
     context_description = Column(Text)
     difficulty_level = Column(String)
+    estimated_minutes = Column(Integer, nullable=True)

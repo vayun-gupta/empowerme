@@ -4,6 +4,9 @@ import React, { useState, useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 import { Message } from "./types";
+import { createSession, sendToAdversary, ConversationTurn } from "@/lib/api";
+
+const SCENARIO_ID = 1; // default scenario; will be dynamic once preview page passes it
 
 export default function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([
@@ -16,35 +19,59 @@ export default function ChatBox() {
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
-  
+  const [sessionId, setSessionId] = useState<number | null>(null);
+  const [history, setHistory] = useState<ConversationTurn[]>([
+    { role: "adversary", content: "Your performance has been strong, particularly in measurable outputs. However, leadership roles often require a broader institutional presence and visibility across the department." },
+  ]);
+
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  const handleSend = (text: string) => {
+  useEffect(() => {
+    createSession(SCENARIO_ID).then(setSessionId).catch(console.error);
+  }, []);
+
+  const handleSend = async (text: string) => {
     const userMsg: Message = {
       id: Date.now().toString(),
       role: "user",
       content: text,
       timestamp: "Sent just now",
     };
-
     setMessages((prev) => [...prev, userMsg]);
     setIsTyping(true);
 
-    setTimeout(() => {
+    const updatedHistory: ConversationTurn[] = [...history, { role: "user", content: text }];
+
+    try {
+      const sid = sessionId ?? (await createSession(SCENARIO_ID));
+      if (!sessionId) setSessionId(sid);
+
+      const response = await sendToAdversary(sid, SCENARIO_ID, text, updatedHistory);
+
       const agentMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: "agent",
-        content:
-          "Your outcomes are clear, and the committee values them. The next question is how consistently your visibility and institutional presence are recognized across teams.",
+        content: response.adversary_message,
         timestamp: "Delivered just now",
       };
       setMessages((prev) => [...prev, agentMsg]);
+      setHistory([...updatedHistory, { role: "adversary", content: response.adversary_message }]);
+    } catch (err) {
+      console.error("Adversary API error:", err);
+      const agentMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "agent",
+        content: "I'm having trouble responding right now. Please try again.",
+        timestamp: "Delivered just now",
+      };
+      setMessages((prev) => [...prev, agentMsg]);
+    } finally {
       setIsTyping(false);
-    }, Math.floor(Math.random() * (1500 - 800 + 1)) + 800);
+    }
   };
 
   return (
