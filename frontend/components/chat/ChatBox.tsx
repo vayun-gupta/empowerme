@@ -91,6 +91,7 @@ export default function ChatBox({ scenarioId }: ChatBoxProps) {
         lastAdversaryMsg,
         history
       );
+      console.log("[coach response]", JSON.stringify(feedback, null, 2));
       setCoachData(feedback);
     } catch (err) {
       console.error("Coach API error:", err);
@@ -207,23 +208,30 @@ export default function ChatBox({ scenarioId }: ChatBoxProps) {
                 <p className="text-sm text-slate-800 leading-relaxed italic">&ldquo;{coachData.improved_response}&rdquo;</p>
               </div>
 
-              {/* Theory + frameworks */}
-              <div className="space-y-1">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Framework applied</p>
-                <p className="text-xs text-slate-700">{coachData.theory_applied}</p>
-                {coachData.frameworks_used.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-1">
+              {/* Framework applied */}
+              {coachData.theory_applied && (
+                <div className="bg-white border border-emerald-200 rounded-xl p-4 space-y-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Framework Applied</p>
+                  <p className="text-sm text-slate-800 leading-relaxed">{coachData.theory_applied}</p>
+                </div>
+              )}
+
+              {/* Retrieved frameworks */}
+              {coachData.frameworks_used && coachData.frameworks_used.length > 0 && (
+                <div className="bg-white border border-emerald-200 rounded-xl p-4 space-y-2">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Retrieved From Knowledge Base</p>
+                  <div className="flex flex-wrap gap-1.5">
                     {coachData.frameworks_used.map((f) => (
                       <span
                         key={f}
-                        className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700"
+                        className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700"
                       >
                         {f}
                       </span>
                     ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
               {/* Refresh feedback button */}
               <button
