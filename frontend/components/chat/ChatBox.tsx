@@ -165,7 +165,7 @@ export default function ChatBox({ scenarioId }: ChatBoxProps) {
 
       {/* Coach feedback panel */}
       {showCoachPanel && (
-        <div className="mx-4 md:mx-6 mb-3 mt-2 rounded-2xl border border-emerald-200 bg-emerald-50 overflow-hidden">
+        <div className="mx-4 md:mx-6 mb-3 mt-2 rounded-2xl border border-emerald-200 bg-emerald-50 overflow-y-auto max-h-96">
           <div className="flex items-center justify-between px-5 py-3 bg-emerald-100/60 border-b border-emerald-200">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-emerald-600 text-[18px]">psychology</span>
