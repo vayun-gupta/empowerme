@@ -19,3 +19,4 @@ class CoachResponse(BaseModel):
     theory_applied: str
     strengths: List[str]
     areas_for_improvement: List[str]
+    frameworks_used: List[str] = []
