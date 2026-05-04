@@ -30,11 +30,12 @@ export default function ScenariosPage() {
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [scenarios, setScenarios] = useState<ScenarioData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
     getScenarios()
       .then(setScenarios)
-      .catch(console.error)
+      .catch((err) => { console.error(err); setFetchError(String(err)); })
       .finally(() => setLoading(false));
   }, []);
 
@@ -71,6 +72,12 @@ export default function ScenariosPage() {
           <p className="text-[13px] text-slate-400 mt-2.5">Select your role to see scenarios relevant to you.</p>
         )}
       </div>
+
+      {fetchError && (
+        <div className="text-red-500 text-xs text-center py-2 bg-red-50 border border-red-100 rounded-xl px-4 mb-4">
+          API error: {fetchError}
+        </div>
+      )}
 
       {loading ? (
         <div className="text-slate-400 text-sm py-12 text-center">Loading scenarios…</div>
