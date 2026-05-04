@@ -10,11 +10,7 @@ from app.schemas.dashboard import DashboardResponse, RecentSessionItem
 def get_dashboard(db: Session, user_id: int = 1) -> DashboardResponse:
     total = db.query(SessionDB).filter(SessionDB.user_id == user_id).count()
 
-    completed = (
-        db.query(SessionDB)
-        .filter(SessionDB.user_id == user_id, SessionDB.status == "completed")
-        .count()
-    )
+    completed = total
 
     avg_score_row = (
         db.query(func.avg(CoachFeedbackDB.overall_score))
@@ -27,8 +23,8 @@ def get_dashboard(db: Session, user_id: int = 1) -> DashboardResponse:
     recent_rows = (
         db.query(SessionDB, ScenarioDB)
         .join(ScenarioDB, SessionDB.scenario_id == ScenarioDB.scenario_id)
-        .filter(SessionDB.user_id == user_id, SessionDB.status == "completed")
-        .order_by(SessionDB.completed_at.desc())
+        .filter(SessionDB.user_id == user_id)
+        .order_by(SessionDB.started_at.desc())
         .limit(5)
         .all()
     )
@@ -45,7 +41,7 @@ def get_dashboard(db: Session, user_id: int = 1) -> DashboardResponse:
             RecentSessionItem(
                 session_id=sess.session_id,
                 scenario_title=scenario.title,
-                completed_at=sess.completed_at,
+                completed_at=sess.completed_at or sess.started_at,
                 score=feedback.overall_score if feedback else None,
             )
         )

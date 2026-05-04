@@ -5,7 +5,7 @@ from typing import List, Optional
 class RecentSessionItem(BaseModel):
     session_id: int
     scenario_title: str
-    completed_at: str
+    completed_at: Optional[str] = None
     score: Optional[int] = None
 
 

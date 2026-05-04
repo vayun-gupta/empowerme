@@ -79,7 +79,7 @@ export default function DashboardPage() {
                   <p className="text-slate-900 text-3xl font-bold leading-tight">{completed}</p>
                   <p className="text-purple-700 text-sm font-bold flex items-center bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">
                     <span className="material-symbols-outlined text-xs mr-1">military_tech</span>
-                    {data?.total_sessions ? `${data.total_sessions} total` : "—"}
+                    All time
                   </p>
                 </div>
               </div>
