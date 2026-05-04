@@ -69,3 +69,30 @@ export async function getScenarios(): Promise<ScenarioData[]> {
   if (!res.ok) throw new Error("Failed to fetch scenarios");
   return res.json();
 }
+
+export async function getScenario(id: number): Promise<ScenarioData> {
+  const res = await fetch(`${API_BASE}/api/scenarios/${id}`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch scenario ${id}`);
+  return res.json();
+}
+
+export interface RecentSession {
+  session_id: number;
+  scenario_title: string;
+  completed_at: string;
+  score: number | null;
+}
+
+export interface DashboardData {
+  total_sessions: number;
+  completed_sessions: number;
+  average_score: number | null;
+  streak_days: number;
+  recent_sessions: RecentSession[];
+}
+
+export async function getDashboard(): Promise<DashboardData> {
+  const res = await fetch(`${API_BASE}/api/dashboard/`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch dashboard");
+  return res.json();
+}
