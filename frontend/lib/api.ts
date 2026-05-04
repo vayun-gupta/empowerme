@@ -96,3 +96,38 @@ export async function getDashboard(): Promise<DashboardData> {
   if (!res.ok) throw new Error("Failed to fetch dashboard");
   return res.json();
 }
+
+export interface CoachFeedback {
+  score: number;
+  feedback: string;
+  improved_response: string;
+  theory_applied: string;
+  strengths: string[];
+  areas_for_improvement: string[];
+  frameworks_used: string[];
+}
+
+export async function getCoachFeedback(
+  sessionId: number,
+  scenarioId: number,
+  userMessage: string,
+  adversaryMessage: string,
+  conversationHistory: ConversationTurn[]
+): Promise<CoachFeedback> {
+  const res = await fetch(`${API_BASE}/api/coach/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      session_id: sessionId,
+      scenario_id: scenarioId,
+      user_message: userMessage,
+      adversary_message: adversaryMessage,
+      conversation_history: conversationHistory,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail ?? "Coach request failed");
+  }
+  return res.json();
+}
