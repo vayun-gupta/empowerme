@@ -54,15 +54,16 @@ export default function ChatInput({
             onClick={canHint ? () => onHint(inputText) : undefined}
             disabled={!canHint || hintLoading}
             title={canHint ? "Get a nudge" : "Send a message first"}
-            className={`p-2 rounded-xl transition-all flex items-center justify-center ${
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl transition-all text-xs font-semibold ${
               canHint
-                ? "text-amber-500 hover:text-amber-600 hover:bg-amber-50"
-                : "text-slate-300 cursor-not-allowed"
+                ? "text-amber-600 hover:text-amber-700 hover:bg-amber-50 border border-amber-200 hover:border-amber-300"
+                : "text-slate-300 border border-slate-100 cursor-not-allowed"
             }`}
           >
-            <span className="material-symbols-outlined text-[20px]">
+            <span className="material-symbols-outlined text-[16px]">
               {hintLoading ? "progress_activity" : "lightbulb"}
             </span>
+            {hintLoading ? "Getting nudge…" : "Get a nudge"}
           </button>
           <div className="h-4 w-px bg-slate-200 mx-2" />
           <span className="text-[10px] font-medium text-slate-400">

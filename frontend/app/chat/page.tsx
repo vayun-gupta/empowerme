@@ -37,9 +37,18 @@ function ChatContent() {
               </p>
             </div>
           </div>
-          <Link href="/scenarios" className="p-2 rounded-full text-slate-500 hover:text-slate-900 transition-all border border-transparent hover:border-slate-200 hover:bg-white">
-            <span className="material-symbols-outlined text-[20px]">close</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-500 hover:text-slate-800 border border-slate-200 hover:border-slate-300 hover:bg-white text-sm font-medium transition-all"
+            >
+              <span className="material-symbols-outlined text-[16px]">pause</span>
+              Pause
+            </Link>
+            <Link href="/scenarios" className="p-2 rounded-full text-slate-500 hover:text-slate-900 transition-all border border-transparent hover:border-slate-200 hover:bg-white">
+              <span className="material-symbols-outlined text-[20px]">close</span>
+            </Link>
+          </div>
         </header>
 
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 bg-slate-50 w-full relative z-30 min-h-0 pt-4">

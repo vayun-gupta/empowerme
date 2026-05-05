@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import MainLayout from "@/components/layout/MainLayout";
 import { getDashboard, DashboardData } from "@/lib/api";
+
+const ScoreChart = dynamic(() => import("@/components/dashboard/ScoreChart"), { ssr: false });
 
 const SESSION_ICONS = ["payments", "forum", "hub", "school", "shield_person"];
 const SESSION_COLORS = [
@@ -84,6 +87,26 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
+
+            {/* Score Progress Chart */}
+            {(() => {
+              const chartData = [...(data?.recent_sessions ?? [])]
+                .filter((s) => s.score != null)
+                .reverse()
+                .map((s) => ({
+                  date: new Date(s.completed_at).toLocaleDateString("en-IN", {
+                    month: "short",
+                    day: "numeric",
+                  }),
+                  score: s.score as number,
+                }));
+              return (
+                <div className="bg-white border border-slate-100 shadow-sm rounded-2xl p-6 mt-6">
+                  <p className="text-slate-700 text-sm font-semibold mb-4">Score Progress</p>
+                  <ScoreChart data={chartData} />
+                </div>
+              );
+            })()}
 
             {/* Recent Scenarios Section */}
             <h3 className="text-slate-900 text-lg font-bold px-1 pb-4 pt-8">Recent Sessions</h3>
