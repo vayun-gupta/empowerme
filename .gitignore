@@ -68,3 +68,4 @@ venv.bak/
 
 # Backend env
 backend/.env
+.vercel
