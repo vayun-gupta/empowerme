@@ -61,7 +61,6 @@ def generate_adversary_response(request: AdversaryRequest, db: Session) -> Adver
     )
 
     api_key = os.environ.get("GEMINI_API_KEY", "")
-    print(f"[adversary_service] GEMINI_API_KEY={'SET (len=' + str(len(api_key)) + ')' if api_key else 'NOT FOUND'}")
     if not api_key:
         raise RuntimeError("GEMINI_API_KEY is not set")
 

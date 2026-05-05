@@ -34,6 +34,18 @@ Rather than relying on human annotation for each test run, this benchmark uses a
 
 ---
 
+## Metrics Rationale
+
+**Adversary Agent — Realism, Relevance, Quality**
+
+The adversary agent's role is to simulate institutional bias as it actually manifests in Indian academic workplaces — not as a caricature, but as the kind of plausible, deniable resistance that women routinely encounter. We selected **Realism** as the primary metric because an adversary response that feels implausible or exaggerated fails the core pedagogical purpose: users need to practice against the actual texture of bias (passive deflection, faint praise, procedural delay), not a straw man. **Relevance** was chosen because the adversary must stay anchored to the specific barrier theme of the scenario — a generic dismissive response is not the same as idea appropriation, and conflating them dilutes the skill-building value. **Quality** captures overall coherence and fluency, ensuring the adversary reads as a credible institutional voice rather than an LLM artefact. Together these three metrics validate that the adversary is doing what it is architecturally designed to do: create a high-fidelity, scenario-specific obstacle for the user to navigate.
+
+**Coach Agent — Accuracy, Actionability, Quality**
+
+The coach agent must evaluate the user's response and return structured, research-grounded feedback that the user can immediately apply. We selected **Accuracy** as the primary metric because the coach's score and diagnosis must correctly reflect the strength of the user's message relative to the specific barrier theme — an inaccurate score undermines trust in the entire feedback loop. **Actionability** was chosen because coaching feedback that is theoretically correct but vague (e.g. "be more assertive") has no transfer value; the improved_response field and framework citations must give the user something concrete to rehearse. **Quality** covers coherence and appropriate application of psychological frameworks — a coach response that misattributes a theory or applies the wrong lens would actively mislead the user. This metric set mirrors established standards in AI-assisted coaching research, where correctness and usability are treated as jointly necessary conditions for effective feedback. The COACH-004 failure documented below — where the numeric score passed range-check but the judge caught a contextual hallucination — validates that Accuracy was a meaningful, discriminating metric and not a rubber stamp.
+
+---
+
 ## Adversary Endpoint Results
 
 **Summary: 5/5 passed — avg overall score 9.3/10**
@@ -285,8 +297,8 @@ Rather than relying on human annotation for each test run, this benchmark uses a
 ### 1. COACH-004 Hallucination — Improved Response Addressed Wrong Scenario
 The coach's `improved_response` field substituted a Head of Department appointment discussion for the budget allocation scenario. Root cause is likely context window sensitivity when multiple scenarios share similar language. Mitigation: add scenario ID and title explicitly to the coach prompt; add an eval assertion that checks whether key terms from the scenario appear in the improved response.
 
-### 2. Coach Feedback Not Persisted to DB
-The `strengths` and `areas_for_improvement` arrays returned in the coach response are never written to the database. If they were, they would create a multi-valued dependency on `feedback_id` — violating 2NF/3NF. The correct fix is a `coach_feedback_attributes` junction table with columns `(feedback_id, attribute_type ENUM('strength','improvement'), value TEXT)`. Deferred to a future sprint once the feedback history feature is scoped.
+### 2. Coach Feedback Persistence — ✅ Fixed
+All 7 coach fields (`score`, `feedback`, `improved_response`, `theory_applied`, `strengths`, `areas_for_improvement`, `frameworks_used`) are now fully persisted to the `coach_feedback` table. The four previously missing columns (`improved_response`, `strengths`, `areas_for_improvement`, `frameworks_used`) were added via an idempotent `ALTER TABLE` migration that runs at server startup. JSON arrays are serialised as TEXT. All fields are surfaced in the session detail page (`GET /api/sessions/{id}/detail`) and rendered in the `/sessions/[id]` frontend review page.
 
 ### 3. Authentication Deferred (MVP Scope)
 All endpoints use `user_id=1` hardcoded. The `UserDB` table exists and all FK columns are in place — the schema is auth-ready. Adding JWT-based auth is a one-sprint addition when the MVP phase is complete.
