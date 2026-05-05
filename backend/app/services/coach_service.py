@@ -126,6 +126,10 @@ def generate_coach_feedback(request: CoachRequest, db: Session) -> CoachResponse
         theory_applied=data.get("theory_applied", ""),
         suggestion=data.get("feedback", ""),
         overall_score=data.get("score", 0),
+        improved_response=data.get("improved_response", ""),
+        strengths=json.dumps(data.get("strengths", [])),
+        areas_for_improvement=json.dumps(data.get("areas_for_improvement", [])),
+        frameworks_used=json.dumps(frameworks_used),
     )
     db.add(feedback_row)
     db.commit()

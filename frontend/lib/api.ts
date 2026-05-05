@@ -107,6 +107,40 @@ export interface CoachFeedback {
   frameworks_used: string[];
 }
 
+export interface MessageItem {
+  sender: "user" | "adversary";
+  content: string;
+  timestamp: string;
+}
+
+export interface CoachAnalysis {
+  score: number;
+  feedback: string;
+  improved_response: string;
+  theory_applied: string;
+  strengths: string[];
+  areas_for_improvement: string[];
+  frameworks_used: string[];
+}
+
+export interface SessionDetail {
+  session_id: number;
+  scenario_id: number;
+  scenario_title: string;
+  adversary_role: string;
+  barrier_theme: string;
+  started_at: string;
+  completed_at: string | null;
+  messages: MessageItem[];
+  coach: CoachAnalysis | null;
+}
+
+export async function getSessionDetail(sessionId: number): Promise<SessionDetail> {
+  const res = await fetch(`${API_BASE}/api/sessions/${sessionId}/detail`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch session ${sessionId}`);
+  return res.json();
+}
+
 export interface HintData {
   hint: string;
 }

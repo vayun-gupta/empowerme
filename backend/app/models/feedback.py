@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text
 from app.database import Base
 
+
 class CoachFeedbackDB(Base):
     __tablename__ = "coach_feedback"
     feedback_id = Column(Integer, primary_key=True, index=True)
@@ -8,3 +9,7 @@ class CoachFeedbackDB(Base):
     theory_applied = Column(String)
     suggestion = Column(Text)
     overall_score = Column(Integer)
+    improved_response = Column(Text)
+    strengths = Column(Text)          # stored as JSON string
+    areas_for_improvement = Column(Text)  # stored as JSON string
+    frameworks_used = Column(Text)    # stored as JSON string

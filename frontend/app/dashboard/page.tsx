@@ -91,8 +91,9 @@ export default function DashboardPage() {
             {data?.recent_sessions && data.recent_sessions.length > 0 ? (
               <div className="space-y-4">
                 {data.recent_sessions.map((session, i) => (
-                  <div
+                  <Link
                     key={session.session_id}
+                    href={`/sessions/${session.session_id}`}
                     className="bg-white border border-slate-100 shadow-sm flex items-center justify-between p-5 rounded-2xl hover:border-slate-300 hover:shadow-md hover:-translate-y-[1px] transition-all group"
                   >
                     <div className="flex items-center gap-4">
@@ -100,7 +101,7 @@ export default function DashboardPage() {
                         <span className="material-symbols-outlined">{SESSION_ICONS[i % SESSION_ICONS.length]}</span>
                       </div>
                       <div>
-                        <p className="text-slate-900 font-bold group-hover:text-primary transition-colors text-[15px]">
+                        <p className="text-slate-900 font-bold group-hover:text-blue-600 transition-colors text-[15px]">
                           {session.scenario_title}
                         </p>
                         <p className="text-slate-500 text-xs">
@@ -110,7 +111,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <span className="text-slate-300 material-symbols-outlined text-xl">chevron_right</span>
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (
