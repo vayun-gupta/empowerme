@@ -8,6 +8,7 @@ import {
   createSession,
   sendToAdversary,
   getCoachFeedback,
+  getHint,
   CoachFeedback,
   ConversationTurn,
 } from "@/lib/api";
@@ -25,6 +26,9 @@ export default function ChatBox({ scenarioId }: ChatBoxProps) {
   const [coachData, setCoachData] = useState<CoachFeedback | null>(null);
   const [coachLoading, setCoachLoading] = useState(false);
   const [showCoachPanel, setShowCoachPanel] = useState(false);
+
+  const [hint, setHint] = useState<string | null>(null);
+  const [hintLoading, setHintLoading] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -98,6 +102,18 @@ export default function ChatBox({ scenarioId }: ChatBoxProps) {
       setShowCoachPanel(false);
     } finally {
       setCoachLoading(false);
+    }
+  };
+
+  const fetchHint = async (draft: string) => {
+    setHintLoading(true);
+    try {
+      const res = await getHint(scenarioId, history, draft || undefined);
+      setHint(res.hint);
+    } catch (err) {
+      console.error("Hint error:", err);
+    } finally {
+      setHintLoading(false);
     }
   };
 
@@ -246,13 +262,27 @@ export default function ChatBox({ scenarioId }: ChatBoxProps) {
         </div>
       )}
 
+      {/* Hint callout */}
+      {hint && (
+        <div className="mx-4 md:mx-6 mb-2 mt-1 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
+          <span className="text-amber-500 text-lg shrink-0">💡</span>
+          <p className="flex-1 text-sm text-amber-900 leading-relaxed">{hint}</p>
+          <button
+            onClick={() => setHint(null)}
+            className="text-amber-400 hover:text-amber-700 transition-colors shrink-0"
+          >
+            <span className="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      )}
+
       <div className="shrink-0 w-full px-4 md:px-6 pb-6 pt-2 bg-gradient-to-t from-white to-white/0">
         <ChatInput
           onSend={handleSend}
           isTyping={isTyping}
-          onGetFeedback={handleGetFeedback}
-          canGetFeedback={canGetFeedback}
-          isFeedbackLoading={coachLoading}
+          onHint={fetchHint}
+          canHint={history.some((h) => h.role === "adversary")}
+          hintLoading={hintLoading}
         />
       </div>
     </div>

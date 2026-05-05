@@ -5,17 +5,17 @@ import React, { useState } from "react";
 interface ChatInputProps {
   onSend: (text: string) => void;
   isTyping: boolean;
-  onGetFeedback: () => void;
-  canGetFeedback: boolean;
-  isFeedbackLoading: boolean;
+  onHint: (draft: string) => void;
+  canHint: boolean;
+  hintLoading: boolean;
 }
 
 export default function ChatInput({
   onSend,
   isTyping,
-  onGetFeedback,
-  canGetFeedback,
-  isFeedbackLoading,
+  onHint,
+  canHint,
+  hintLoading,
 }: ChatInputProps) {
   const [inputText, setInputText] = useState("");
 
@@ -51,17 +51,17 @@ export default function ChatInput({
         <div className="flex items-center gap-1">
           <button
             type="button"
-            onClick={canGetFeedback ? onGetFeedback : undefined}
-            disabled={!canGetFeedback || isFeedbackLoading}
-            title={canGetFeedback ? "Get coach feedback" : "Send a message first"}
+            onClick={canHint ? () => onHint(inputText) : undefined}
+            disabled={!canHint || hintLoading}
+            title={canHint ? "Get a nudge" : "Send a message first"}
             className={`p-2 rounded-xl transition-all flex items-center justify-center ${
-              canGetFeedback
+              canHint
                 ? "text-amber-500 hover:text-amber-600 hover:bg-amber-50"
                 : "text-slate-300 cursor-not-allowed"
             }`}
           >
             <span className="material-symbols-outlined text-[20px]">
-              {isFeedbackLoading ? "progress_activity" : "lightbulb"}
+              {hintLoading ? "progress_activity" : "lightbulb"}
             </span>
           </button>
           <div className="h-4 w-px bg-slate-200 mx-2" />

@@ -107,6 +107,31 @@ export interface CoachFeedback {
   frameworks_used: string[];
 }
 
+export interface HintData {
+  hint: string;
+}
+
+export async function getHint(
+  scenarioId: number,
+  history: ConversationTurn[],
+  userDraft?: string
+): Promise<HintData> {
+  const res = await fetch(`${API_BASE}/api/hint/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      scenario_id: scenarioId,
+      history,
+      user_draft: userDraft || null,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail ?? "Hint request failed");
+  }
+  return res.json();
+}
+
 export async function getCoachFeedback(
   sessionId: number,
   scenarioId: number,
