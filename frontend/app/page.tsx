@@ -91,14 +91,6 @@ export default function LandingPage() {
           </div>
         </div>
         <footer className="mt-auto py-10 text-center">
-          <div className="flex justify-center gap-8 mb-6 opacity-40">
-            <span className="material-symbols-outlined text-slate-400">science</span>
-            <span className="material-symbols-outlined text-slate-400">biotech</span>
-            <span className="material-symbols-outlined text-slate-400">terminal</span>
-          </div>
-          <p className="text-slate-500 text-[10px] uppercase tracking-[0.3em] font-medium">
-            System Core v4.0.2 // Protocol 2030-PX
-          </p>
         </footer>
       </div>
     </>

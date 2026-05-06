@@ -95,7 +95,6 @@ export default function ChatBox({ scenarioId }: ChatBoxProps) {
         lastAdversaryMsg,
         history
       );
-      console.log("[coach response]", JSON.stringify(feedback, null, 2));
       setCoachData(feedback);
     } catch (err) {
       console.error("Coach API error:", err);

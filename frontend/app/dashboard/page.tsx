@@ -29,7 +29,6 @@ export default function DashboardPage() {
   }, []);
 
   const avgScore = data?.average_score != null ? `${Math.round(data.average_score)}%` : "—";
-  const streak = data ? (data.streak_days > 0 ? `${data.streak_days} Days` : "—") : "—";
   const completed = data != null ? `${data.completed_sessions}` : "—";
 
   return (
@@ -53,7 +52,7 @@ export default function DashboardPage() {
         ) : (
           <>
             {/* Key Metrics Row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
               <div className="bg-blue-50/30 border border-blue-100/60 shadow-sm flex flex-col gap-2 rounded-2xl p-6 relative overflow-hidden">
                 <p className="text-slate-600 text-sm font-medium">Avg Coach Score</p>
                 <div className="flex items-end justify-between">
@@ -64,16 +63,6 @@ export default function DashboardPage() {
                       Live
                     </p>
                   )}
-                </div>
-              </div>
-              <div className="bg-white border border-slate-100 shadow-sm flex flex-col gap-2 rounded-2xl p-6">
-                <p className="text-slate-500 text-sm font-medium">Practice Streak</p>
-                <div className="flex items-end justify-between">
-                  <p className="text-slate-900 text-3xl font-bold leading-tight">{streak}</p>
-                  <p className="text-blue-700 text-sm font-bold flex items-center bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
-                    <span className="material-symbols-outlined text-xs mr-1">bolt</span>
-                    {data?.streak_days ? "Active" : "Start"}
-                  </p>
                 </div>
               </div>
               <div className="bg-white border border-slate-100 shadow-sm flex flex-col gap-2 rounded-2xl p-6">

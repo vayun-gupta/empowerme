@@ -41,18 +41,6 @@ export default function MainLayout({ children, showHeader = true, showNav = true
               </div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-900">Sims</span>
             </Link>
-            <Link href="/dashboard" className="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors">
-              <span className="material-symbols-outlined text-2xl">timeline</span>
-              <span className="text-[10px] font-medium uppercase tracking-wider">Stats</span>
-            </Link>
-            <div className="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors cursor-pointer">
-              <span className="material-symbols-outlined text-2xl">workspace_premium</span>
-              <span className="text-[10px] font-medium uppercase tracking-wider">Skills</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors cursor-pointer">
-              <span className="material-symbols-outlined text-2xl">person</span>
-              <span className="text-[10px] font-medium uppercase tracking-wider">Profile</span>
-            </div>
           </nav>
         )}
       </div>
