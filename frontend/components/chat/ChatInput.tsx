@@ -65,10 +65,6 @@ export default function ChatInput({
             </span>
             {hintLoading ? "Getting nudge…" : "Get a nudge"}
           </button>
-          <div className="h-4 w-px bg-slate-200 mx-2" />
-          <span className="text-[10px] font-medium text-slate-400">
-            {inputText.length}/280 chars
-          </span>
         </div>
         <button
           type="submit"

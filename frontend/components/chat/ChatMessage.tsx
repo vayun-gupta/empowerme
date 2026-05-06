@@ -36,12 +36,6 @@ export default function ChatMessage({ msg }: ChatMessageProps) {
 
         {msg.role === "agent" ? (
           <div className="bg-white rounded-2xl rounded-tl-none border border-slate-100 border-l-[3px] border-l-red-500 px-5 py-4 text-[14px] font-normal leading-relaxed tracking-tight shadow-sm w-[95%] sm:w-[85%]">
-            {msg.id === "message-init" && (
-              <div className="mb-3 inline-flex items-center gap-1.5 px-2 py-0.5 bg-slate-50 border border-slate-100 rounded text-[9px] font-bold uppercase text-slate-500 tracking-wider">
-                <span className="material-symbols-outlined text-[12px] text-red-500">bolt</span>{" "}
-                Evaluation Reframing
-              </div>
-            )}
             <p className="text-slate-800">{msg.content}</p>
           </div>
         ) : (

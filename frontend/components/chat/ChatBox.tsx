@@ -300,6 +300,7 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
               {coachData.frameworks_used && coachData.frameworks_used.length > 0 && (
                 <div className="bg-white border border-emerald-200 rounded-xl p-4 space-y-2">
                   <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Retrieved From Knowledge Base</p>
+                  <p className="text-[11px] text-slate-400 leading-relaxed">These frameworks were retrieved from an academic knowledge base on assertive communication, bias navigation, and power dynamics.</p>
                   <div className="flex flex-wrap gap-1.5">
                     {coachData.frameworks_used.map((f) => (
                       <span
