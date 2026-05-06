@@ -35,6 +35,8 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
   const [hintLoading, setHintLoading] = useState(false);
   const [hintError, setHintError] = useState(false);
 
+  const [adversaryError, setAdversaryError] = useState<string | null>(null);
+
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,14 +54,8 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
     onTurnChange?.(messages.filter((m) => m.role === "agent").length);
   }, [messages, onTurnChange]);
 
-  const handleSend = async (text: string) => {
-    const userMsg: Message = {
-      id: Date.now().toString(),
-      role: "user",
-      content: text,
-      timestamp: "Sent just now",
-    };
-    setMessages((prev) => [...prev, userMsg]);
+  const callAdversary = async (text: string) => {
+    setAdversaryError(null);
     setIsTyping(true);
 
     const updatedHistory: ConversationTurn[] = [...history, { role: "user", content: text }];
@@ -80,16 +76,21 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
       setHistory([...updatedHistory, { role: "adversary", content: response.adversary_message }]);
     } catch (err) {
       console.error("Adversary API error:", err);
-      const agentMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "agent",
-        content: "I'm having trouble responding right now. Please try again.",
-        timestamp: "Delivered just now",
-      };
-      setMessages((prev) => [...prev, agentMsg]);
+      setAdversaryError(text);
     } finally {
       setIsTyping(false);
     }
+  };
+
+  const handleSend = async (text: string) => {
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content: text,
+      timestamp: "Sent just now",
+    };
+    setMessages((prev) => [...prev, userMsg]);
+    await callAdversary(text);
   };
 
   const handleGetFeedback = async () => {
@@ -176,6 +177,27 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
                 <span className="size-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:-0.15s]" />
                 <span className="size-1.5 rounded-full bg-slate-500 animate-bounce [animation-delay:-0.3s]" />
               </div>
+            </div>
+          </div>
+        )}
+
+        {adversaryError && !isTyping && (
+          <div className="flex flex-col items-start gap-1.5 animate-in fade-in duration-300">
+            <div className="flex items-center gap-2 mb-1">
+              <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">
+                Adversary Agent
+              </p>
+              <span className="size-1.5 rounded-full bg-red-300" />
+            </div>
+            <div className="bg-red-50 rounded-2xl rounded-tl-none border border-red-200 border-l-[3px] border-l-red-400 px-5 py-4 shadow-sm space-y-3">
+              <p className="text-sm text-red-700 leading-relaxed">The adversary could not respond. Please try again.</p>
+              <button
+                onClick={() => callAdversary(adversaryError)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-red-200 text-red-600 text-xs font-semibold hover:bg-red-50 hover:border-red-300 transition-all"
+              >
+                <span className="material-symbols-outlined text-[14px]">refresh</span>
+                Retry
+              </button>
             </div>
           </div>
         )}
