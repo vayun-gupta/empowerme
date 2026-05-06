@@ -12,18 +12,10 @@ export default function MainLayout({ children, showHeader = true, showNav = true
     <div className="min-h-screen flex justify-center bg-slate-50">
       <div className="relative flex min-h-screen flex-col overflow-x-hidden max-w-5xl mx-auto w-full bg-slate-50">
         {showHeader && (
-          <header className="sticky top-0 z-30 flex items-center bg-slate-50/80 backdrop-blur-md p-6 pb-4 justify-between border-b border-transparent">
+          <header className="sticky top-0 z-30 flex items-center bg-slate-50/80 backdrop-blur-md p-6 pb-4 border-b border-transparent">
             <div className="flex flex-col">
               <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">EmpowerMe</h1>
               <p className="text-xs text-slate-500 uppercase tracking-widest mt-1">Practice High-Stakes Leadership Conversations</p>
-            </div>
-            <div className="flex gap-3">
-              <button className="flex size-10 items-center justify-center rounded-full bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-colors">
-                <span className="material-symbols-outlined text-xl">search</span>
-              </button>
-              <button className="flex size-10 items-center justify-center rounded-full bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-colors">
-                <span className="material-symbols-outlined text-xl">tune</span>
-              </button>
             </div>
           </header>
         )}
