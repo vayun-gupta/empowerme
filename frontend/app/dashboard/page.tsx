@@ -20,12 +20,25 @@ const SESSION_COLORS = [
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading((prev) => {
+        if (prev) setError(true);
+        return false;
+      });
+    }, 8000);
+
     getDashboard()
       .then(setData)
-      .catch(console.error)
-      .finally(() => setLoading(false));
+      .catch(() => setError(true))
+      .finally(() => {
+        clearTimeout(timer);
+        setLoading(false);
+      });
+
+    return () => clearTimeout(timer);
   }, []);
 
   const avgScore = data?.average_score != null ? `${Math.round(data.average_score)}%` : "—";
@@ -49,6 +62,12 @@ export default function DashboardPage() {
 
         {loading ? (
           <div className="py-16 text-center text-slate-400 text-sm">Loading your stats…</div>
+        ) : error ? (
+          <div className="py-16 flex flex-col items-center gap-3 text-center px-4">
+            <span className="material-symbols-outlined text-slate-300 text-4xl">wifi_off</span>
+            <p className="text-slate-500 text-sm font-medium">Could not load your dashboard.</p>
+            <p className="text-slate-400 text-xs">Check your connection and refresh.</p>
+          </div>
         ) : (
           <>
             {/* Key Metrics Row */}

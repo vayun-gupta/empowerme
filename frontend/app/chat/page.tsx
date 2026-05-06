@@ -97,7 +97,7 @@ function ChatContent() {
             </div>
           </aside>
 
-          <ChatBox scenarioId={scenarioId} onTurnChange={setTurn} />
+          <ChatBox scenarioId={scenarioId} onTurnChange={setTurn} barrierTheme={scenario?.barrier_theme} />
         </div>
       </div>
     </div>

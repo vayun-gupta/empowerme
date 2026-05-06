@@ -16,9 +16,10 @@ import {
 interface ChatBoxProps {
   scenarioId: number;
   onTurnChange?: (adversaryTurns: number) => void;
+  barrierTheme?: string;
 }
 
-export default function ChatBox({ scenarioId, onTurnChange }: ChatBoxProps) {
+export default function ChatBox({ scenarioId, onTurnChange, barrierTheme }: ChatBoxProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [sessionId, setSessionId] = useState<number | null>(null);
@@ -27,9 +28,11 @@ export default function ChatBox({ scenarioId, onTurnChange }: ChatBoxProps) {
   const [coachData, setCoachData] = useState<CoachFeedback | null>(null);
   const [coachLoading, setCoachLoading] = useState(false);
   const [showCoachPanel, setShowCoachPanel] = useState(false);
+  const [coachError, setCoachError] = useState(false);
 
   const [hint, setHint] = useState<string | null>(null);
   const [hintLoading, setHintLoading] = useState(false);
+  const [hintError, setHintError] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -91,6 +94,7 @@ export default function ChatBox({ scenarioId, onTurnChange }: ChatBoxProps) {
     if (!lastUserMsg || !lastAdversaryMsg || !sessionId) return;
 
     setCoachLoading(true);
+    setCoachError(false);
     setShowCoachPanel(true);
     try {
       const feedback = await getCoachFeedback(
@@ -103,7 +107,7 @@ export default function ChatBox({ scenarioId, onTurnChange }: ChatBoxProps) {
       setCoachData(feedback);
     } catch (err) {
       console.error("Coach API error:", err);
-      setShowCoachPanel(false);
+      setCoachError(true);
     } finally {
       setCoachLoading(false);
     }
@@ -111,15 +115,23 @@ export default function ChatBox({ scenarioId, onTurnChange }: ChatBoxProps) {
 
   const fetchHint = async (draft: string) => {
     setHintLoading(true);
+    setHintError(false);
     try {
       const res = await getHint(scenarioId, history, draft || undefined);
       setHint(res.hint);
     } catch (err) {
       console.error("Hint error:", err);
+      setHintError(true);
     } finally {
       setHintLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!hintError) return;
+    const timer = setTimeout(() => setHintError(false), 4000);
+    return () => clearTimeout(timer);
+  }, [hintError]);
 
   const canGetFeedback =
     history.some((h) => h.role === "user") &&
@@ -203,8 +215,30 @@ export default function ChatBox({ scenarioId, onTurnChange }: ChatBoxProps) {
             <div className="px-5 py-6 text-center text-emerald-600 text-sm">
               Evaluating your response…
             </div>
+          ) : coachError ? (
+            <div className="px-5 py-5 flex flex-col items-center gap-3 text-center">
+              <span className="material-symbols-outlined text-amber-400 text-2xl">error_outline</span>
+              <p className="text-sm text-slate-600">Evaluation could not be completed. Please try again.</p>
+              <button
+                onClick={handleGetFeedback}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-amber-200 bg-amber-50 text-amber-700 text-sm font-semibold hover:bg-amber-100 transition-all"
+              >
+                <span className="material-symbols-outlined text-[16px]">refresh</span>
+                Try again
+              </button>
+            </div>
           ) : coachData ? (
             <div className="px-5 py-4 space-y-4">
+              {/* Adversary tactic */}
+              {barrierTheme && (
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500">Adversary tactic detected</span>
+                  <span className="material-symbols-outlined text-[13px] text-slate-400">sensors</span>
+                  <span className="ml-auto text-[11px] font-semibold bg-slate-800 text-white px-2.5 py-1 rounded-full">
+                    {barrierTheme}
+                  </span>
+                </div>
+              )}
               {/* Score */}
               <div className="flex items-center gap-3">
                 <div className="flex items-baseline gap-1">
@@ -267,12 +301,14 @@ export default function ChatBox({ scenarioId, onTurnChange }: ChatBoxProps) {
       )}
 
       {/* Hint callout */}
-      {hint && (
+      {(hint || hintError) && (
         <div className="mx-4 md:mx-6 mb-2 mt-1 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
-          <span className="text-amber-500 text-lg shrink-0">💡</span>
-          <p className="flex-1 text-sm text-amber-900 leading-relaxed">{hint}</p>
+          <span className="material-symbols-outlined text-amber-500 text-[20px] shrink-0 mt-0.5">lightbulb</span>
+          <p className="flex-1 text-sm text-amber-900 leading-relaxed">
+            {hintError ? "Could not get a nudge right now. Try again in a moment." : hint}
+          </p>
           <button
-            onClick={() => setHint(null)}
+            onClick={() => { setHint(null); setHintError(false); }}
             className="text-amber-400 hover:text-amber-700 transition-colors shrink-0"
           >
             <span className="material-symbols-outlined text-[18px]">close</span>
