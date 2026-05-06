@@ -15,9 +15,10 @@ import {
 
 interface ChatBoxProps {
   scenarioId: number;
+  onTurnChange?: (adversaryTurns: number) => void;
 }
 
-export default function ChatBox({ scenarioId }: ChatBoxProps) {
+export default function ChatBox({ scenarioId, onTurnChange }: ChatBoxProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [sessionId, setSessionId] = useState<number | null>(null);
@@ -39,6 +40,10 @@ export default function ChatBox({ scenarioId }: ChatBoxProps) {
   useEffect(() => {
     createSession(scenarioId).then(setSessionId).catch(console.error);
   }, [scenarioId]);
+
+  useEffect(() => {
+    onTurnChange?.(messages.filter((m) => m.role === "agent").length);
+  }, [messages, onTurnChange]);
 
   const handleSend = async (text: string) => {
     const userMsg: Message = {

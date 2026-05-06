@@ -11,6 +11,8 @@ function ChatContent() {
   const scenarioId = Number(params.get("scenario") ?? "1");
 
   const [scenario, setScenario] = useState<ScenarioData | null>(null);
+  const [turn, setTurn] = useState(0);
+  const [briefOpen, setBriefOpen] = useState(false);
 
   useEffect(() => {
     getScenario(scenarioId).then(setScenario).catch(console.error);
@@ -19,10 +21,6 @@ function ChatContent() {
   return (
     <div className="h-screen bg-slate-50 flex justify-center w-full overflow-hidden">
       <div className="relative flex h-full flex-col w-full max-w-5xl mx-auto px-6 py-8 bg-slate-50 shadow-sm border-x border-slate-200 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 z-50">
-          <div className="h-full bg-primary w-[65%]" />
-        </div>
-
         <header className="flex items-center bg-slate-50/90 backdrop-blur-md p-4 pt-6 justify-between shrink-0 border-b border-slate-200 relative z-40">
           <div className="flex items-center gap-3">
             <div className="text-slate-700 flex size-9 items-center justify-center rounded-xl bg-slate-100 border border-slate-200">
@@ -37,6 +35,9 @@ function ChatContent() {
               </p>
             </div>
           </div>
+          <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">
+            Turn {turn} of 8
+          </p>
           <div className="flex items-center gap-2">
             <Link
               href="/dashboard"
@@ -53,24 +54,50 @@ function ChatContent() {
 
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 bg-slate-50 w-full relative z-30 min-h-0 pt-4">
           <aside className="hidden lg:block border-r border-slate-200 pr-4 overflow-y-auto">
-            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 space-y-3 sticky top-8">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Scenario</p>
-              <h3 className="text-base font-bold text-slate-900">
-                {scenario?.title ?? "—"}
-              </h3>
+            <div className="space-y-3 sticky top-8">
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 space-y-3">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Scenario</p>
+                <h3 className="text-base font-bold text-slate-900">
+                  {scenario?.title ?? "Loading..."}
+                </h3>
+                {scenario && (
+                  <>
+                    <p className="text-xs text-slate-600 leading-relaxed">{scenario.barrier_theme}</p>
+                    <div className="pt-2 border-t border-slate-100 space-y-1">
+                      <p className="text-[10px] text-slate-400 uppercase tracking-widest">Speaking with</p>
+                      <p className="text-xs font-semibold text-slate-700">{scenario.adversary_role}</p>
+                    </div>
+                  </>
+                )}
+              </div>
+
               {scenario && (
-                <>
-                  <p className="text-xs text-slate-600 leading-relaxed">{scenario.barrier_theme}</p>
-                  <div className="pt-2 border-t border-slate-100 space-y-1">
-                    <p className="text-[10px] text-slate-400 uppercase tracking-widest">Speaking with</p>
-                    <p className="text-xs font-semibold text-slate-700">{scenario.adversary_role}</p>
-                  </div>
-                </>
+                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden">
+                  <button
+                    onClick={() => setBriefOpen((v) => !v)}
+                    className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-50 transition-colors"
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Scenario Brief</p>
+                    <span
+                      className="material-symbols-outlined text-[16px] text-slate-400 transition-transform duration-200"
+                      style={{ transform: briefOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                    >
+                      expand_more
+                    </span>
+                  </button>
+                  {briefOpen && (
+                    <div className="px-4 pb-4 border-t border-slate-100">
+                      <p className="text-xs text-slate-600 leading-relaxed pt-3">
+                        {scenario.context_description}
+                      </p>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </aside>
 
-          <ChatBox scenarioId={scenarioId} />
+          <ChatBox scenarioId={scenarioId} onTurnChange={setTurn} />
         </div>
       </div>
     </div>
