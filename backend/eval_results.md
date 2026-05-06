@@ -320,6 +320,14 @@ Next step: map each of the 5 scenarios to 1–2 primary theories and hardcode th
 
 ---
 
+## Bug Fixes
+
+### RAG Retrieval Query -- Topic Bleed on Scenarios 4 and 5
+
+**Fixed:** The RAG retrieval query previously included the full adversary message and user message text (~200--400 tokens), which introduced conversation-specific vocabulary that overrode the semantic signal from the barrier theme. On COACH-004 (budget delay) and COACH-005 (salary negotiation), the noisy query pulled the wrong knowledge base chunks -- the salary negotiation case was retrieving gender bias complaint frameworks instead of negotiation frameworks, causing the coach's improved response to address a completely different scenario. Fixed by rebuilding the query as `"{barrier_theme}: {scenario_title}"` (~10--15 tokens), which maps directly onto how knowledge base chunks are labelled. COACH-004 judge overall jumped from 3.7 to 9.0, COACH-005 from 1.0 to 9.3. Bug identified and caught by the baseline comparison eval.
+
+---
+
 ## Full Raw Results
 
 ```
