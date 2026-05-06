@@ -21,6 +21,13 @@ _MIGRATIONS = [
     "ALTER TABLE coach_feedback ADD COLUMN strengths TEXT",
     "ALTER TABLE coach_feedback ADD COLUMN areas_for_improvement TEXT",
     "ALTER TABLE coach_feedback ADD COLUMN frameworks_used TEXT",
+    "ALTER TABLE coach_feedback ADD COLUMN judge_accuracy INTEGER",
+    "ALTER TABLE coach_feedback ADD COLUMN judge_actionability INTEGER",
+    "ALTER TABLE coach_feedback ADD COLUMN judge_quality INTEGER",
+    "ALTER TABLE coach_feedback ADD COLUMN judge_overall TEXT",
+    "ALTER TABLE coach_feedback ADD COLUMN judge_accuracy_rationale TEXT",
+    "ALTER TABLE coach_feedback ADD COLUMN judge_actionability_rationale TEXT",
+    "ALTER TABLE coach_feedback ADD COLUMN judge_quality_rationale TEXT",
 ]
 
 with engine.connect() as _conn:

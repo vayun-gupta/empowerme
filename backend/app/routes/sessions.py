@@ -9,10 +9,11 @@ from app.models.feedback import CoachFeedbackDB
 from app.models.scenario import ScenarioDB
 from app.schemas.session import (
     SessionCreateRequest, SessionResponse,
-    SessionDetailResponse, MessageItem, CoachAnalysis,
+    SessionDetailResponse, MessageItem, CoachAnalysis, JudgeScores,
 )
 from app.schemas.message import MessageResponse
 from app.services import session_service
+from app.services import judge_service
 
 router = APIRouter(prefix="/sessions", tags=["Sessions"])
 
@@ -73,6 +74,25 @@ def get_session_detail(session_id: int, db: Session = Depends(get_db)):
 
     coach = None
     if feedback:
+        # Lazy LLM-as-Judge evaluation: run once, persist, return cached on subsequent calls
+        if feedback.judge_accuracy is None and messages:
+            last_adversary = next((m.content for m in reversed(messages) if m.sender == "adversary"), "")
+            last_user = next((m.content for m in reversed(messages) if m.sender == "user"), "")
+            if last_adversary and last_user:
+                judge_service.run_judge(feedback, session.scenario_id, last_adversary, last_user, db)
+
+        judge = None
+        if feedback.judge_accuracy is not None:
+            judge = JudgeScores(
+                accuracy=feedback.judge_accuracy,
+                actionability=feedback.judge_actionability or 0,
+                quality=feedback.judge_quality or 0,
+                overall=float(feedback.judge_overall or 0),
+                accuracy_rationale=feedback.judge_accuracy_rationale or "",
+                actionability_rationale=feedback.judge_actionability_rationale or "",
+                quality_rationale=feedback.judge_quality_rationale or "",
+            )
+
         coach = CoachAnalysis(
             score=feedback.overall_score or 0,
             feedback=feedback.suggestion or "",
@@ -81,6 +101,7 @@ def get_session_detail(session_id: int, db: Session = Depends(get_db)):
             strengths=json.loads(feedback.strengths) if feedback.strengths else [],
             areas_for_improvement=json.loads(feedback.areas_for_improvement) if feedback.areas_for_improvement else [],
             frameworks_used=json.loads(feedback.frameworks_used) if feedback.frameworks_used else [],
+            judge=judge,
         )
 
     return SessionDetailResponse(

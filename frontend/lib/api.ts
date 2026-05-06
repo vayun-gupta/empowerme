@@ -113,6 +113,16 @@ export interface MessageItem {
   timestamp: string;
 }
 
+export interface JudgeScores {
+  accuracy: number;
+  actionability: number;
+  quality: number;
+  overall: number;
+  accuracy_rationale: string;
+  actionability_rationale: string;
+  quality_rationale: string;
+}
+
 export interface CoachAnalysis {
   score: number;
   feedback: string;
@@ -121,6 +131,7 @@ export interface CoachAnalysis {
   strengths: string[];
   areas_for_improvement: string[];
   frameworks_used: string[];
+  judge: JudgeScores | null;
 }
 
 export interface SessionDetail {

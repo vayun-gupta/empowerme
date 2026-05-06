@@ -24,6 +24,16 @@ class MessageItem(BaseModel):
     timestamp: str
 
 
+class JudgeScores(BaseModel):
+    accuracy: int
+    actionability: int
+    quality: int
+    overall: float
+    accuracy_rationale: str
+    actionability_rationale: str
+    quality_rationale: str
+
+
 class CoachAnalysis(BaseModel):
     score: int
     feedback: str
@@ -32,6 +42,7 @@ class CoachAnalysis(BaseModel):
     strengths: List[str]
     areas_for_improvement: List[str]
     frameworks_used: List[str]
+    judge: Optional[JudgeScores] = None
 
 
 class SessionDetailResponse(BaseModel):

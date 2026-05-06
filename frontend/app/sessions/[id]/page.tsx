@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import MainLayout from "@/components/layout/MainLayout";
-import { getSessionDetail, SessionDetail } from "@/lib/api";
+import { getSessionDetail, SessionDetail, JudgeScores } from "@/lib/api";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-IN", {
@@ -207,6 +207,55 @@ export default function SessionDetailPage() {
                         </div>
                       </div>
                     )}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* AI Quality Evaluation */}
+            {data.coach?.judge && (
+              <>
+                <h3 className="text-slate-900 text-lg font-bold px-1 pb-3 pt-8">AI Quality Evaluation</h3>
+                <div className="rounded-2xl border border-violet-200 bg-violet-50 overflow-hidden">
+                  <div className="flex items-center justify-between px-5 py-3 bg-violet-100/60 border-b border-violet-200">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-violet-600 text-[18px]">verified</span>
+                      <span className="text-xs font-bold text-violet-800 uppercase tracking-widest">AI Quality Evaluation</span>
+                    </div>
+                    <span className="text-[10px] font-semibold text-violet-500 bg-white border border-violet-200 px-2 py-0.5 rounded-full">
+                      {data.coach.judge.overall}/10 overall
+                    </span>
+                  </div>
+                  <div className="px-5 py-4 space-y-1">
+                    <p className="text-xs text-violet-700 mb-4">
+                      This response was independently evaluated by a second AI model.
+                    </p>
+                    {(
+                      [
+                        { label: "Accuracy", key: "accuracy", rationale: data.coach.judge.accuracy_rationale },
+                        { label: "Actionability", key: "actionability", rationale: data.coach.judge.actionability_rationale },
+                        { label: "Quality", key: "quality", rationale: data.coach.judge.quality_rationale },
+                      ] as { label: string; key: keyof JudgeScores; rationale: string }[]
+                    ).map(({ label, key, rationale }) => {
+                      const score = data.coach!.judge![key] as number;
+                      return (
+                        <div key={key} className="bg-white border border-violet-100 rounded-xl p-4 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-violet-600">{label}</p>
+                            <span className="text-sm font-extrabold text-violet-700">{score}<span className="text-xs font-medium text-violet-400">/10</span></span>
+                          </div>
+                          <div className="h-1.5 bg-violet-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-violet-500 rounded-full transition-all duration-700"
+                              style={{ width: `${(score / 10) * 100}%` }}
+                            />
+                          </div>
+                          {rationale && (
+                            <p className="text-xs text-slate-600 leading-relaxed">{rationale}</p>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </>
