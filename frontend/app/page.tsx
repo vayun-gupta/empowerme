@@ -17,8 +17,52 @@ export default function LandingPage() {
             <br />
             AI-powered simulation for real-world leadership interactions.
           </p>
+          <p className="text-slate-500 text-center max-w-sm leading-relaxed text-[15px] mt-4">
+            Women in Indian academia face documented institutional bias. EmpowerMe gives you a safe space to practice navigating it before it happens in real life.
+          </p>
         </header>
-        <div className="flex flex-col gap-8 max-w-md mx-auto w-full">
+
+        {/* Sample session preview */}
+        <div className="max-w-md mx-auto w-full mb-2">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.25em] text-center mb-4">What a session looks like</p>
+          <div className="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm flex flex-col gap-3">
+            {/* Adversary turn */}
+            <div className="flex items-start gap-3">
+              <div className="size-7 rounded-sm bg-slate-100 border border-slate-200 shrink-0 flex items-center justify-center">
+                <span className="material-symbols-outlined text-[14px] text-slate-500">smart_toy</span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Adversary Agent</p>
+                <div className="bg-white border border-slate-100 border-l-[3px] border-l-red-500 rounded-2xl rounded-tl-none px-4 py-3 text-[13px] text-slate-800 leading-relaxed shadow-sm">
+                  "Dr. Sharma has outlined a similar framework in his earlier work. Perhaps we should build on that direction instead."
+                </div>
+              </div>
+            </div>
+            {/* User turn */}
+            <div className="flex items-start gap-3 justify-end">
+              <div className="flex flex-col gap-1 items-end">
+                <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Leadership Response</p>
+                <div className="bg-[#f0f7ff] border border-blue-100/50 rounded-2xl rounded-tr-none px-4 py-3 text-[13px] text-slate-800 leading-relaxed shadow-sm max-w-[90%]">
+                  "I appreciate Dr. Sharma's work, but the framework I am proposing addresses a gap his model does not cover, specifically around student feedback loops. I would like to walk the committee through the distinction."
+                </div>
+              </div>
+              <div className="size-7 rounded-full bg-blue-100 border border-blue-200 shrink-0 flex items-center justify-center">
+                <span className="material-symbols-outlined text-[14px] text-blue-500">person</span>
+              </div>
+            </div>
+            {/* Coach tip */}
+            <div className="flex items-start gap-3 mt-1">
+              <div className="flex-1 flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3">
+                <span className="material-symbols-outlined text-amber-500 text-[16px] shrink-0 mt-0.5">lightbulb</span>
+                <p className="text-[12px] text-amber-900 leading-relaxed">
+                  <span className="font-bold">Coach tip:</span> Strong move. You acknowledged the senior colleague without ceding ground and immediately redirected to your evidence.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-8 max-w-md mx-auto w-full mt-6">
           <div className="bg-white rounded-[2rem] p-8 flex flex-col relative overflow-hidden group border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-6">
               <div className="p-3 bg-purple-50 rounded-xl border border-purple-100">
@@ -90,8 +134,6 @@ export default function LandingPage() {
             </button>
           </div>
         </div>
-        <footer className="mt-auto py-10 text-center">
-        </footer>
       </div>
     </>
   );
