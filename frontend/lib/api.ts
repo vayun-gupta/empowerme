@@ -41,6 +41,10 @@ export async function createSession(scenario_id: number): Promise<number> {
   return data.session_id;
 }
 
+export async function completeSession(session_id: number): Promise<void> {
+  await fetch(`${API_BASE}/api/sessions/${session_id}/complete`, { method: "PATCH" });
+}
+
 export async function sendToAdversary(
   sessionId: number,
   scenarioId: number,

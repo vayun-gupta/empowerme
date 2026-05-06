@@ -17,9 +17,10 @@ interface ChatBoxProps {
   scenarioId: number;
   onTurnChange?: (adversaryTurns: number) => void;
   barrierTheme?: string;
+  onSessionCreated?: (id: number) => void;
 }
 
-export default function ChatBox({ scenarioId, onTurnChange, barrierTheme }: ChatBoxProps) {
+export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSessionCreated }: ChatBoxProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [sessionId, setSessionId] = useState<number | null>(null);
@@ -41,7 +42,10 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme }: Chat
   }, [messages, isTyping]);
 
   useEffect(() => {
-    createSession(scenarioId).then(setSessionId).catch(console.error);
+    createSession(scenarioId).then((id) => {
+      setSessionId(id);
+      onSessionCreated?.(id);
+    }).catch(console.error);
   }, [scenarioId]);
 
   useEffect(() => {

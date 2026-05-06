@@ -1,18 +1,24 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import ChatBox from "@/components/chat/ChatBox";
-import { getScenario, ScenarioData } from "@/lib/api";
+import { getScenario, ScenarioData, completeSession } from "@/lib/api";
 
 function ChatContent() {
   const params = useSearchParams();
   const scenarioId = Number(params.get("scenario") ?? "1");
 
+  const router = useRouter();
   const [scenario, setScenario] = useState<ScenarioData | null>(null);
   const [turn, setTurn] = useState(0);
   const [briefOpen, setBriefOpen] = useState(false);
+  const [sessionId, setSessionId] = useState<number | null>(null);
+
+  const handleExit = (destination: string) => {
+    if (sessionId) completeSession(sessionId).catch(() => {});
+    router.push(destination);
+  };
 
   useEffect(() => {
     getScenario(scenarioId).then(setScenario).catch(console.error);
@@ -39,16 +45,19 @@ function ChatContent() {
             Turn {turn} of 8
           </p>
           <div className="flex items-center gap-2">
-            <Link
-              href="/dashboard"
+            <button
+              onClick={() => handleExit("/dashboard")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-500 hover:text-slate-800 border border-slate-200 hover:border-slate-300 hover:bg-white text-sm font-medium transition-all"
             >
               <span className="material-symbols-outlined text-[16px]">pause</span>
               Pause
-            </Link>
-            <Link href="/scenarios" className="p-2 rounded-full text-slate-500 hover:text-slate-900 transition-all border border-transparent hover:border-slate-200 hover:bg-white">
+            </button>
+            <button
+              onClick={() => handleExit("/scenarios")}
+              className="p-2 rounded-full text-slate-500 hover:text-slate-900 transition-all border border-transparent hover:border-slate-200 hover:bg-white"
+            >
               <span className="material-symbols-outlined text-[20px]">close</span>
-            </Link>
+            </button>
           </div>
         </header>
 
@@ -97,7 +106,7 @@ function ChatContent() {
             </div>
           </aside>
 
-          <ChatBox scenarioId={scenarioId} onTurnChange={setTurn} barrierTheme={scenario?.barrier_theme} />
+          <ChatBox scenarioId={scenarioId} onTurnChange={setTurn} barrierTheme={scenario?.barrier_theme} onSessionCreated={setSessionId} />
         </div>
       </div>
     </div>
