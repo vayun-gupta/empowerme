@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Optional
 
 from google import genai
 from sqlalchemy.orm import Session
@@ -40,7 +41,7 @@ def run_judge(
     adversary_message: str,
     user_message: str,
     db: Session,
-) -> dict | None:
+) -> Optional[dict]:
     api_key = os.environ.get("GEMINI_API_KEY", "")
     if not api_key:
         return None

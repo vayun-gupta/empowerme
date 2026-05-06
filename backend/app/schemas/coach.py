@@ -10,6 +10,7 @@ class CoachRequest(BaseModel):
     user_message: str
     adversary_message: str
     conversation_history: List[ConversationTurn] = []
+    use_rag: bool = True
 
 
 class CoachResponse(BaseModel):
