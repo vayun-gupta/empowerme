@@ -27,11 +27,15 @@ COACH_PROMPT_TEMPLATE = (
     "5. Clarity — Was their message clear and direct?\n\n"
     "Ground your feedback and improved_response in the frameworks above. "
     "In the theory_applied field, cite the specific framework and author "
-    "(e.g. 'DESC Script — Bower & Bower 1976').\n\n"
+    "(e.g. 'DESC Script — Bower & Bower 1976'). "
+    "In your feedback prose, also name the framework and author explicitly — "
+    "for example: 'Using the DESC Script framework (Bower & Bower, 1976)...' or "
+    "'Applying the collaborative negotiation approach outlined by Tyler-Wood...'. "
+    "The citation must appear in the feedback text itself, not only in theory_applied.\n\n"
     "Return ONLY a JSON object. No markdown, no code fences, no extra text:\n"
     '{\n'
     '  "score": <integer 0-100>,\n'
-    '  "feedback": "<2-3 sentence narrative coach feedback>",\n'
+    '  "feedback": "<2-3 sentences that open by naming the framework and author, e.g. \'Using the DESC Script (Bower & Bower, 1976)...\' or \'Applying the Tyler-Wood collaborative negotiation framework...\'>",\n'
     '  "improved_response": "<a better version of what the user said, 2-3 sentences>",\n'
     '  "theory_applied": "<specific framework name and author>",\n'
     '  "strengths": ["<strength 1>", "<strength 2>"],\n'

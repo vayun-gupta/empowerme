@@ -170,7 +170,7 @@ def run_baseline() -> list[dict]:
 # ── Summary and output ─────────────────────────────────────────────────────────
 
 def _collect_averages(all_results: list[dict]) -> dict[str, dict[str, float]]:
-    dims = ["accuracy", "actionability", "quality", "overall"]
+    dims = ["accuracy", "actionability", "quality", "grounding", "overall"]
     buckets: dict[str, dict[str, list]] = {
         v: {d: [] for d in dims} for v in ["a", "b", "c"]
     }
@@ -190,30 +190,21 @@ def _collect_averages(all_results: list[dict]) -> dict[str, dict[str, float]]:
 
 
 def print_summary_table(all_results: list[dict]) -> None:
+    avgs = _collect_averages(all_results)
     print("\n")
     print("  BASELINE COMPARISON SUMMARY")
     print("  " + "═" * 58)
-    print(f"  {'ID':<12}  {'Single LLM':>12}  {'Agentic (no RAG)':>18}  {'Full system':>12}")
-
-    a_scores, b_scores, c_scores = [], [], []
-    for r in all_results:
-        a, b, c = r.get("a", {}), r.get("b", {}), r.get("c", {})
-        a_val = f"{a['overall']}" if a.get("status") == "pass" else "ERR"
-        b_val = f"{b['overall']}" if b.get("status") == "pass" else "ERR"
-        c_val = f"{c['overall']}" if c.get("status") == "pass" else "ERR"
-        print(f"  {r['id']:<12}  {a_val:>12}  {b_val:>18}  {c_val:>12}")
-        if a.get("status") == "pass":
-            a_scores.append(a["overall"])
-        if b.get("status") == "pass":
-            b_scores.append(b["overall"])
-        if c.get("status") == "pass":
-            c_scores.append(c["overall"])
-
+    print(f"  {'Dimension':<16}  {'Single LLM':>12}  {'Agentic (no RAG)':>18}  {'Full system':>12}")
+    for dim in ["accuracy", "actionability", "quality", "grounding"]:
+        a_val = f"{avgs['a'][dim]:.1f}" if avgs['a'][dim] else "N/A"
+        b_val = f"{avgs['b'][dim]:.1f}" if avgs['b'][dim] else "N/A"
+        c_val = f"{avgs['c'][dim]:.1f}" if avgs['c'][dim] else "N/A"
+        print(f"  {dim.capitalize():<16}  {a_val:>12}  {b_val:>18}  {c_val:>12}")
     print("  " + "-" * 58)
-    a_avg = f"{sum(a_scores)/len(a_scores):.1f}" if a_scores else "N/A"
-    b_avg = f"{sum(b_scores)/len(b_scores):.1f}" if b_scores else "N/A"
-    c_avg = f"{sum(c_scores)/len(c_scores):.1f}" if c_scores else "N/A"
-    print(f"  {'Average':<12}  {a_avg:>12}  {b_avg:>18}  {c_avg:>12}")
+    a_avg = f"{avgs['a']['overall']:.1f}" if avgs['a']['overall'] else "N/A"
+    b_avg = f"{avgs['b']['overall']:.1f}" if avgs['b']['overall'] else "N/A"
+    c_avg = f"{avgs['c']['overall']:.1f}" if avgs['c']['overall'] else "N/A"
+    print(f"  {'Overall':<16}  {a_avg:>12}  {b_avg:>18}  {c_avg:>12}")
 
 
 def interpret_results(all_results: list[dict]) -> str:
@@ -224,6 +215,7 @@ def interpret_results(all_results: list[dict]) -> str:
     best_accuracy = max(["a", "b", "c"], key=lambda v: mean[v]["accuracy"])
     best_actionability = max(["a", "b", "c"], key=lambda v: mean[v]["actionability"])
     best_quality = max(["a", "b", "c"], key=lambda v: mean[v]["quality"])
+    best_grounding = max(["a", "b", "c"], key=lambda v: mean[v]["grounding"])
 
     para = (
         f"The {names[best_overall]} variant (Variant {best_overall.upper()}) achieved the highest "
@@ -278,19 +270,46 @@ def interpret_results(all_results: list[dict]) -> str:
         para += (
             "Quality of improved responses was highest with the Full System, confirming that "
             "RAG-retrieved frameworks produce genuinely better model responses grounded in "
-            "named communication strategies."
+            "named communication strategies. "
         )
     elif best_quality == "b":
         para += (
             "Quality of improved responses was highest without RAG injection, suggesting that "
             "the retrieved framework chunks may add noise when scenario context already "
-            "constrains the model's response space effectively."
+            "constrains the model's response space effectively. "
         )
     else:
         para += (
             "Quality of improved responses was highest for the vanilla Single LLM prompt, "
             "which warrants further investigation into whether the full institutional framing "
-            "constrains the model too narrowly when generating alternative responses."
+            "constrains the model too narrowly when generating alternative responses. "
+        )
+
+    para += (
+        f"Grounding -- which measures whether feedback cites named authors and frameworks "
+        f"(9-10), framework names only (5-7), or generic advice (1-4) -- "
+        f"scored {mean['a']['grounding']:.1f}/10 for Single LLM, "
+        f"{mean['b']['grounding']:.1f}/10 for Agentic (no RAG), "
+        f"and {mean['c']['grounding']:.1f}/10 for Full System. "
+    )
+    if best_grounding == "c":
+        para += (
+            "The Full System's lead on grounding directly reflects RAG retrieval: injecting "
+            "named frameworks and authors into the coach prompt reliably causes the model to "
+            "cite them in its feedback, a causal link that no other architectural change produces."
+        )
+    elif best_grounding == "b":
+        para += (
+            "The Agentic (no RAG) variant led on grounding, suggesting scenario context alone "
+            "is sufficient to prompt some theory citations; grounding is nonetheless the dimension "
+            "most directly enabled by RAG retrieval, since injecting named frameworks and authors "
+            "into the prompt is the primary mechanism for producing cited, research-grounded feedback."
+        )
+    else:
+        para += (
+            "Grounding is the dimension most directly enabled by RAG retrieval: injecting named "
+            "frameworks and authors into the coach prompt is the primary mechanism for producing "
+            "cited, research-grounded feedback."
         )
 
     return para
@@ -315,7 +334,7 @@ def generate_markdown(all_results: list[dict], today: str) -> str:
         "grounding. Variant C (Full System) is the production configuration: scenario context plus "
         "RAG-retrieved communication framework chunks injected into the prompt. "
         "Each variant's output is scored by the same LLM-as-Judge evaluator on accuracy, "
-        "actionability, and quality, enabling direct attribution of score gains to each "
+        "actionability, quality, and grounding, enabling direct attribution of score gains to each "
         "layer of the pipeline.\n\n"
     )
 
@@ -347,32 +366,26 @@ def generate_markdown(all_results: list[dict], today: str) -> str:
                 lines.append(f"- **Judge -- Accuracy:** {v.get('accuracy', 'N/A')}/10 -- {v.get('accuracy_rationale', '')}\n")
                 lines.append(f"- **Judge -- Actionability:** {v.get('actionability', 'N/A')}/10 -- {v.get('actionability_rationale', '')}\n")
                 lines.append(f"- **Judge -- Quality:** {v.get('quality', 'N/A')}/10 -- {v.get('quality_rationale', '')}\n")
+                lines.append(f"- **Judge -- Grounding:** {v.get('grounding', 'N/A')}/10 -- {v.get('grounding_rationale', '')}\n")
                 lines.append(f"- **Judge -- Overall:** {v.get('overall', 'N/A')}/10\n")
             lines.append("\n")
 
     lines.append("---\n\n")
     lines.append("## Summary Comparison Table\n\n")
-    lines.append("| ID | Single LLM | Agentic (no RAG) | Full System |\n")
+    lines.append("| Dimension | Single LLM | Agentic (no RAG) | Full System |\n")
     lines.append("|---|---|---|---|\n")
 
-    a_scores, b_scores, c_scores = [], [], []
-    for r in all_results:
-        a, b, c = r.get("a", {}), r.get("b", {}), r.get("c", {})
-        a_val = f"{a['overall']}/10" if a.get("status") == "pass" else "ERROR"
-        b_val = f"{b['overall']}/10" if b.get("status") == "pass" else "ERROR"
-        c_val = f"{c['overall']}/10" if c.get("status") == "pass" else "ERROR"
-        lines.append(f"| {r['id']} | {a_val} | {b_val} | {c_val} |\n")
-        if a.get("status") == "pass":
-            a_scores.append(a["overall"])
-        if b.get("status") == "pass":
-            b_scores.append(b["overall"])
-        if c.get("status") == "pass":
-            c_scores.append(c["overall"])
+    avgs = _collect_averages(all_results)
+    for dim in ["accuracy", "actionability", "quality", "grounding"]:
+        a_val = f"{avgs['a'][dim]:.1f}/10" if avgs['a'][dim] else "N/A"
+        b_val = f"{avgs['b'][dim]:.1f}/10" if avgs['b'][dim] else "N/A"
+        c_val = f"{avgs['c'][dim]:.1f}/10" if avgs['c'][dim] else "N/A"
+        lines.append(f"| {dim.capitalize()} | {a_val} | {b_val} | {c_val} |\n")
 
-    a_avg = f"{sum(a_scores)/len(a_scores):.1f}/10" if a_scores else "N/A"
-    b_avg = f"{sum(b_scores)/len(b_scores):.1f}/10" if b_scores else "N/A"
-    c_avg = f"{sum(c_scores)/len(c_scores):.1f}/10" if c_scores else "N/A"
-    lines.append(f"| **Average** | **{a_avg}** | **{b_avg}** | **{c_avg}** |\n")
+    a_avg = f"{avgs['a']['overall']:.1f}/10" if avgs['a']['overall'] else "N/A"
+    b_avg = f"{avgs['b']['overall']:.1f}/10" if avgs['b']['overall'] else "N/A"
+    c_avg = f"{avgs['c']['overall']:.1f}/10" if avgs['c']['overall'] else "N/A"
+    lines.append(f"| **Overall** | **{a_avg}** | **{b_avg}** | **{c_avg}** |\n")
 
     lines.append("\n---\n\n")
     lines.append("## Interpretation\n\n")

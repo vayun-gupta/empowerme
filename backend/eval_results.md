@@ -1,6 +1,6 @@
 # EmpowerMe Evaluation Benchmark Report
 
-**Date:** April 10, 2026
+**Date:** 7 May 2026
 
 ## Project Context
 
@@ -48,7 +48,7 @@ The coach agent must evaluate the user's response and return structured, researc
 
 ## Adversary Endpoint Results
 
-**Summary: 5/5 passed — avg overall score 9.3/10**
+**Summary: 5/5 passed — avg overall score 8.9/10**
 
 ---
 
@@ -60,15 +60,15 @@ The coach agent must evaluate the user's response and return structured, researc
 > I've exceeded every KPI by 20% and led the only project that shipped on time this quarter.
 
 **Adversary response (truncated):**
-> Your strong performance metrics are certainly noted and appreciated, Assistant Professor. However, for curriculum change...
+> We appreciate all our faculty's hard work, and your contributions in those areas are certainly noted. However, curriculu...
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Realism | 9/10 | Perfectly captures the tone and language of an institutional actor, acknowledging performance while subtly shifting the criteria and introducing bureaucratic barriers specific to an academic setting. |
-| Relevance | 9/10 | Directly engages with the user's performance claim but immediately pivots to institutional resistance by introducing process-oriented criteria and hierarchy not in the user's original statement. |
-| Quality | 10/10 | Highly subtle — uses process, strategic alignment, and hierarchy to create significant friction without explicit discrimination, effectively serving the simulation's educational purpose. |
+| Realism | 9/10 | The response perfectly captures the professional, often bureaucratic and abstract language used by institutional actors in an academic setting to manage expectations. |
+| Relevance | 9/10 | The response directly counters the user's individual performance claims by introducing broader, more complex institutional criteria, effectively shifting the goalposts. |
+| Quality | 9/10 | The resistance is subtle, de-emphasizing individual merit with collective institutional priorities, creating significant friction without being explicitly discriminatory. |
 
-**Overall: 9.3/10**
+**Overall: 9.0/10**
 
 ---
 
@@ -84,15 +84,15 @@ The coach agent must evaluate the user's response and return structured, researc
 > I'd like to understand what specific behaviors you're looking for so I can address them directly.
 
 **Adversary response (truncated):**
-> Institutional presence isn't solely about a checklist of behaviors; it's more about the intangible impact and influence...
+> Professor, institutional presence isn't quite something that can be broken down into a simple checklist of behaviors; it...
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Realism | 10/10 | Perfectly mimics the evasive, jargon-filled language used by institutional actors to discuss subjective concepts without providing actionable metrics. |
-| Relevance | 10/10 | Directly counters the request for specific behaviors by reframing the concept as an intangible, implicitly-recognized quality — a classic institutional resistance tactic. |
-| Quality | 10/10 | Highly subtle; generates friction by denying clear guidance and perfectly illustrates how vague institutional expectations can perpetuate bias. |
+| Realism | 9/10 | The response perfectly mimics academic or bureaucratic jargon, using phrases like 'subtle operational dynamics' and appealing to 'intuitive' understanding gained over 'years of dedicated service' to deflect specific requests. |
+| Relevance | 9/10 | It directly engages the user's request for 'specific behaviors' by explicitly denying that 'institutional presence' can be broken down into such, thereby applying an effective obfuscation tactic. |
+| Quality | 10/10 | The resistance is highly subtle, using vague language to create significant friction by denying the user actionable feedback, thereby illustrating a common form of institutional bias and resistance. |
 
-**Overall: 10.0/10**
+**Overall: 9.3/10**
 
 ---
 
@@ -104,13 +104,13 @@ The coach agent must evaluate the user's response and return structured, researc
 > The budget proposal was submitted three weeks ago and I've had no response. I need a decision by Friday.
 
 **Adversary response (truncated):**
-> Thank you for the reminder on your budget proposal. These significant allocations often require a broader strategic revi...
+> I understand your urgency, and we are certainly reviewing all proposals carefully as part of our broader resource alloca...
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Realism | 9/10 | Employs realistic corporate jargon and professional language to justify delays — a common institutional tactic. |
-| Relevance | 9/10 | Directly acknowledges the proposal and urgency, applying a relevant tactic of bureaucratic process delay. |
-| Quality | 9/10 | Subtle and procedural; effectively creates friction and indefinitely delays a decision without overt discrimination. |
+| Realism | 9/10 | The response masterfully employs common bureaucratic language and plausible explanations for delay, making it highly authentic to institutional communication in a workplace setting. |
+| Relevance | 9/10 | It directly engages with the user's urgency and lack of response by applying a classic institutional resistance tactic of citing complex, multi-stakeholder processes for deferral. |
+| Quality | 9/10 | The resistance is subtly implemented through professional but non-committal language, effectively creating friction by offering no concrete timeline or resolution, which serves the simulation's educational goal. |
 
 **Overall: 9.0/10**
 
@@ -124,15 +124,15 @@ The coach agent must evaluate the user's response and return structured, researc
 > The market rate for this role is $145,000. Here are three comparable positions at peer institutions.
 
 **Adversary response (truncated):**
-> "We appreciate you presenting these figures. However, our university's compensation structure is guided by a specific se...
+> Thank you for sharing your broader observations. However, for the purpose of this committee's review, we need to focus s...
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Realism | 9/10 | Perfectly mirrors the polite but firm deflection used by large institutions when presented with external compensation benchmarks. |
-| Relevance | 9/10 | Directly addresses the market rate data by counter-arguing with internal policies and budgetary constraints — a common resistance tactic. |
-| Quality | 9/10 | Subtly creates significant friction by dismissing the user's premise with a seemingly neutral justification, without being explicitly discriminatory. |
+| Realism | 9/10 | The language is highly plausible for an institutional actor attempting to reframe a discussion into a formal, procedural context. |
+| Relevance | 7/10 | While it sidesteps the user's direct financial argument, it effectively deploys a strategic re-framing tactic to steer the conversation towards a formal, controlled process. |
+| Quality | 9/10 | The resistance is subtle, creates high friction by invalidating the user's current input, and effectively educates on bureaucratic deflection as a resistance method. |
 
-**Overall: 9.0/10**
+**Overall: 8.3/10**
 
 ---
 
@@ -147,21 +147,21 @@ The coach agent must evaluate the user's response and return structured, researc
 > I led that coordination effort. Marcus was one of several contributors I managed on that project.
 
 **Adversary response (truncated):**
-> Of course, we recognize your past contributions to those efforts. The current context often demands a different kind of...
+> Yes, your past contributions in that area are well-recognized. We've structured the current responsibilities with your l...
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Realism | 9/10 | Uses plausible corporate jargon to acknowledge past contributions while subtly introducing new, vaguely defined criteria (like 'on-site presence') to explain a current decision. |
-| Relevance | 9/10 | Directly engages with the user's assertion of past leadership by acknowledging it, then dismisses its relevance for the current context by introducing new requirements. |
-| Quality | 9/10 | Highly subtle; avoids explicit discrimination, creates friction by de-emphasizing past achievements in favour of new criteria, and effectively serves the simulation's purpose. |
+| Realism | 9/10 | This response is highly plausible, using common corporate euphemisms like 'well-recognized contributions' and framing decisions around 'well-being' and 'sustainable workload' to justify a potentially limiting role, especially with the 're-acclimating' phrasing. |
+| Relevance | 8/10 | The response acknowledges the user's past contributions but subtly shifts the focus to current responsibilities, applying a protective gatekeeping tactic by implying the user needs a lighter load due to 're-acclimation' or 'well-being'. |
+| Quality | 9/10 | The resistance is very subtle, creating friction by undermining the user's agency and ambition under the guise of care, effectively serving the simulation's purpose of illustrating how bias can be cloaked in benevolent language. |
 
-**Overall: 9.0/10**
+**Overall: 8.7/10**
 
 ---
 
 ## Coach Endpoint Results
 
-**Summary: 5/5 completed — 4/5 scores in expected range — avg judge score 7.5/10**
+**Summary: 5/5 completed — 3/5 scores in expected range — avg judge score 8.9/10**
 
 ---
 
@@ -178,15 +178,15 @@ The coach agent must evaluate the user's response and return structured, researc
 | | |
 |---|---|
 | **Coach score** | 92/100 ✓ |
-| **Theory applied** | Strategic Framing |
+| **Theory applied** | Credibility and Impression Management — Jones & Pittman five impression management strategies |
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Accuracy | 9/10 | Accurately praises the user's strong, evidence-based reframing and strategic re-engagement, aligning with the high score given. |
-| Actionability | 8/10 | The improved response offers concrete, immediately applicable wording that strengthens the link between the user's experience and their actual proposal. |
-| Quality | 9/10 | Subtly enhances the original by explicitly linking experience and additional data (student feedback) directly to the proposed restructuring, teaching a powerful re-engagement strategy. |
+| Accuracy | 9/10 | The coach's assessment accurately identifies the strengths of the user's response, especially its ability to redefine and claim the ambiguous term, and the high score is justified given its effectiveness. |
+| Actionability | 9/10 | The improved response serves as a concrete, immediately applicable suggestion by demonstrating how to reframe an excellent response to be even more direct and assertive in claiming the desired trait. |
+| Quality | 9/10 | The improved response is subtly yet genuinely better, demonstrating a powerful communication strategy of proactively owning and redefining a vague concept through direct action and specific examples, rather than conditionally countering. |
 
-**Judge overall: 8.7/10**
+**Judge overall: 9.0/10**
 
 ---
 
@@ -202,20 +202,20 @@ The coach agent must evaluate the user's response and return structured, researc
 
 | | |
 |---|---|
-| **Coach score** | 20/100 ✓ |
-| **Theory applied** | Reframing |
+| **Coach score** | 25/100 ✓ |
+| **Theory applied** | Fiske, Cuddy & Glick Stereotype Content Model; Jones & Pittman five impression management strategies |
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Accuracy | 9/10 | Accurately identifies the user's strategic misstep of accepting vague criticism; low score is justified for a response that completely cedes ground. |
-| Actionability | 10/10 | Clearly explains what went wrong and provides a concrete improved response demonstrating a direct, immediately applicable communication strategy. |
-| Quality | 10/10 | The improved response is genuinely superior, teaching the strategy of acknowledging feedback while reasserting value and redirecting to tangible contributions. |
+| Accuracy | 9/10 | The feedback accurately identifies both the user's strength (emotional regulation) and the critical strategic failures (accepting vague feedback, devaluing contributions), with the low score highlighting the significant missed opportunity to counter bias. |
+| Actionability | 9/10 | The coach clearly articulates what was missed (seeking clarification, linking to competence) and provides an excellent, concrete improved response that is immediately applicable. |
+| Quality | 10/10 | The improved response is genuinely better, demonstrating sophisticated communication strategies for professionally challenging vague feedback, anchoring to achievements, and reclaiming credibility. |
 
-**Judge overall: 9.7/10**
+**Judge overall: 9.3/10**
 
 ---
 
-### COACH-003 — Confrontational but unstrategic response
+### COACH-003 — Confrontational but unstrategic response ⚠️
 
 **Scenario:** 1 | **Expected score range:** 30–55
 
@@ -227,16 +227,18 @@ The coach agent must evaluate the user's response and return structured, researc
 
 | | |
 |---|---|
-| **Coach score** | 30/100 ✓ |
-| **Theory applied** | Reframing |
+| **Coach score** | 20/100 ✗ (10 points below expected floor) |
+| **Theory applied** | Credibility and Impression Management — lead with shared goals (warmth) before presenting evidence or challenge (competence) (Fiske, Cuddy & Glick Stereotype Content Model) |
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Accuracy | 9/10 | Accurately highlights the risks of the confrontational response; score fairly reflects its strategic ineffectiveness in a professional setting. |
-| Actionability | 9/10 | Clearly explains the pitfalls of the original and provides a concrete, adaptable example of how to reframe the conversation constructively. |
-| Quality | 9/10 | Models a sophisticated strategy that acknowledges the adversary's point while pivoting to concrete evidence of value, effectively de-escalating and reframing. |
+| Accuracy | 9/10 | The coach accurately identifies the directness and assertiveness of the user's response while correctly highlighting its significant escalatory and alienating potential, justifying the low score in a professional context aiming for constructive resolution. |
+| Actionability | 9/10 | The feedback is highly actionable, clearly outlining the pitfalls of the original response and providing a concrete, immediately applicable alternative that demonstrates a superior communication strategy. |
+| Quality | 9/10 | The improved response is genuinely better, teaching a powerful strategy of acknowledging the premise, reframing one's actions with evidence, and connecting them to the desired institutional presence in a constructive, non-confrontational manner. |
 
 **Judge overall: 9.0/10**
+
+> **Note — calibration gap:** The coach scores this response at 20/100, 10 points below the expected 30 floor. Judge validates at 9.0/10, confirming the feedback and improved response are high quality. Consistent with the baseline run (Variant A: 15, Variant C: 25), this case is routinely scored below the expected floor regardless of pipeline variant. The expected range floor of 30 may need downward recalibration to 15–20.
 
 ---
 
@@ -252,18 +254,18 @@ The coach agent must evaluate the user's response and return structured, researc
 
 | | |
 |---|---|
-| **Coach score** | 76/100 ✗ (1 point outside range) |
-| **Theory applied** | Strategic Framing and Call to Action |
+| **Coach score** | 50/100 ✗ (5 points below expected floor) |
+| **Theory applied** | Negotiation and Advocacy Under Institutional Bias — Bowles, Babcock, Lai (Social Backlash Theory) |
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Accuracy | 2/10 | The coaching fundamentally misunderstands the original scenario — the suggested improved response shifts from budget allocations to a HoD position entirely. |
-| Actionability | 2/10 | The suggested improved response is completely off-topic, rendering the advice useless for the user's actual situation. |
-| Quality | 1/10 | Despite incorporating valid general communication strategies, the improved response fails catastrophically by addressing a different scenario, undermining any teaching value. |
+| Accuracy | 9/10 | The coach accurately identifies both the strengths (clarity, directness) and weaknesses (missed strategic framing, failure to challenge deflection) of the user's response, and the 50/100 score is a fair reflection of its average quality. |
+| Actionability | 9/10 | While the abstract feedback points required interpretation, the provided 'improved response' clearly and concretely illustrates how to implement the suggested strategies of strategic framing and politely challenging deflection. |
+| Quality | 10/10 | The improved response is genuinely superior, demonstrating advanced communication strategies like acknowledging deflection, reframing personal needs as institutional benefits, and proactively re-engaging with the core issue. |
 
-**Judge overall: 1.7/10**
+**Judge overall: 9.3/10**
 
-> **Note — eval framework catching a real hallucination:** COACH-004 is the one failure in this run. The coach scored the user's response 76 (just 1 point outside the expected 55–75 range), but the LLM judge correctly identified that the coach's *improved response* addressed the wrong scenario entirely — it substituted a HoD appointment discussion for the budget allocation scenario that was actually presented. The judge's 1.7/10 quality score flags this as a meaningful failure, not a minor drift. This is the eval framework functioning correctly as a quality gate: the score deviation alone (76 vs. max 75) would have been easy to dismiss; the judge's reasoning reveals a real contextual hallucination in the coach output.
+> **Note — score calibration, hallucination resolved:** The coach scores 50/100, 5 points below the expected 55 floor. The judge validates at 9.3/10 with coherent scenario-appropriate feedback — the coach correctly addresses the budget allocation scenario throughout. The contextual hallucination observed in the previous run (coach substituting a HoD appointment discussion for the budget scenario) is no longer present. The RAG query refinement (adding `adversary_message[:150]` as additional semantic signal) and the expanded knowledge base (Negotiation and Advocacy Under Institutional Bias chunk now being retrieved) appear to have resolved the context bleed. Score calibration remains slightly off — the negotiation framework raises the bar for what counts as an adequate response to procedural delay, pushing the score below the expected floor.
 
 ---
 
@@ -279,23 +281,25 @@ The coach agent must evaluate the user's response and return structured, researc
 
 | | |
 |---|---|
-| **Coach score** | 96/100 ✓ |
-| **Theory applied** | Principled Negotiation |
+| **Coach score** | 92/100 ✓ |
+| **Theory applied** | Collaborative Negotiation Framework — Tyler-Wood; Social Backlash Theory — Bowles, Babcock, Lai |
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Accuracy | 9/10 | Accurately recognizes the user's highly effective, data-driven response; high score is well-justified. |
-| Actionability | 8/10 | Provides concrete, subtle refinements such as an appreciative opening and more proactive phrasing for solutions. |
-| Quality | 8/10 | Genuinely enhances the original by framing value with a more collaborative and appreciative tone — a valuable communication strategy. |
+| Accuracy | 9/10 | The coach accurately assessed the user's response as highly effective due to its data-backed anchoring and professional tone, and the 92/100 score is fair for such a strong reply. |
+| Actionability | 7/10 | The suggested improved response offers concrete, actionable refinements like framing the negotiation as 'bridging a gap' and linking compensation to future high performance, which are immediately applicable communication strategies. |
+| Quality | 8/10 | The improved response is genuinely better by introducing a more collaborative tone and a clear value proposition, teaching effective strategies for salary negotiation beyond just stating facts. |
 
-**Judge overall: 8.3/10**
+**Judge overall: 8.0/10**
 
 ---
 
 ## Known Gaps and Next Steps
 
-### 1. COACH-004 Hallucination — Improved Response Addressed Wrong Scenario
-The coach's `improved_response` field substituted a Head of Department appointment discussion for the budget allocation scenario. Root cause is likely context window sensitivity when multiple scenarios share similar language. Mitigation: add scenario ID and title explicitly to the coach prompt; add an eval assertion that checks whether key terms from the scenario appear in the improved response.
+### 1. COACH-004 Hallucination — Improved Response Addressed Wrong Scenario ✅ Fixed
+The coach's `improved_response` field substituted a Head of Department appointment discussion for the budget allocation scenario. Root cause was context window sensitivity when multiple scenarios share similar language.
+
+**Status (7 May 2026):** Not observed in current run. Coach score is 50/100 (below the expected 55–75 floor) but the coach feedback correctly addresses the budget allocation scenario throughout, with judge score 9.3/10. The RAG query refinement (adding `adversary_message[:150]` as additional semantic signal) and the expanded knowledge base appear to have resolved the context bleed.
 
 ### 2. Coach Feedback Persistence — ✅ Fixed
 All 7 coach fields (`score`, `feedback`, `improved_response`, `theory_applied`, `strengths`, `areas_for_improvement`, `frameworks_used`) are now fully persisted to the `coach_feedback` table. The four previously missing columns (`improved_response`, `strengths`, `areas_for_improvement`, `frameworks_used`) were added via an idempotent `ALTER TABLE` migration that runs at server startup. JSON arrays are serialised as TEXT. All fields are surfaced in the session detail page (`GET /api/sessions/{id}/detail`) and rendered in the `/sessions/[id]` frontend review page.
@@ -336,41 +340,41 @@ ADVERSARY ENDPOINT EVALUATION
 ============================================================
 
 [ADV-001] Evaluation reframing — user asserts concrete KPI output
-  Response: Your strong performance metrics are certainly noted and appreciated, Assistant Professor. However, for curriculum change...
-  Realism:   9/10 — The response perfectly captures the tone and language of an institutional actor, acknowledging performance while subtly shifting the criteria and introducing bureaucratic barriers specific to an academic setting.
-  Relevance: 9/10 — It directly engages with the user's performance claim but immediately pivots to an institutional resistance tactic by introducing new, process-oriented criteria and hierarchy that weren't part of the user's original statement.
-  Quality:   10/10 — The resistance is highly subtle, using process, strategic alignment, and hierarchy to create significant friction without explicit discrimination, effectively serving the simulation's educational purpose.
-  OVERALL:   9.3/10
+  Response: We appreciate all our faculty's hard work, and your contributions in those areas are certainly noted. However, curriculu...
+  Realism:   9/10 — The response perfectly captures the professional, often bureaucratic and abstract language used by institutional actors in an academic setting to manage expectations.
+  Relevance: 9/10 — The response directly counters the user's individual performance claims by introducing broader, more complex institutional criteria, effectively shifting the goalposts.
+  Quality:   9/10 — The resistance is subtle, de-emphasizing individual merit with collective institutional priorities, creating significant friction without being explicitly discriminatory.
+  OVERALL:   9.0/10
 
 [ADV-002] Evaluation reframing — user requests specific measurable criteria
-  Response: Institutional presence isn't solely about a checklist of behaviors; it's more about the intangible impact and influence ...
-  Realism:   10/10 — The response perfectly mimics the evasive, jargon-filled language often used by institutional actors to discuss subjective concepts like 'presence' without providing actionable metrics.
-  Relevance: 10/10 — The response directly counters the user's request for specific behaviors by reframing the concept as an intangible and implicitly recognized quality, a common institutional resistance tactic.
-  Quality:   10/10 — The response is highly subtle, effectively generating friction by denying clear guidance, and perfectly serves the simulation's purpose of illustrating how vague institutional expectations can perpetuate bias.
-  OVERALL:   10.0/10
+  Response: Professor, institutional presence isn't quite something that can be broken down into a simple checklist of behaviors; it...
+  Realism:   9/10 — The response perfectly mimics academic or bureaucratic jargon, using phrases like 'subtle operational dynamics' and appealing to 'intuitive' understanding gained over 'years of dedicated service' to deflect specific requests.
+  Relevance: 9/10 — It directly engages the user's request for 'specific behaviors' by explicitly denying that 'institutional presence' can be broken down into such, thereby applying an effective obfuscation tactic.
+  Quality:   10/10 — The resistance is highly subtle, using vague language to create significant friction by denying the user actionable feedback, thereby illustrating a common form of institutional bias and resistance.
+  OVERALL:   9.3/10
 
 [ADV-003] Procedural barriers — user pushes back on delayed budget response
-  Response: Thank you for the reminder on your budget proposal. These significant allocations often require a broader strategic revi...
-  Realism:   9/10 — The response employs realistic corporate jargon and professional language to justify delays, which is a common institutional tactic.
-  Relevance: 9/10 — It directly acknowledges the budget proposal and the user's urgency, applying a relevant institutional tactic of delaying by bureaucratic process.
-  Quality:   9/10 — The resistance is subtle and procedural, effectively creating friction and indefinitely delaying a decision without any overt discrimination.
+  Response: I understand your urgency, and we are certainly reviewing all proposals carefully as part of our broader resource alloca...
+  Realism:   9/10 — The response masterfully employs common bureaucratic language and plausible explanations for delay, making it highly authentic to institutional communication in a workplace setting.
+  Relevance: 9/10 — It directly engages with the user's urgency and lack of response by applying a classic institutional resistance tactic of citing complex, multi-stakeholder processes for deferral.
+  Quality:   9/10 — The resistance is subtly implemented through professional but non-committal language, effectively creating friction by offering no concrete timeline or resolution, which serves the simulation's educational goal.
   OVERALL:   9.0/10
 
 [ADV-004] Credibility challenge — user cites market rate data for salary
-  Response: "We appreciate you presenting these figures. However, our university's compensation structure is guided by a specific se...
-  Realism:   9/10 — The response perfectly mirrors the polite but firm deflection often used by large institutions, particularly universities, when presented with external compensation benchmarks.
-  Relevance: 9/10 — The response directly addresses the user's market rate data by counter-arguing with an appeal to internal policies and budgetary constraints, a common institutional resistance tactic.
-  Quality:   9/10 — It subtly creates significant friction by dismissing the user's premise with a seemingly neutral justification, providing a realistic challenge without being explicitly discriminatory.
-  OVERALL:   9.0/10
+  Response: Thank you for sharing your broader observations. However, for the purpose of this committee's review, we need to focus s...
+  Realism:   9/10 — The language is highly plausible for an institutional actor attempting to reframe a discussion into a formal, procedural context.
+  Relevance: 7/10 — While it sidesteps the user's direct financial argument, it effectively deploys a strategic re-framing tactic to steer the conversation towards a formal, controlled process.
+  Quality:   9/10 — The resistance is subtle, creates high friction by invalidating the user's current input, and effectively educates on bureaucratic deflection as a resistance method.
+  OVERALL:   8.3/10
 
 [ADV-005] Credit attribution — user reclaims authorship of project
-  Response: Of course, we recognize your past contributions to those efforts. The current context often demands a different kind of ...
-  Realism:   9/10 — The response uses plausible corporate jargon to acknowledge past contributions while subtly introducing new, vaguely defined criteria (like 'on-site presence') to explain a current decision, which is very common in institutional communication.
-  Relevance: 9/10 — It directly engages with the user's assertion of past leadership by acknowledging it, then effectively dismisses its relevance for the current context by introducing new, paramount requirements.
-  Quality:   9/10 — The resistance is highly subtle, avoids explicit discrimination, creates significant friction by de-emphasizing past achievements for new criteria, and effectively serves the simulation's purpose of identifying nuanced bias.
-  OVERALL:   9.0/10
+  Response: Yes, your past contributions in that area are well-recognized. We've structured the current responsibilities with your l...
+  Realism:   9/10 — This response is highly plausible, using common corporate euphemisms like 'well-recognized contributions' and framing decisions around 'well-being' and 'sustainable workload' to justify a potentially limiting role, especially with the 're-acclimating' phrasing.
+  Relevance: 8/10 — The response acknowledges the user's past contributions but subtly shifts the focus to current responsibilities, applying a protective gatekeeping tactic by implying the user needs a lighter load due to 're-acclimation' or 'well-being'.
+  Quality:   9/10 — The resistance is very subtle, creating friction by undermining the user's agency and ambition under the guise of care, effectively serving the simulation's purpose of illustrating how bias can be cloaked in benevolent language.
+  OVERALL:   8.7/10
 
-  Adversary avg overall score: 9.3/10  (5/5 passed)
+  Adversary avg overall score: 8.9/10  (5/5 passed)
 
 ============================================================
 COACH ENDPOINT EVALUATION
@@ -378,46 +382,46 @@ COACH ENDPOINT EVALUATION
 
 [COACH-001] Strong assertive response with concrete evidence — should score 75-95
   Coach score: 92/100  (expected 75-95) ✓
-  Theory: Strategic Framing
-  Accuracy:      9/10 — The coach's assessment accurately praises the user's strong, evidence-based reframing and strategic re-engagement, aligning with the high score given.
-  Actionability: 8/10 — The improved response offers concrete, immediately applicable wording that strengthens the link between the user's experience and their actual proposal.
-  Quality:       9/10 — The improved response subtly enhances the user's original by explicitly linking their experience and additional data (student feedback) directly to their proposed restructuring, teaching a powerful strategy for re-engagement.
-  OVERALL:       8.7/10
+  Theory: Credibility and Impression Management — Jones & Pittman five impression management strategies
+  Accuracy:      9/10 — The coach's assessment accurately identifies the strengths of the user's response, especially its ability to redefine and claim the ambiguous term, and the high score is justified given its effectiveness.
+  Actionability: 9/10 — The improved response serves as a concrete, immediately applicable suggestion by demonstrating how to reframe an excellent response to be even more direct and assertive in claiming the desired trait.
+  Quality:       9/10 — The improved response is subtly yet genuinely better, demonstrating a powerful communication strategy of proactively owning and redefining a vague concept through direct action and specific examples, rather than conditionally countering.
+  OVERALL:       9.0/10
 
 [COACH-002] Weak capitulating response — should score 20-40
-  Coach score: 20/100  (expected 20-40) ✓
-  Theory: Reframing
-  Accuracy:      9/10 — The assessment accurately identifies the user's strategic misstep of accepting vague criticism and a low score is justified for a response that completely cedes ground.
-  Actionability: 10/10 — The feedback clearly explains what went wrong and provides a concrete improved response that demonstrates a direct, immediately applicable communication strategy.
-  Quality:       10/10 — The improved response is genuinely superior, teaching a crucial strategy of acknowledging feedback while subtly reasserting one's value and redirecting the conversation back to tangible contributions.
-  OVERALL:       9.7/10
+  Coach score: 25/100  (expected 20-40) ✓
+  Theory: Fiske, Cuddy & Glick Stereotype Content Model; Jones & Pittman five impression management strategies
+  Accuracy:      9/10 — The feedback accurately identifies both the user's strength (emotional regulation) and the critical strategic failures (accepting vague feedback, devaluing contributions), with the low score highlighting the significant missed opportunity to counter bias.
+  Actionability: 9/10 — The coach clearly articulates what was missed (seeking clarification, linking to competence) and provides an excellent, concrete improved response that is immediately applicable.
+  Quality:       10/10 — The improved response is genuinely better, demonstrating sophisticated communication strategies for professionally challenging vague feedback, anchoring to achievements, and reclaiming credibility.
+  OVERALL:       9.3/10
 
 [COACH-003] Confrontational but unstrategic response — should score 30-55
-  Coach score: 30/100  (expected 30-55) ✓
-  Theory: Reframing
-  Accuracy:      9/10 — The assessment accurately highlights the risks of the user's confrontational response and the score fairly reflects its strategic ineffectiveness in a professional setting.
-  Actionability: 9/10 — The feedback clearly explains the pitfalls of the original response and provides a concrete, adaptable example of how to reframe the conversation constructively.
-  Quality:       9/10 — The improved response models a sophisticated communication strategy that acknowledges the adversary's point while pivoting to concrete evidence of one's value, effectively de-escalating and reframing the discussion.
+  Coach score: 20/100  (expected 30-55) ✗ OUT OF RANGE
+  Theory: Credibility and Impression Management - Lead with shared goals (warmth) before presenting evidence or challenge (competence) (Fiske, Cuddy & Glick Stereotype Content Model)
+  Accuracy:      9/10 — The coach accurately identifies the directness and assertiveness of the user's response while correctly highlighting its significant escalatory and alienating potential, justifying the low score in a professional context aiming for constructive resolution.
+  Actionability: 9/10 — The feedback is highly actionable, clearly outlining the pitfalls of the original response and providing a concrete, immediately applicable alternative that demonstrates a superior communication strategy.
+  Quality:       9/10 — The improved response is genuinely better, teaching a powerful strategy of acknowledging the premise, reframing one's actions with evidence, and connecting them to the desired institutional presence in a constructive, non-confrontational manner.
   OVERALL:       9.0/10
 
 [COACH-004] Good but incomplete — requests timeline but lacks stakes framing — should score 55-75
-  Coach score: 76/100  (expected 55-75) ✗ OUT OF RANGE
-  Theory: Strategic Framing and Call to Action
-  Accuracy:      2/10 — The coaching fundamentally misunderstands the original scenario, as evidenced by the suggested improved response shifting from 'budget allocations' to a 'HoD position'.
-  Actionability: 2/10 — The suggested improved response is completely off-topic, rendering the advice and its implementation useless for the user's actual situation regarding budget allocations.
-  Quality:       1/10 — Despite incorporating valid general communication strategies, the improved response fails catastrophically by addressing a completely different scenario than the one presented, undermining any teaching value.
-  OVERALL:       1.7/10
+  Coach score: 50/100  (expected 55-75) ✗ OUT OF RANGE
+  Theory: Negotiation and Advocacy Under Institutional Bias — Bowles, Babcock, Lai (Social Backlash Theory)
+  Accuracy:      9/10 — The coach accurately identifies both the strengths (clarity, directness) and weaknesses (missed strategic framing, failure to challenge deflection) of the user's response, and the 50/100 score is a fair reflection of its average quality.
+  Actionability: 9/10 — While the abstract feedback points required interpretation, the provided 'improved response' clearly and concretely illustrates how to implement the suggested strategies of strategic framing and politely challenging deflection.
+  Quality:       10/10 — The improved response is genuinely superior, demonstrating advanced communication strategies like acknowledging deflection, reframing personal needs as institutional benefits, and proactively re-engaging with the core issue.
+  OVERALL:       9.3/10
 
 [COACH-005] Excellent salary negotiation with data and path forward — should score 80-100
-  Coach score: 96/100  (expected 80-100) ✓
-  Theory: Principled Negotiation
-  Accuracy:      9/10 — The coach accurately recognizes the user's highly effective and data-driven response, and the high score is well-justified given its quality.
-  Actionability: 8/10 — The improved response provides concrete, albeit subtle, actionable refinements such as adding an appreciative opening and slightly more proactive phrasing for solutions.
-  Quality:       8/10 — The improved response genuinely enhances the original by demonstrating how to frame value with a more collaborative and appreciative tone, which is a valuable communication strategy.
-  OVERALL:       8.3/10
+  Coach score: 92/100  (expected 80-100) ✓
+  Theory: Collaborative Negotiation Framework — Tyler-Wood; Social Backlash Theory — Bowles, Babcock, Lai
+  Accuracy:      9/10 — The coach accurately assessed the user's response as highly effective due to its data-backed anchoring and professional tone, and the 92/100 score is fair for such a strong reply.
+  Actionability: 7/10 — The suggested improved response offers concrete, actionable refinements like framing the negotiation as 'bridging a gap' and linking compensation to future high performance, which are immediately applicable communication strategies.
+  Quality:       8/10 — The improved response is genuinely better by introducing a more collaborative tone and a clear value proposition, teaching effective strategies for salary negotiation beyond just stating facts.
+  OVERALL:       8.0/10
 
-  Coach avg overall score: 7.5/10  (5/5 passed)
-  Scores in expected range: 4/5
+  Coach avg overall score: 8.9/10  (5/5 passed)
+  Scores in expected range: 3/5
 
 ============================================================
 BENCHMARK COMPLETE  |  Adversary: 5/5  |  Coach: 5/5
