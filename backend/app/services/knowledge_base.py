@@ -41,6 +41,22 @@ KNOWLEDGE_BASE = [
         "when_effective": "Warmth-first framing works reliably across contexts. Evidence-led challenge most effective with established track record of constructive contribution.",
         "when_risky": "Chalmers 2020 — warmth asymmetric for women: penalised disproportionately for its absence, not proportionally rewarded for its presence. Competence without warmth reads as cold; warmth without competence reads as unserious.",
     },
+    {
+        "theme": "Strategic Communication and Message Control",
+        "theories": "Stakeholder Communication Theory: leaders must actively manage information flow to all stakeholder groups or risk losing narrative control; Gender Communication Penalty: women are penalised for the same assertive communication behaviours that are rewarded in men (Galinsky, 2015; Tannen, 2015); Proactive Framing: getting ahead of a story or decision by setting context before opposition forms",
+        "strategies": "Name your contributions explicitly before they are attributed to others. Frame requests in terms of institutional benefit, not personal gain. Use structured talking points in high-stakes conversations to prevent reactive responses. Anticipate the gender lens your audience will apply and adjust framing accordingly — without softening the substance.",
+        "examples": "Name your contributions explicitly before they are attributed to others. | Frame requests in terms of institutional benefit, not personal gain. | Use structured talking points in high-stakes conversations to prevent reactive responses.",
+        "when_effective": "",
+        "when_risky": "Silence is not neutral — in institutional settings, silence is read as agreement or weakness. Overcorrecting toward softness to avoid the gender penalty can undermine credibility equally. Source: Managing Your Message, Mimi Gurbst, Harvard Graduate School of Education Women in Education Leadership Programme, 2018.",
+    },
+    {
+        "theme": "Negotiation and Advocacy Under Institutional Bias",
+        "theories": "Collaborative Negotiation Framework (Tyler-Wood / Integrated Model of Leadership): negotiation as influence and persuasion, not confrontation — leaders negotiate for tangibles (salary, budget, resources) and intangibles (reputation, credibility, competence); Social Backlash Theory (Bowles, Babcock, Lai): women face penalties for assertive self-advocacy that men do not — requiring strategic framing of personal requests as institutional benefit; Milkman Bias Study (2014): documented pre-negotiation discrimination against women and minorities in academic settings — faculty were 2.6 times more likely to respond to white males than women and minorities",
+        "strategies": "Anchor with third-party data (market rates, peer institution benchmarks, external research) to depersonalise the ask. Frame requests as benefiting the team or institution. Use non-threatening but firm language — combine a clear ask with acknowledgement of institutional constraints. Prepare thoroughly and test counterpart claims rather than accepting them at face value. When facing delay or deflection, name the cost of inaction.",
+        "examples": "This would allow me to contribute more effectively to X. | Without a decision by X, the consequence will be Y.",
+        "when_effective": "",
+        "when_risky": "Confrontational framing (even when accurate) triggers backlash and closes doors without advancing the goal. Accepting vague commitments without a concrete timeline or next step is a common failure mode. Source: Negotiation: An Essential Adaptive Leadership Skill, Irma Tyler-Wood; Women and Negotiation: Barriers to Getting to the Table and Leveling the Playing Field, Katie Shonk — Harvard Program on Negotiation, 2014; Harvard Graduate School of Education Women in Education Leadership Programme, 2018.",
+    },
 ]
 
 _cached_embeddings = None  # type: ignore[var-annotated]
