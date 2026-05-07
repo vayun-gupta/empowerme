@@ -5,10 +5,17 @@ export interface ConversationTurn {
   content: string;
 }
 
+export interface EscalationState {
+  tactic: string;
+  escalation_level: number;
+  tactics_used: string[];
+}
+
 export interface AdversaryResponse {
   adversary_message: string;
   session_id: number;
   message_id: number;
+  escalation_state: EscalationState;
 }
 
 export interface CoachResponse {
@@ -49,7 +56,8 @@ export async function sendToAdversary(
   sessionId: number,
   scenarioId: number,
   userMessage: string,
-  history: ConversationTurn[]
+  history: ConversationTurn[],
+  escalationState?: EscalationState | null
 ): Promise<AdversaryResponse> {
   const res = await fetch(`${API_BASE}/api/adversary/`, {
     method: "POST",
@@ -59,6 +67,7 @@ export async function sendToAdversary(
       scenario_id: scenarioId,
       user_message: userMessage,
       conversation_history: history,
+      escalation_state: escalationState ?? null,
     }),
   });
   if (!res.ok) {

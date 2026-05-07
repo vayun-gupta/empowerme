@@ -97,7 +97,7 @@ def generate_coach_feedback(request: CoachRequest, db: Session) -> CoachResponse
     client = genai.Client(api_key=api_key)
 
     if request.use_rag:
-        rag_query = f"{scenario.barrier_theme}: {scenario.title}"
+        rag_query = f"{scenario.barrier_theme}: {scenario.title}. {request.adversary_message[:150]}"
         chunks = retrieve_relevant_chunks(rag_query, client, top_k=2)
         rag_block = _build_rag_block(chunks)
         frameworks_used = [chunk["theme"] for chunk in chunks]

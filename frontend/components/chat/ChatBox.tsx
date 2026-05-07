@@ -11,6 +11,7 @@ import {
   getHint,
   CoachFeedback,
   ConversationTurn,
+  EscalationState,
 } from "@/lib/api";
 
 interface ChatBoxProps {
@@ -36,6 +37,7 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
   const [hintError, setHintError] = useState(false);
 
   const [adversaryError, setAdversaryError] = useState<string | null>(null);
+  const [escalationState, setEscalationState] = useState<EscalationState | null>(null);
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +66,7 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
       const sid = sessionId ?? (await createSession(scenarioId));
       if (!sessionId) setSessionId(sid);
 
-      const response = await sendToAdversary(sid, scenarioId, text, updatedHistory);
+      const response = await sendToAdversary(sid, scenarioId, text, updatedHistory, escalationState);
 
       const agentMsg: Message = {
         id: (Date.now() + 1).toString(),
@@ -74,6 +76,7 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
       };
       setMessages((prev) => [...prev, agentMsg]);
       setHistory([...updatedHistory, { role: "adversary", content: response.adversary_message }]);
+      setEscalationState(response.escalation_state);
     } catch (err) {
       console.error("Adversary API error:", err);
       setAdversaryError(text);

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models.message import MessageDB
 from app.models.scenario import ScenarioDB
-from app.schemas.adversary import AdversaryRequest, AdversaryResponse
+from app.schemas.adversary import AdversaryRequest, AdversaryResponse, EscalationState
 
 ADVERSARY_PROMPT_TEMPLATE = (
     "You are an institutional actor in a workplace leadership simulation designed to help "
@@ -18,11 +18,25 @@ ADVERSARY_PROMPT_TEMPLATE = (
     "criteria shifting, procedural delay, or credibility questioning. "
     "Keep your response to 2-3 sentences. Maintain a professional, plausible tone. "
     "Never be explicitly discriminatory. Never break character.\n\n"
+    "ESCALATION_BLOCK"
     "Conversation so far:\n"
     "HISTORY"
     "User just said: USER_MESSAGE\n\n"
     "Respond as the adversary:"
 )
+
+
+def _build_escalation_block(state: "EscalationState | None") -> str:
+    if state is None:
+        return ""
+    tactics_str = ", ".join(state.tactics_used) if state.tactics_used else "none yet"
+    return (
+        f"Escalation context:\n"
+        f"- Resistance level: {state.escalation_level}/3\n"
+        f"- Tactics already used this session: {tactics_str}\n"
+        f"- Do not repeat a tactic already used. Escalate your resistance appropriately for level {state.escalation_level}.\n"
+        f"- At level 1: deflect and reframe. At level 2: question credibility or introduce procedural delay. At level 3: become dismissive or invoke authority.\n\n"
+    )
 
 
 def _build_prompt(
@@ -31,12 +45,14 @@ def _build_prompt(
     barrier_theme: str,
     history: str,
     user_message: str,
+    escalation_block: str,
 ) -> str:
     return (
         ADVERSARY_PROMPT_TEMPLATE
         .replace("ADVERSARY_ROLE", adversary_role)
         .replace("CONTEXT_DESCRIPTION", context_description)
         .replace("BARRIER_THEME", barrier_theme)
+        .replace("ESCALATION_BLOCK", escalation_block)
         .replace("HISTORY", history)
         .replace("USER_MESSAGE", user_message)
     )
@@ -52,12 +68,15 @@ def generate_adversary_response(request: AdversaryRequest, db: Session) -> Adver
         label = "User" if turn.role == "user" else "Adversary"
         history += f"{label}: {turn.content}\n"
 
+    escalation_block = _build_escalation_block(request.escalation_state)
+
     prompt = _build_prompt(
         adversary_role=scenario.adversary_role,
         context_description=scenario.context_description,
         barrier_theme=scenario.barrier_theme,
         history=history,
         user_message=request.user_message,
+        escalation_block=escalation_block,
     )
 
     api_key = os.environ.get("GEMINI_API_KEY", "")
@@ -91,8 +110,18 @@ def generate_adversary_response(request: AdversaryRequest, db: Session) -> Adver
     db.commit()
     db.refresh(adversary_row)
 
+    prior = request.escalation_state
+    new_tactics_used = (list(prior.tactics_used) if prior else []) + [scenario.barrier_theme]
+    new_level = min(3, len(new_tactics_used) // 2 + 1)
+    updated_state = EscalationState(
+        tactic=scenario.barrier_theme,
+        escalation_level=new_level,
+        tactics_used=new_tactics_used,
+    )
+
     return AdversaryResponse(
         adversary_message=adversary_text,
         session_id=request.session_id,
         message_id=adversary_row.message_id,
+        escalation_state=updated_state,
     )
