@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 from app.schemas.message import ConversationTurn
 
@@ -11,6 +11,8 @@ class CoachRequest(BaseModel):
     adversary_message: str
     conversation_history: List[ConversationTurn] = []
     use_rag: bool = True
+    previously_retrieved_themes: List[str] = []
+    previous_improved_response: Optional[str] = None
 
 
 class CoachResponse(BaseModel):

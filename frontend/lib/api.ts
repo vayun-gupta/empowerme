@@ -197,7 +197,9 @@ export async function getCoachFeedback(
   scenarioId: number,
   userMessage: string,
   adversaryMessage: string,
-  conversationHistory: ConversationTurn[]
+  conversationHistory: ConversationTurn[],
+  previouslyRetrievedThemes?: string[],
+  previousImprovedResponse?: string | null
 ): Promise<CoachFeedback> {
   const res = await fetch(`${API_BASE}/api/coach/`, {
     method: "POST",
@@ -208,6 +210,8 @@ export async function getCoachFeedback(
       user_message: userMessage,
       adversary_message: adversaryMessage,
       conversation_history: conversationHistory,
+      previously_retrieved_themes: previouslyRetrievedThemes ?? [],
+      previous_improved_response: previousImprovedResponse ?? null,
     }),
   });
   if (!res.ok) {

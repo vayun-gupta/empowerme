@@ -32,6 +32,7 @@ COACH_PROMPT_TEMPLATE = (
     "for example: 'Using the DESC Script framework (Bower & Bower, 1976)...' or "
     "'Applying the collaborative negotiation approach outlined by Tyler-Wood...'. "
     "The citation must appear in the feedback text itself, not only in theory_applied.\n\n"
+    "PREVIOUS_SUGGESTION_BLOCK"
     "Return ONLY a JSON object. No markdown, no code fences, no extra text:\n"
     '{\n'
     '  "score": <integer 0-100>,\n'
@@ -57,6 +58,16 @@ def _build_rag_block(chunks: list[dict]) -> str:
     return "Relevant frameworks for this scenario:\n\n" + "\n\n".join(parts) + "\n\n"
 
 
+def _build_previous_suggestion_block(previous_improved_response: "str | None") -> str:
+    if not previous_improved_response:
+        return ""
+    return (
+        f"A previous coaching suggestion in this session was: '{previous_improved_response}'. "
+        "Do not repeat this strategy. Suggest a meaningfully different approach that addresses "
+        "a different dimension of the user's response.\n\n"
+    )
+
+
 def _build_prompt(
     scenario_title: str,
     context_description: str,
@@ -65,6 +76,7 @@ def _build_prompt(
     adversary_message: str,
     user_message: str,
     rag_block: str,
+    previous_suggestion_block: str,
 ) -> str:
     return (
         COACH_PROMPT_TEMPLATE
@@ -75,6 +87,7 @@ def _build_prompt(
         .replace("ADVERSARY_MESSAGE", adversary_message)
         .replace("USER_MESSAGE", user_message)
         .replace("RELEVANT_FRAMEWORKS", rag_block)
+        .replace("PREVIOUS_SUGGESTION_BLOCK", previous_suggestion_block)
     )
 
 
@@ -102,13 +115,22 @@ def generate_coach_feedback(request: CoachRequest, db: Session) -> CoachResponse
 
     if request.use_rag:
         rag_query = f"{scenario.barrier_theme}: {scenario.title}. {request.adversary_message[:150]}"
-        chunks = retrieve_relevant_chunks(rag_query, client, top_k=2)
+        if request.previously_retrieved_themes:
+            all_chunks = retrieve_relevant_chunks(rag_query, client, top_k=8)
+            excluded = set(request.previously_retrieved_themes)
+            fresh = [c for c in all_chunks if c["theme"] not in excluded]
+            fallback = [c for c in all_chunks if c["theme"] in excluded]
+            chunks = (fresh + fallback)[:2]
+        else:
+            chunks = retrieve_relevant_chunks(rag_query, client, top_k=2)
         rag_block = _build_rag_block(chunks)
         frameworks_used = [chunk["theme"] for chunk in chunks]
     else:
         chunks = []
         rag_block = ""
         frameworks_used = []
+
+    previous_suggestion_block = _build_previous_suggestion_block(request.previous_improved_response)
 
     prompt = _build_prompt(
         scenario_title=scenario.title,
@@ -118,6 +140,7 @@ def generate_coach_feedback(request: CoachRequest, db: Session) -> CoachResponse
         adversary_message=request.adversary_message,
         user_message=request.user_message,
         rag_block=rag_block,
+        previous_suggestion_block=previous_suggestion_block,
     )
 
     result = client.models.generate_content(

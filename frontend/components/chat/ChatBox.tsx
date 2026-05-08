@@ -47,6 +47,8 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
   const [adversaryError, setAdversaryError] = useState<string | null>(null);
   const [escalationState, setEscalationState] = useState<EscalationState | null>(null);
   const [lastCoachScore, setLastCoachScore] = useState<number | null>(null);
+  const [retrievedThemes, setRetrievedThemes] = useState<string[]>([]);
+  const [lastImprovedResponse, setLastImprovedResponse] = useState<string | null>(null);
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -119,10 +121,14 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
         scenarioId,
         lastUserMsg,
         lastAdversaryMsg,
-        history
+        history,
+        retrievedThemes,
+        lastImprovedResponse
       );
       setCoachData(feedback);
       setLastCoachScore(feedback.score);
+      setRetrievedThemes((prev) => [...prev, ...feedback.frameworks_used]);
+      setLastImprovedResponse(feedback.improved_response);
     } catch (err) {
       console.error("Coach API error:", err);
       setCoachError(true);
