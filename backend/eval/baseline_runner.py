@@ -170,7 +170,7 @@ def run_baseline() -> list[dict]:
 # ── Summary and output ─────────────────────────────────────────────────────────
 
 def _collect_averages(all_results: list[dict]) -> dict[str, dict[str, float]]:
-    dims = ["accuracy", "actionability", "quality", "grounding", "overall"]
+    dims = ["accuracy", "actionability", "quality", "overall"]
     buckets: dict[str, dict[str, list]] = {
         v: {d: [] for d in dims} for v in ["a", "b", "c"]
     }
@@ -195,7 +195,7 @@ def print_summary_table(all_results: list[dict]) -> None:
     print("  BASELINE COMPARISON SUMMARY")
     print("  " + "═" * 58)
     print(f"  {'Dimension':<16}  {'Single LLM':>12}  {'Agentic (no RAG)':>18}  {'Full system':>12}")
-    for dim in ["accuracy", "actionability", "quality", "grounding"]:
+    for dim in ["accuracy", "actionability", "quality"]:
         a_val = f"{avgs['a'][dim]:.1f}" if avgs['a'][dim] else "N/A"
         b_val = f"{avgs['b'][dim]:.1f}" if avgs['b'][dim] else "N/A"
         c_val = f"{avgs['c'][dim]:.1f}" if avgs['c'][dim] else "N/A"
@@ -215,7 +215,6 @@ def interpret_results(all_results: list[dict]) -> str:
     best_accuracy = max(["a", "b", "c"], key=lambda v: mean[v]["accuracy"])
     best_actionability = max(["a", "b", "c"], key=lambda v: mean[v]["actionability"])
     best_quality = max(["a", "b", "c"], key=lambda v: mean[v]["quality"])
-    best_grounding = max(["a", "b", "c"], key=lambda v: mean[v]["grounding"])
 
     para = (
         f"The {names[best_overall]} variant (Variant {best_overall.upper()}) achieved the highest "
@@ -285,33 +284,6 @@ def interpret_results(all_results: list[dict]) -> str:
             "constrains the model too narrowly when generating alternative responses. "
         )
 
-    para += (
-        f"Grounding -- which measures whether feedback cites named authors and frameworks "
-        f"(9-10), framework names only (5-7), or generic advice (1-4) -- "
-        f"scored {mean['a']['grounding']:.1f}/10 for Single LLM, "
-        f"{mean['b']['grounding']:.1f}/10 for Agentic (no RAG), "
-        f"and {mean['c']['grounding']:.1f}/10 for Full System. "
-    )
-    if best_grounding == "c":
-        para += (
-            "The Full System's lead on grounding directly reflects RAG retrieval: injecting "
-            "named frameworks and authors into the coach prompt reliably causes the model to "
-            "cite them in its feedback, a causal link that no other architectural change produces."
-        )
-    elif best_grounding == "b":
-        para += (
-            "The Agentic (no RAG) variant led on grounding, suggesting scenario context alone "
-            "is sufficient to prompt some theory citations; grounding is nonetheless the dimension "
-            "most directly enabled by RAG retrieval, since injecting named frameworks and authors "
-            "into the prompt is the primary mechanism for producing cited, research-grounded feedback."
-        )
-    else:
-        para += (
-            "Grounding is the dimension most directly enabled by RAG retrieval: injecting named "
-            "frameworks and authors into the coach prompt is the primary mechanism for producing "
-            "cited, research-grounded feedback."
-        )
-
     return para
 
 
@@ -334,7 +306,7 @@ def generate_markdown(all_results: list[dict], today: str) -> str:
         "grounding. Variant C (Full System) is the production configuration: scenario context plus "
         "RAG-retrieved communication framework chunks injected into the prompt. "
         "Each variant's output is scored by the same LLM-as-Judge evaluator on accuracy, "
-        "actionability, quality, and grounding, enabling direct attribution of score gains to each "
+        "actionability, and quality, enabling direct attribution of score gains to each "
         "layer of the pipeline.\n\n"
     )
 
@@ -366,7 +338,6 @@ def generate_markdown(all_results: list[dict], today: str) -> str:
                 lines.append(f"- **Judge -- Accuracy:** {v.get('accuracy', 'N/A')}/10 -- {v.get('accuracy_rationale', '')}\n")
                 lines.append(f"- **Judge -- Actionability:** {v.get('actionability', 'N/A')}/10 -- {v.get('actionability_rationale', '')}\n")
                 lines.append(f"- **Judge -- Quality:** {v.get('quality', 'N/A')}/10 -- {v.get('quality_rationale', '')}\n")
-                lines.append(f"- **Judge -- Grounding:** {v.get('grounding', 'N/A')}/10 -- {v.get('grounding_rationale', '')}\n")
                 lines.append(f"- **Judge -- Overall:** {v.get('overall', 'N/A')}/10\n")
             lines.append("\n")
 
@@ -376,7 +347,7 @@ def generate_markdown(all_results: list[dict], today: str) -> str:
     lines.append("|---|---|---|---|\n")
 
     avgs = _collect_averages(all_results)
-    for dim in ["accuracy", "actionability", "quality", "grounding"]:
+    for dim in ["accuracy", "actionability", "quality"]:
         a_val = f"{avgs['a'][dim]:.1f}/10" if avgs['a'][dim] else "N/A"
         b_val = f"{avgs['b'][dim]:.1f}/10" if avgs['b'][dim] else "N/A"
         c_val = f"{avgs['c'][dim]:.1f}/10" if avgs['c'][dim] else "N/A"

@@ -59,24 +59,21 @@ Coach feedback: COACH_FEEDBACK
 Suggested improved response: IMPROVED_RESPONSE
 Score given by coach: SCORE/100
 
-Rate this coaching feedback on four dimensions from 1 to 10:
+Rate this coaching feedback on three dimensions from 1 to 10:
 
 1. ACCURACY (1-10): Is the assessment accurate? Is the score fair given the quality of the user's response?
 2. ACTIONABILITY (1-10): Are the suggestions concrete and immediately applicable?
 3. QUALITY (1-10): Is the improved_response genuinely better? Does it teach a real communication strategy?
-4. GROUNDING (1-10): Does the feedback cite specific, named frameworks, authors, or research? A score of 9-10 requires a named author and theory (e.g. "Tyler-Wood collaborative negotiation framework" or "Bowles, Babcock & Lai social backlash research"). A score of 5-7 references a framework by name but no author. A score of 1-4 gives generic advice with no named framework or research cited.
 
 Return ONLY a JSON object with no extra text:
 {
   "accuracy": <1-10>,
   "actionability": <1-10>,
   "quality": <1-10>,
-  "grounding": <1-10>,
   "accuracy_rationale": "<one sentence>",
   "actionability_rationale": "<one sentence>",
   "quality_rationale": "<one sentence>",
-  "grounding_rationale": "<one sentence>",
-  "overall": <average of all four dimensions, rounded to one decimal>
+  "overall": <average of the three dimensions, rounded to one decimal>
 }"""
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -183,7 +180,6 @@ def run_coach_eval() -> list[dict]:
             print(f"  Accuracy:      {scores['accuracy']}/10 — {scores['accuracy_rationale']}")
             print(f"  Actionability: {scores['actionability']}/10 — {scores['actionability_rationale']}")
             print(f"  Quality:       {scores['quality']}/10 — {scores['quality_rationale']}")
-            print(f"  Grounding:     {scores['grounding']}/10 — {scores['grounding_rationale']}")
             print(f"  OVERALL:       {scores['overall']}/10")
             results.append({
                 "id": tc["id"],
