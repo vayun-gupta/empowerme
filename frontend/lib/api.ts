@@ -57,7 +57,8 @@ export async function sendToAdversary(
   scenarioId: number,
   userMessage: string,
   history: ConversationTurn[],
-  escalationState?: EscalationState | null
+  escalationState?: EscalationState | null,
+  lastCoachScore?: number | null
 ): Promise<AdversaryResponse> {
   const res = await fetch(`${API_BASE}/api/adversary/`, {
     method: "POST",
@@ -68,6 +69,7 @@ export async function sendToAdversary(
       user_message: userMessage,
       conversation_history: history,
       escalation_state: escalationState ?? null,
+      last_coach_score: lastCoachScore ?? null,
     }),
   });
   if (!res.ok) {

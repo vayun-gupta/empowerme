@@ -16,6 +16,7 @@ class AdversaryRequest(BaseModel):
     user_message: str
     conversation_history: List[ConversationTurn] = []
     escalation_state: Optional[EscalationState] = None
+    last_coach_score: Optional[float] = None
 
 
 class AdversaryResponse(BaseModel):

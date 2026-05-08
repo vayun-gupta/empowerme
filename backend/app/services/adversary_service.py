@@ -22,6 +22,7 @@ ADVERSARY_PROMPT_TEMPLATE = (
     "Conversation so far:\n"
     "HISTORY"
     "User just said: USER_MESSAGE\n\n"
+    "ACKNOWLEDGEMENT_BLOCK"
     "Respond as the adversary:"
 )
 
@@ -39,6 +40,20 @@ def _build_escalation_block(state: "EscalationState | None") -> str:
     )
 
 
+def _build_acknowledgement_instruction(score: "float | None") -> str:
+    if score is None or score < 70:
+        return ""
+    if score <= 85:
+        return (
+            "The user has made a reasonable point. Acknowledge their perspective briefly but maintain your overall position. "
+            "Use softening language like 'I understand your perspective, however...' or 'That is noted, though the broader concern remains...'\n\n"
+        )
+    return (
+        "The user has made a strong, well-evidenced point. Concede one specific minor point while holding your larger position. "
+        "For example: 'That is a fair point regarding [specific thing they said]. The broader question of [main resistance theme] remains something the committee will need to assess.'\n\n"
+    )
+
+
 def _build_prompt(
     adversary_role: str,
     context_description: str,
@@ -46,6 +61,7 @@ def _build_prompt(
     history: str,
     user_message: str,
     escalation_block: str,
+    acknowledgement_instruction: str,
 ) -> str:
     return (
         ADVERSARY_PROMPT_TEMPLATE
@@ -55,6 +71,7 @@ def _build_prompt(
         .replace("ESCALATION_BLOCK", escalation_block)
         .replace("HISTORY", history)
         .replace("USER_MESSAGE", user_message)
+        .replace("ACKNOWLEDGEMENT_BLOCK", acknowledgement_instruction)
     )
 
 
@@ -69,6 +86,7 @@ def generate_adversary_response(request: AdversaryRequest, db: Session) -> Adver
         history += f"{label}: {turn.content}\n"
 
     escalation_block = _build_escalation_block(request.escalation_state)
+    acknowledgement_instruction = _build_acknowledgement_instruction(request.last_coach_score)
 
     prompt = _build_prompt(
         adversary_role=scenario.adversary_role,
@@ -77,6 +95,7 @@ def generate_adversary_response(request: AdversaryRequest, db: Session) -> Adver
         history=history,
         user_message=request.user_message,
         escalation_block=escalation_block,
+        acknowledgement_instruction=acknowledgement_instruction,
     )
 
     api_key = os.environ.get("GEMINI_API_KEY", "")

@@ -46,6 +46,7 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
 
   const [adversaryError, setAdversaryError] = useState<string | null>(null);
   const [escalationState, setEscalationState] = useState<EscalationState | null>(null);
+  const [lastCoachScore, setLastCoachScore] = useState<number | null>(null);
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -74,7 +75,7 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
       const sid = sessionId ?? (await createSession(scenarioId));
       if (!sessionId) setSessionId(sid);
 
-      const response = await sendToAdversary(sid, scenarioId, text, updatedHistory, escalationState);
+      const response = await sendToAdversary(sid, scenarioId, text, updatedHistory, escalationState, lastCoachScore);
 
       const agentMsg: Message = {
         id: (Date.now() + 1).toString(),
@@ -121,6 +122,7 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
         history
       );
       setCoachData(feedback);
+      setLastCoachScore(feedback.score);
     } catch (err) {
       console.error("Coach API error:", err);
       setCoachError(true);
