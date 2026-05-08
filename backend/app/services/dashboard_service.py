@@ -50,6 +50,7 @@ def get_dashboard(db: Session, user_id: int = 1) -> DashboardResponse:
         total_sessions=total,
         completed_sessions=completed,
         average_score=avg_score,
+        # Streak calculation not implemented — card removed from UI pending session date logic
         streak_days=0,
         recent_sessions=recent_sessions,
     )

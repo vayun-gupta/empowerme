@@ -82,7 +82,7 @@ After any full exchange, users can request structured coaching feedback scored 0
 
 ## 7. LLM-as-Judge Evaluation
 
-Each coach response is independently evaluated by a second Gemini 2.5 Flash call that scores the coaching output itself on three dimensions: Accuracy (is the score fair?), Actionability (are the suggestions concrete?), and Quality (is the improved response genuinely better?).
+Each coach response is independently evaluated by a second Gemini 2.5 Flash call. The in-app judge evaluates three dimensions: Accuracy (is the score fair?), Actionability (are the suggestions concrete?), and Quality (is the improved response genuinely better?). The evaluation benchmark additionally measures a fourth dimension — Grounding — which scores whether the coach cites named frameworks and authors in the feedback prose. This dimension is surfaced in baseline_results.md.
 
 ![LLM-as-Judge](screenshots/judge-scores.gif)
 
