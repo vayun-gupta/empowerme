@@ -8,6 +8,7 @@ interface ChatInputProps {
   onHint: (draft: string) => void;
   canHint: boolean;
   hintLoading: boolean;
+  initialValue?: string;
 }
 
 export default function ChatInput({
@@ -16,8 +17,9 @@ export default function ChatInput({
   onHint,
   canHint,
   hintLoading,
+  initialValue = "",
 }: ChatInputProps) {
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState(initialValue);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -14,6 +14,14 @@ import {
   EscalationState,
 } from "@/lib/api";
 
+const OPENING_LINES: Record<number, string> = {
+  1: "I wanted to discuss my proposal from last week's meeting — I noticed it was presented without my involvement and I'd like to understand how decisions like that are made.",
+  2: "I've exceeded every target this quarter and led the only project that shipped on time. I'd like to understand what criteria are being used for the promotion decision.",
+  3: "The budget proposal was submitted three weeks ago and I haven't received a response. I need clarity on the timeline.",
+  4: "I'm back and fully committed. I'd like to discuss how my responsibilities and projects will be reinstated.",
+  5: "I'd like to formally raise a concern about the way feedback has been communicated to me and understand the process for doing so.",
+};
+
 interface ChatBoxProps {
   scenarioId: number;
   onTurnChange?: (adversaryTurns: number) => void;
@@ -353,6 +361,7 @@ export default function ChatBox({ scenarioId, onTurnChange, barrierTheme, onSess
           onHint={fetchHint}
           canHint={history.some((h) => h.role === "adversary")}
           hintLoading={hintLoading}
+          initialValue={OPENING_LINES[scenarioId] ?? ""}
         />
       </div>
     </div>
