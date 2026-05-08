@@ -18,6 +18,8 @@ The featured scenario card and "More Practice Modules" grid are both driven by t
 
 The five scenarios are authored for a specific institutional context: women in Indian higher education navigating documented patterns of systemic bias. Each scenario names a precise resistance tactic and pairs it with an adversary drawn from the same institutional world.
 
+**Live API:** [https://empowerme-production.up.railway.app/docs](https://empowerme-production.up.railway.app/docs) — every endpoint is listed, documented with request/response schemas, and callable live.
+
 ![Scenario Corpus](screenshots/scenario-corpus.gif)
 
 | Scenario | Barrier theme | Adversary role |
