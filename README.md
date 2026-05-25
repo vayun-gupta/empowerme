@@ -8,7 +8,7 @@ Instead of focusing on confidence or motivation, the product provides structured
 Many capable users experience uncertainty and hesitation in leadership settings due to unpredictable responses, hidden rules, and institutional resistance. Existing tools focus on personal confidence rather than situational skill building.
 
 ## Approach
-The prototype uses a dual-agent interaction model:
+The prototype uses a dual-agent interaction model :
 - An adversary role that simulates realistic resistance patterns
 - A coach role that provides structured feedback and reflection
 
