@@ -4,43 +4,48 @@
 
 @layer utilities {
     .glass-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(142, 125, 190, 0.12);
+        box-shadow: 0 4px 20px -2px rgba(142, 125, 190, 0.1);
     }
-    .glass {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
+    /* CSS-generated plaid texture — mockups hotlink an image for this */
+    .plaid-accent {
+        background-image:
+            repeating-linear-gradient(0deg, rgba(142, 125, 190, 0.35) 0 2px, transparent 2px 24px),
+            repeating-linear-gradient(90deg, rgba(142, 125, 190, 0.35) 0 2px, transparent 2px 24px),
+            repeating-linear-gradient(0deg, rgba(123, 84, 85, 0.18) 0 6px, transparent 6px 48px),
+            repeating-linear-gradient(90deg, rgba(123, 84, 85, 0.18) 0 6px, transparent 6px 48px);
+        opacity: 0.06;
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
     }
-    .glass-user {
-        background: #eff6ff;
-        border: 1px solid #bfdbfe;
-    }
-    .glow-purple {
-        /* Removed glow */
-    }
-    .glow-cyan {
-        /* Removed glow */
+    .user-bubble {
+        background: #8e7dbe;
+        border-bottom-right-radius: 4px;
     }
     .adversary-bubble {
         background: #ffffff;
-        color: #0f172a;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        border: 1px solid #e4e2e1;
+        border-bottom-left-radius: 4px;
     }
-    .neon-border {
-        border-color: #cbd5e1;
+    .coach-insight-pill {
+        background: rgba(142, 125, 190, 0.05);
+        border: 1px solid rgba(142, 125, 190, 0.1);
+        border-left: 4px solid #8e7dbe;
     }
-    .progress-shimmer {
-        background: linear-gradient(90deg, #2563EB 0%, #60A5FA 50%, #2563EB 100%);
-        background-size: 200% 100%;
-        animation: shimmer 3s infinite linear;
+    .chat-scroll::-webkit-scrollbar {
+        width: 6px;
     }
-}
-
-@keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    .chat-scroll::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .chat-scroll::-webkit-scrollbar-thumb {
+        background: #d1cbd8;
+        border-radius: 10px;
+    }
 }
 
 .material-symbols-outlined {

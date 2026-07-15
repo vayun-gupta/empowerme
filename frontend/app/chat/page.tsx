@@ -1,9 +1,14 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import TopNav from "@/components/layout/TopNav";
 import ChatBox from "@/components/chat/ChatBox";
-import { getScenario, ScenarioData, completeSession } from "@/lib/api";
+import CoachPanel, { CoachState } from "@/components/chat/CoachPanel";
+import ScenarioBriefPanel from "@/components/chat/ScenarioBriefPanel";
+import { getScenario, ScenarioData, completeSession, EscalationState } from "@/lib/api";
+
+const MAX_ESCALATION_DOTS = 5;
 
 function ChatContent() {
   const params = useSearchParams();
@@ -12,114 +17,178 @@ function ChatContent() {
   const router = useRouter();
   const [scenario, setScenario] = useState<ScenarioData | null>(null);
   const [turn, setTurn] = useState(0);
-  const [briefOpen, setBriefOpen] = useState(false);
   const [sessionId, setSessionId] = useState<number | null>(null);
+  const [escalation, setEscalation] = useState<EscalationState | null>(null);
+  const [coachState, setCoachState] = useState<CoachState>({
+    data: null,
+    loading: false,
+    error: false,
+  });
+  const [mobilePanel, setMobilePanel] = useState<"brief" | "coach" | null>(null);
+  const [exiting, setExiting] = useState(false);
 
-  const handleExit = (destination: string) => {
-    if (sessionId) completeSession(sessionId).catch(() => {});
-    router.push(destination);
-  };
+  const feedbackTriggerRef = useRef<() => void>(() => {});
+  const registerFeedbackTrigger = useCallback((fn: () => void) => {
+    feedbackTriggerRef.current = fn;
+  }, []);
+  const requestFeedback = useCallback(() => {
+    feedbackTriggerRef.current();
+  }, []);
 
   useEffect(() => {
     getScenario(scenarioId).then(setScenario).catch(console.error);
   }, [scenarioId]);
 
-  return (
-    <div className="h-screen bg-slate-50 flex justify-center w-full overflow-hidden">
-      <div className="relative flex h-full flex-col w-full max-w-5xl mx-auto px-6 py-8 bg-slate-50 shadow-sm border-x border-slate-200 overflow-hidden">
-        <header className="flex items-center bg-slate-50/90 backdrop-blur-md p-4 pt-6 justify-between shrink-0 border-b border-slate-200 relative z-40">
-          <div className="flex items-center gap-3">
-            <div className="text-slate-700 flex size-9 items-center justify-center rounded-xl bg-slate-100 border border-slate-200">
-              <span className="material-symbols-outlined">shield_person</span>
-            </div>
-            <div>
-              <h2 className="text-slate-900 text-sm font-bold leading-tight tracking-tight uppercase">
-                EmpowerMe Simulation
-              </h2>
-              <p className="text-[10px] text-slate-500 font-medium">
-                {scenario?.title ?? "Loading scenario…"}
-              </p>
-            </div>
+  const handleSaveExit = async () => {
+    if (exiting) return;
+    setExiting(true);
+    try {
+      if (sessionId) await completeSession(sessionId);
+    } catch {
+      // completion failure should never trap the user in the session
+    }
+    router.push(sessionId ? `/sessions/${sessionId}` : "/scenarios");
+  };
+
+  const escalationLevel = escalation?.escalation_level ?? null;
+
+  const progressSlot = (
+    <div className="flex flex-col min-w-0">
+      <span className="text-on-surface-variant/80 uppercase tracking-widest text-[10px] font-bold">
+        Session Progress
+      </span>
+      <div className="flex items-center gap-2">
+        <span className="text-primary font-bold text-sm truncate">
+          {escalationLevel !== null ? `Escalation Level ${escalationLevel}` : `Turn ${turn}`}
+        </span>
+        {escalationLevel !== null && (
+          <div className="flex gap-1">
+            {Array.from({ length: MAX_ESCALATION_DOTS }).map((_, i) => (
+              <div
+                key={i}
+                className={`w-1.5 h-1.5 rounded-full ${
+                  i < Math.min(escalationLevel, MAX_ESCALATION_DOTS)
+                    ? "bg-primary"
+                    : "bg-outline-variant"
+                }`}
+              />
+            ))}
           </div>
-          <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">
-            Turn {turn} of 8
-          </p>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => handleExit("/dashboard")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-500 hover:text-slate-800 border border-slate-200 hover:border-slate-300 hover:bg-white text-sm font-medium transition-all"
-            >
-              <span className="material-symbols-outlined text-[16px]">pause</span>
-              Pause
-            </button>
-            <button
-              onClick={() => handleExit("/scenarios")}
-              className="p-2 rounded-full text-slate-500 hover:text-slate-900 transition-all border border-transparent hover:border-slate-200 hover:bg-white"
-            >
-              <span className="material-symbols-outlined text-[20px]">close</span>
-            </button>
-          </div>
-        </header>
-
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 bg-slate-50 w-full relative z-30 min-h-0 pt-4">
-          <aside className="hidden lg:block border-r border-slate-200 pr-4 overflow-y-auto">
-            <div className="space-y-3 sticky top-8">
-              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 space-y-3">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Scenario</p>
-                <h3 className="text-base font-bold text-slate-900">
-                  {scenario?.title ?? "Loading..."}
-                </h3>
-                {scenario && (
-                  <>
-                    <p className="text-xs text-slate-600 leading-relaxed">{scenario.barrier_theme}</p>
-                    <div className="pt-2 border-t border-slate-100 space-y-1">
-                      <p className="text-[10px] text-slate-400 uppercase tracking-widest">Speaking with</p>
-                      <p className="text-xs font-semibold text-slate-700">{scenario.adversary_role}</p>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {scenario && (
-                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden">
-                  <button
-                    onClick={() => setBriefOpen((v) => !v)}
-                    className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-50 transition-colors"
-                  >
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Scenario Brief</p>
-                    <span
-                      className="material-symbols-outlined text-[16px] text-slate-400 transition-transform duration-200"
-                      style={{ transform: briefOpen ? "rotate(180deg)" : "rotate(0deg)" }}
-                    >
-                      expand_more
-                    </span>
-                  </button>
-                  {briefOpen && (
-                    <div className="px-4 pb-4 border-t border-slate-100">
-                      <p className="text-xs text-slate-600 leading-relaxed pt-3">
-                        {scenario.context_description}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </aside>
-
-          <ChatBox scenarioId={scenarioId} onTurnChange={setTurn} barrierTheme={scenario?.barrier_theme} onSessionCreated={setSessionId} />
-        </div>
+        )}
       </div>
+    </div>
+  );
+
+  const actionsSlot = (
+    <button
+      onClick={handleSaveExit}
+      disabled={exiting}
+      className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container-low text-secondary border border-outline-variant font-bold hover:bg-surface-container transition-all active:scale-95 shadow-sm disabled:opacity-60"
+    >
+      <span className="material-symbols-outlined text-[18px]">
+        {exiting ? "progress_activity" : "pause_circle"}
+      </span>
+      <span className="text-sm hidden sm:inline">{exiting ? "Saving…" : "Save & Exit"}</span>
+    </button>
+  );
+
+  return (
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
+      <TopNav variant="chat" progressSlot={progressSlot} actionsSlot={actionsSlot} />
+
+      {/* Mobile panel toggles */}
+      <div className="lg:hidden pt-20 shrink-0 flex gap-2 px-4 py-2 border-b border-outline-variant/30 bg-surface/90">
+        <button
+          onClick={() => setMobilePanel("brief")}
+          className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-surface-container-low border border-outline-variant text-sm font-semibold text-on-surface-variant"
+        >
+          <span className="material-symbols-outlined text-[16px]">auto_stories</span>
+          Brief
+        </button>
+        <button
+          onClick={() => setMobilePanel("coach")}
+          className="relative flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-surface-container-low border border-outline-variant text-sm font-semibold text-on-surface-variant"
+        >
+          <span className="material-symbols-outlined text-[16px]">auto_awesome</span>
+          Coach
+          {coachState.data && (
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-surface" />
+          )}
+        </button>
+      </div>
+
+      <main className="flex-1 lg:pt-20 flex overflow-hidden min-h-0">
+        {/* Left: scenario brief */}
+        <aside className="hidden lg:block w-80 shrink-0 border-r border-outline-variant/30">
+          <ScenarioBriefPanel scenario={scenario} />
+        </aside>
+
+        {/* Center: chat */}
+        <section className="flex-1 min-w-0 flex flex-col border-r border-outline-variant/10">
+          <ChatBox
+            scenarioId={scenarioId}
+            adversaryLabel={scenario?.adversary_role}
+            onTurnChange={setTurn}
+            onSessionCreated={setSessionId}
+            onCoachUpdate={setCoachState}
+            onEscalationChange={setEscalation}
+            registerFeedbackTrigger={registerFeedbackTrigger}
+          />
+        </section>
+
+        {/* Right: coach feedback */}
+        <aside className="hidden lg:block w-[340px] xl:w-96 shrink-0">
+          <CoachPanel
+            coach={coachState}
+            onRequestFeedback={requestFeedback}
+            canRequest={turn > 0}
+            barrierTheme={scenario?.barrier_theme}
+          />
+        </aside>
+      </main>
+
+      {/* Mobile drawers */}
+      {mobilePanel && (
+        <div className="lg:hidden fixed inset-0 top-20 z-40 bg-surface flex flex-col">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-outline-variant/30 shrink-0">
+            <span className="font-bold text-primary text-sm uppercase tracking-widest">
+              {mobilePanel === "brief" ? "Scenario Brief" : "Coach Feedback"}
+            </span>
+            <button
+              onClick={() => setMobilePanel(null)}
+              aria-label="Close panel"
+              className="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto min-h-0">
+            {mobilePanel === "brief" ? (
+              <ScenarioBriefPanel scenario={scenario} />
+            ) : (
+              <CoachPanel
+                coach={coachState}
+                onRequestFeedback={requestFeedback}
+                canRequest={turn > 0}
+                barrierTheme={scenario?.barrier_theme}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={
-      <div className="h-screen flex items-center justify-center bg-slate-50">
-        <p className="text-slate-400 text-sm">Loading…</p>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center bg-background">
+          <p className="text-on-surface-variant text-sm">Loading…</p>
+        </div>
+      }
+    >
       <ChatContent />
     </Suspense>
   );

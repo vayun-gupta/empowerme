@@ -1,140 +1,227 @@
 import Link from "next/link";
 import React from "react";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
+
+const GROWTH_CARDS = [
+  {
+    icon: "science",
+    tags: [
+      { label: "RESEARCH", cls: "bg-secondary-container text-on-secondary-container" },
+      { label: "RESOURCES", cls: "bg-primary-fixed text-on-primary-fixed-variant" },
+    ],
+    title: "Advocating for Lab Resources",
+    description:
+      "A strategic workshop on negotiating funding, space, and equipment while fostering departmental collaboration.",
+  },
+  {
+    icon: "podium",
+    tags: [{ label: "CORE MODULE", cls: "bg-primary-fixed text-on-primary-fixed-variant" }],
+    title: "Executive Presence",
+    description:
+      "Developing an authentic leadership style that commands respect in high-stakes boardrooms.",
+  },
+  {
+    icon: "diversity_3",
+    tags: [{ label: "COMMUNITY", cls: "bg-tertiary-container text-on-tertiary-container" }],
+    title: "Mentorship Networks",
+    description:
+      "Build and sustain a professional sponsorship circle that actively supports your career trajectory.",
+  },
+];
 
 export default function LandingPage() {
   return (
-    <>
-      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden p-6 pb-10 bg-slate-50">
-        <header className="flex flex-col items-center justify-center pt-10 pb-10">
-          <div className="mb-5 inline-flex items-center justify-center p-2.5 rounded-2xl bg-blue-50 border border-blue-100">
-            <span className="material-symbols-outlined text-blue-600 text-3xl">hub</span>
-          </div>
-          <h1 className="text-4xl font-bold tracking-tight text-center mb-3 text-slate-900">
-            EmpowerMe
-          </h1>
-          <p className="text-slate-600 text-center max-w-xs leading-relaxed text-sm">
-            Practice High-Stakes Leadership Conversations. Prepare for the conversations that define your leadership trajectory.
-            <br />
-            AI-powered simulation for real-world leadership interactions.
-          </p>
-          <p className="text-slate-500 text-center max-w-sm leading-relaxed text-[15px] mt-4">
-            Women in Indian academia face documented institutional bias. EmpowerMe gives you a safe space to practice navigating it before it happens in real life.
-          </p>
-        </header>
+    <div className="min-h-screen flex flex-col bg-background text-on-surface relative">
+      <div className="fixed inset-0 pointer-events-none plaid-accent z-0" />
+      <TopNav />
 
-        {/* Sample session preview */}
-        <div className="max-w-md mx-auto w-full mb-2">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.25em] text-center mb-4">What a session looks like</p>
-          <div className="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm flex flex-col gap-3">
-            {/* Adversary turn */}
-            <div className="flex items-start gap-3">
-              <div className="size-7 rounded-sm bg-slate-100 border border-slate-200 shrink-0 flex items-center justify-center">
-                <span className="material-symbols-outlined text-[14px] text-slate-500">smart_toy</span>
+      <main className="relative z-10 pt-20 flex-1">
+        {/* Hero */}
+        <section className="relative py-20 lg:py-28 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 lg:px-16 grid grid-cols-12 gap-6 items-center w-full">
+            <div className="col-span-12 lg:col-span-6 space-y-8">
+              <div className="inline-flex items-center gap-2 bg-primary-fixed text-on-primary-fixed-variant px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                For Women in Indian Academia &amp; STEM
               </div>
-              <div className="flex flex-col gap-1">
-                <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Adversary Agent</p>
-                <div className="bg-white border border-slate-100 border-l-[3px] border-l-red-500 rounded-2xl rounded-tl-none px-4 py-3 text-[13px] text-slate-800 leading-relaxed shadow-sm">
-                  "Dr. Sharma has outlined a similar framework in his earlier work. Perhaps we should build on that direction instead."
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.1] font-bold text-on-surface font-display">
+                Practice the Conversations That Define Your{" "}
+                <span className="text-primary">Leadership</span>
+              </h1>
+              <p className="text-lg lg:text-xl text-on-surface-variant leading-relaxed max-w-xl">
+                Women in Indian academia face documented institutional bias. EmpowerMe is a
+                safe, AI-powered space to rehearse high-stakes leadership conversations —
+                with a realistic adversary and a coach in your corner — before they happen
+                in real life.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link
+                  href="/scenarios"
+                  className="bg-primary text-white font-semibold px-8 py-4 rounded-2xl shadow-xl shadow-primary/20 hover:bg-primary/90 hover:shadow-2xl transition-all"
+                >
+                  Start Practicing
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="border-2 border-primary/20 text-primary font-semibold px-8 py-4 rounded-2xl hover:bg-primary/5 transition-all"
+                >
+                  View Your Progress
+                </Link>
+              </div>
+            </div>
+            <div className="col-span-12 lg:col-span-6 hidden lg:flex justify-end">
+              <div className="relative w-[440px] aspect-square rounded-[3rem] overflow-hidden shadow-2xl glass-card p-3">
+                <div className="w-full h-full rounded-[2.5rem] overflow-hidden relative bg-gradient-to-br from-primary-fixed via-surface to-secondary-container">
+                  <div className="plaid-accent" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-primary">
+                    <span
+                      className="material-symbols-outlined text-8xl"
+                      style={{ fontVariationSettings: "'FILL' 1" }}
+                    >
+                      forum
+                    </span>
+                    <p className="text-sm font-bold uppercase tracking-widest text-on-primary-fixed-variant">
+                      Simulate · Reflect · Lead
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-            {/* User turn */}
-            <div className="flex items-start gap-3 justify-end">
-              <div className="flex flex-col gap-1 items-end">
-                <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Leadership Response</p>
-                <div className="bg-[#f0f7ff] border border-blue-100/50 rounded-2xl rounded-tr-none px-4 py-3 text-[13px] text-slate-800 leading-relaxed shadow-sm max-w-[90%]">
-                  "I appreciate Dr. Sharma's work, but the framework I am proposing addresses a gap his model does not cover, specifically around student feedback loops. I would like to walk the committee through the distinction."
+          </div>
+        </section>
+
+        {/* Mentorship in Action — sample exchange */}
+        <section className="py-20 bg-surface-container-low relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 lg:px-16 relative z-10">
+            <div className="text-center mb-14">
+              <h2 className="text-3xl lg:text-4xl text-on-surface font-bold mb-3 font-display">
+                What a Session Looks Like
+              </h2>
+              <p className="text-lg text-on-surface-variant max-w-2xl mx-auto">
+                Face a realistic adversary, respond with composure, and get coached on every
+                exchange.
+              </p>
+            </div>
+            <div className="max-w-4xl mx-auto space-y-8">
+              <div className="flex justify-start gap-4 items-end">
+                <div className="w-12 h-12 rounded-2xl bg-secondary-container flex items-center justify-center shrink-0 shadow-sm">
+                  <span className="material-symbols-outlined text-secondary">person</span>
+                </div>
+                <div className="glass-card p-6 rounded-2xl rounded-bl-none max-w-md">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/70 mb-2">
+                    Adversary
+                  </p>
+                  <p className="text-on-surface-variant leading-relaxed">
+                    &ldquo;Dr. Sharma has outlined a similar framework in his earlier work.
+                    Perhaps we should build on that direction instead.&rdquo;
+                  </p>
                 </div>
               </div>
-              <div className="size-7 rounded-full bg-blue-100 border border-blue-200 shrink-0 flex items-center justify-center">
-                <span className="material-symbols-outlined text-[14px] text-blue-500">person</span>
+              <div className="flex justify-end gap-4 items-end">
+                <div className="glass-card p-6 rounded-2xl rounded-br-none max-w-md bg-primary-fixed/30 border-primary/10">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-primary mb-2">
+                    Your Response
+                  </p>
+                  <p className="text-on-surface font-medium leading-relaxed">
+                    &ldquo;I appreciate Dr. Sharma&apos;s work, but my framework addresses a
+                    gap his model does not cover — specifically student feedback loops. I&apos;d
+                    like to walk the committee through the distinction.&rdquo;
+                  </p>
+                </div>
+                <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
+                  <span className="material-symbols-outlined text-white">person</span>
+                </div>
               </div>
-            </div>
-            {/* Coach tip */}
-            <div className="flex items-start gap-3 mt-1">
-              <div className="flex-1 flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3">
-                <span className="material-symbols-outlined text-amber-500 text-[16px] shrink-0 mt-0.5">lightbulb</span>
-                <p className="text-[12px] text-amber-900 leading-relaxed">
-                  <span className="font-bold">Coach tip:</span> Strong move. You acknowledged the senior colleague without ceding ground and immediately redirected to your evidence.
+              <div className="coach-insight-pill p-5 rounded-2xl flex gap-4 items-start max-w-2xl mx-auto">
+                <span className="material-symbols-outlined text-primary">lightbulb</span>
+                <p className="text-sm text-on-surface leading-relaxed">
+                  <strong className="text-primary font-bold">Coach:</strong> Strong move. You
+                  acknowledged the senior colleague without ceding ground, then immediately
+                  redirected to your evidence.
                 </p>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="flex flex-col gap-8 max-w-md mx-auto w-full mt-6">
-          <div className="bg-white rounded-[2rem] p-8 flex flex-col relative overflow-hidden group border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-6">
-              <div className="p-3 bg-purple-50 rounded-xl border border-purple-100">
-                <span className="material-symbols-outlined text-purple-600">female</span>
-              </div>
-              <span className="text-[10px] uppercase tracking-widest text-purple-700 font-bold bg-purple-50 px-3 py-1.5 rounded-full border border-purple-200">
-                STEM Focused
-              </span>
-            </div>
-            <h2 className="text-2xl font-bold mb-2 text-slate-900">Women in STEM</h2>
-            <p className="text-slate-600 text-sm mb-6 leading-snug">
-              Navigate hierarchical academic environments and scientific leadership challenges.
-            </p>
-            <div className="space-y-4 mb-8">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Module Curriculum</p>
-              <div className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-purple-500 text-lg">shield_person</span>
-                <span className="text-sm text-slate-700">Overcoming institutional resistance</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-purple-500 text-lg">diversity_3</span>
-                <span className="text-sm text-slate-700">Countering systemic gender bias</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-purple-500 text-lg">account_tree</span>
-                <span className="text-sm text-slate-700">Navigating complex lab hierarchies</span>
+        {/* Growth & Networking (aspirational — Coming Soon) */}
+        <section className="py-20">
+          <div className="max-w-7xl mx-auto px-6 lg:px-16">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 gap-6">
+              <div className="max-w-xl">
+                <div className="flex items-center gap-3 flex-wrap mb-3">
+                  <h2 className="text-3xl lg:text-4xl text-on-surface font-bold font-display">
+                    Growth &amp; Networking
+                  </h2>
+                  <span className="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                    Coming Soon
+                  </span>
+                </div>
+                <p className="text-lg text-on-surface-variant">
+                  Programs designed for the specific career trajectories of women in academia
+                  and professional STEM fields.
+                </p>
               </div>
             </div>
-            <Link
-              href="/scenarios"
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all"
-            >
-              <span>Select Path</span>
-              <span className="material-symbols-outlined text-[16px]">arrow_forward_ios</span>
-            </Link>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {GROWTH_CARDS.map((card) => (
+                <div
+                  key={card.title}
+                  className="glass-card rounded-[2rem] p-8 flex flex-col opacity-80 select-none"
+                  aria-disabled="true"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary mb-6">
+                    <span className="material-symbols-outlined text-3xl">{card.icon}</span>
+                  </div>
+                  <div className="flex gap-2 mb-4 flex-wrap">
+                    {card.tags.map((tag) => (
+                      <span
+                        key={tag.label}
+                        className={`${tag.cls} px-3 py-1 rounded-full text-xs font-bold`}
+                      >
+                        {tag.label}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="text-xl text-on-surface font-bold mb-3">{card.title}</h3>
+                  <p className="text-sm text-on-surface-variant leading-relaxed">
+                    {card.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-          
-          <div className="bg-white rounded-[2rem] p-8 flex flex-col relative overflow-hidden group border border-slate-100 shadow-sm opacity-60 pointer-events-none">
-            <div className="flex items-center justify-between mb-6">
-              <div className="p-3 bg-blue-50 rounded-xl border border-blue-100">
-                <span className="material-symbols-outlined text-blue-600">forum</span>
-              </div>
-              <span className="text-[10px] uppercase tracking-widest text-blue-700 font-bold bg-blue-50 px-3 py-1.5 rounded-full border border-blue-200">
-                General
-              </span>
-            </div>
-            <h2 className="text-2xl font-bold mb-2 text-slate-900">Professional Growth</h2>
-            <p className="text-slate-600 text-sm mb-6 leading-snug">
-              General workplace communication and strategic negotiation for career advancement.
-            </p>
-            <div className="space-y-4 mb-8">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Module Curriculum</p>
-              <div className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-blue-500 text-lg">payments</span>
-                <span className="text-sm text-slate-700">Salary &amp; equity negotiation</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-blue-500 text-lg">trending_up</span>
-                <span className="text-sm text-slate-700">Performance review mastery</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-blue-500 text-lg">psychology</span>
-                <span className="text-sm text-slate-700">Strategic active listening</span>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-20 mb-8">
+          <div className="max-w-5xl mx-auto px-6 lg:px-16">
+            <div className="relative glass-card rounded-[2rem] p-12 lg:p-16 text-center overflow-hidden">
+              <div className="plaid-accent" />
+              <div className="relative z-10 space-y-6">
+                <h2 className="text-3xl lg:text-4xl text-on-surface font-bold font-display">
+                  Begin Your Leadership Journey
+                </h2>
+                <p className="text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                  Five research-grounded scenarios drawn from the lived experience of women in
+                  Indian academia. Pick one and start practicing today.
+                </p>
+                <div className="pt-2">
+                  <Link
+                    href="/scenarios"
+                    className="inline-block bg-primary text-white px-10 py-4 rounded-2xl font-bold shadow-lg shadow-primary/20 hover:shadow-2xl hover:bg-primary/90 transition-all"
+                  >
+                    Get Started
+                  </Link>
+                </div>
               </div>
             </div>
-            <button className="w-full bg-slate-50 text-slate-400 font-medium py-3.5 rounded-xl flex items-center justify-center gap-2 border border-slate-100">
-              <span>Coming Soon</span>
-              <span className="material-symbols-outlined text-[16px]">lock</span>
-            </button>
           </div>
-        </div>
-      </div>
-    </>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
   );
 }

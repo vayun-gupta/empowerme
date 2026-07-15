@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import MainLayout from "@/components/layout/MainLayout";
-import { getSessionDetail, SessionDetail, JudgeScores } from "@/lib/api";
+import PageShell from "@/components/layout/PageShell";
+import ScoreRing from "@/components/sessions/ScoreRing";
+import SkillBar from "@/components/sessions/SkillBar";
+import { getSessionDetail, SessionDetail } from "@/lib/api";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-IN", {
@@ -12,6 +14,14 @@ function formatDate(iso: string) {
     month: "short",
     year: "numeric",
   });
+}
+
+function scoreVerdict(score: number | null): string {
+  if (score == null) return "Not evaluated";
+  if (score >= 85) return "Exemplary Progress";
+  if (score >= 70) return "Strong Progress";
+  if (score >= 50) return "Growing Steadily";
+  return "Early Days";
 }
 
 export default function SessionDetailPage() {
@@ -29,251 +39,259 @@ export default function SessionDetailPage() {
       .finally(() => setLoading(false));
   }, [sessionId]);
 
+  const coach = data?.coach ?? null;
+  const judge = coach?.judge ?? null;
+
   return (
-    <MainLayout showHeader={false} showNav={true}>
-      <div className="relative flex h-full w-full flex-col overflow-x-hidden pb-12 bg-slate-50">
+    <PageShell>
+      <div className="relative">
+        <div className="fixed inset-0 pointer-events-none plaid-accent z-0" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-10">
+          {/* Breadcrumb */}
+          <nav className="mb-6 flex items-center gap-1 text-on-surface-variant text-sm font-medium">
+            <Link href="/dashboard" className="hover:text-primary transition-colors">
+              Dashboard
+            </Link>
+            <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+            <span className="text-primary">Session Review</span>
+          </nav>
 
-        {/* Top bar */}
-        <div className="flex items-center pt-4 pb-4 gap-3 sticky top-0 z-10 bg-slate-50/80 backdrop-blur-md">
-          <Link
-            href="/dashboard"
-            className="size-9 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300 transition-all shrink-0"
-          >
-            <span className="material-symbols-outlined text-[20px]">arrow_back</span>
-          </Link>
-          <h2 className="text-slate-900 text-xl font-bold leading-tight tracking-tight truncate">
-            Session Review
-          </h2>
-        </div>
-
-        {loading && (
-          <div className="py-16 text-center text-slate-400 text-sm">Loading session…</div>
-        )}
-        {error && (
-          <div className="bg-red-50 border border-red-100 rounded-2xl px-4 py-3 text-red-600 text-sm">
-            {error}
-          </div>
-        )}
-
-        {data && (
-          <>
-            {/* Header card */}
-            <div className="bg-white border border-slate-100 shadow-sm rounded-2xl p-6 space-y-3">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-1">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Scenario</p>
-                  <h3 className="text-slate-900 text-lg font-bold leading-snug">{data.scenario_title}</h3>
-                </div>
-                {data.coach && (
-                  <div className="shrink-0 flex flex-col items-center bg-blue-50 border border-blue-100 rounded-2xl px-4 py-3">
-                    <span className="text-2xl font-extrabold text-blue-700">{data.coach.score}</span>
-                    <span className="text-[10px] font-semibold text-blue-500 uppercase tracking-widest">/100</span>
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                <span className="text-xs px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 font-medium">
-                  {data.adversary_role}
-                </span>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 font-medium">
-                  {data.barrier_theme}
-                </span>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-500">
-                  {formatDate(data.started_at)}
-                </span>
-              </div>
+          {loading && (
+            <div className="py-16 text-center text-on-surface-variant text-sm">
+              Loading session… (analysis may take a moment)
             </div>
-
-            {/* Conversation */}
-            <h3 className="text-slate-900 text-lg font-bold px-1 pb-3 pt-8">Conversation</h3>
-            <div className="space-y-4">
-              {data.messages.length === 0 && (
-                <div className="bg-white border border-slate-100 rounded-2xl p-6 text-center text-slate-400 text-sm">
-                  No messages recorded for this session.
-                </div>
-              )}
-              {data.messages.map((msg, i) => {
-                const isUser = msg.sender === "user";
-                return (
-                  <div
-                    key={i}
-                    className={`flex flex-col gap-1.5 ${isUser ? "items-end" : "items-start"}`}
-                  >
-                    <p className={`text-[10px] font-bold uppercase tracking-wider ${isUser ? "text-blue-600" : "text-slate-500"}`}>
-                      {isUser ? "You" : "Adversary"}
-                    </p>
-                    <div
-                      className={`max-w-[85%] rounded-2xl px-5 py-4 text-sm leading-relaxed shadow-sm ${
-                        isUser
-                          ? "bg-blue-600 text-white rounded-br-none"
-                          : "bg-white border border-slate-100 border-l-[3px] border-l-red-400 text-slate-800 rounded-tl-none"
-                      }`}
-                    >
-                      {msg.content}
-                    </div>
-                  </div>
-                );
-              })}
+          )}
+          {error && (
+            <div className="bg-error-container border border-error/20 rounded-2xl px-4 py-3 text-on-error-container text-sm">
+              {error}
             </div>
+          )}
 
-            {/* Coach analysis */}
-            {data.coach && (
-              <>
-                <h3 className="text-slate-900 text-lg font-bold px-1 pb-3 pt-8">Coach Analysis</h3>
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 overflow-hidden">
-                  <div className="flex items-center gap-2 px-5 py-3 bg-emerald-100/60 border-b border-emerald-200">
-                    <span className="material-symbols-outlined text-emerald-600 text-[18px]">psychology</span>
-                    <span className="text-xs font-bold text-emerald-800 uppercase tracking-widest">Coach Feedback</span>
-                  </div>
-                  <div className="px-5 py-4 space-y-4">
-                    {/* Score bar */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-3xl font-extrabold text-emerald-700">{data.coach.score}</span>
-                        <span className="text-sm text-emerald-500 font-medium">/100</span>
-                      </div>
-                      <div className="flex-1 h-2 bg-emerald-200 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-emerald-500 rounded-full"
-                          style={{ width: `${data.coach.score}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Feedback narrative */}
-                    {data.coach.feedback && (
-                      <p className="text-sm text-slate-700 leading-relaxed">{data.coach.feedback}</p>
-                    )}
-
-                    {/* Improved response */}
-                    {data.coach.improved_response && (
-                      <div className="bg-white border border-emerald-200 rounded-xl p-4 space-y-1">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Stronger Response</p>
-                        <p className="text-sm text-slate-800 leading-relaxed italic">&ldquo;{data.coach.improved_response}&rdquo;</p>
-                      </div>
-                    )}
-
-                    {/* Theory applied */}
-                    {data.coach.theory_applied && (
-                      <div className="bg-white border border-emerald-200 rounded-xl p-4 space-y-1">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Framework Applied</p>
-                        <p className="text-sm text-slate-800 leading-relaxed">{data.coach.theory_applied}</p>
-                      </div>
-                    )}
-
-                    {/* Strengths */}
-                    {data.coach.strengths.length > 0 && (
-                      <div className="bg-white border border-emerald-200 rounded-xl p-4 space-y-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Strengths</p>
-                        <ul className="space-y-1">
-                          {data.coach.strengths.map((s, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
-                              <span className="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5 shrink-0">check_circle</span>
-                              {s}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Areas for improvement */}
-                    {data.coach.areas_for_improvement.length > 0 && (
-                      <div className="bg-white border border-emerald-200 rounded-xl p-4 space-y-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Areas for Improvement</p>
-                        <ul className="space-y-1">
-                          {data.coach.areas_for_improvement.map((a, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
-                              <span className="material-symbols-outlined text-amber-500 text-[16px] mt-0.5 shrink-0">arrow_upward</span>
-                              {a}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Framework tags */}
-                    {data.coach.frameworks_used.length > 0 && (
-                      <div className="bg-white border border-emerald-200 rounded-xl p-4 space-y-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Retrieved From Knowledge Base</p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {data.coach.frameworks_used.map((f) => (
-                            <span
-                              key={f}
-                              className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700"
-                            >
-                              {f}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </>
-            )}
-
-            {/* AI Quality Evaluation */}
-            {data.coach?.judge && (
-              <>
-                <h3 className="text-slate-900 text-lg font-bold px-1 pb-3 pt-8">AI Quality Evaluation</h3>
-                <div className="rounded-2xl border border-violet-200 bg-violet-50 overflow-hidden">
-                  <div className="flex items-center justify-between px-5 py-3 bg-violet-100/60 border-b border-violet-200">
-                    <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-violet-600 text-[18px]">verified</span>
-                      <span className="text-xs font-bold text-violet-800 uppercase tracking-widest">AI Quality Evaluation</span>
-                    </div>
-                    <span className="text-[10px] font-semibold text-violet-500 bg-white border border-violet-200 px-2 py-0.5 rounded-full">
-                      {data.coach.judge.overall}/10 overall
+          {data && (
+            <>
+              {/* Header */}
+              <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 rounded-xl border border-outline-variant/30 shadow-sm">
+                <div className="min-w-0">
+                  <p className="text-xs uppercase tracking-wider text-primary font-bold mb-1">
+                    Session Summary
+                  </p>
+                  <h1 className="text-2xl lg:text-3xl text-on-surface font-bold font-display leading-tight">
+                    {data.scenario_title}
+                  </h1>
+                  <p className="text-on-surface-variant mt-1">
+                    Practice session with {data.adversary_role}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-medium">
+                      {data.barrier_theme}
                     </span>
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant">
+                      {formatDate(data.started_at)}
+                    </span>
+                    {!data.completed_at && (
+                      <span className="text-xs px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-bold">
+                        In progress
+                      </span>
+                    )}
                   </div>
-                  <div className="px-5 py-4 space-y-1">
-                    <p className="text-xs text-violet-700 mb-4">
-                      This response was independently evaluated by a second AI model.
-                    </p>
-                    {(
-                      [
-                        { label: "Accuracy", key: "accuracy", rationale: data.coach.judge.accuracy_rationale },
-                        { label: "Actionability", key: "actionability", rationale: data.coach.judge.actionability_rationale },
-                        { label: "Quality", key: "quality", rationale: data.coach.judge.quality_rationale },
-                      ] as { label: string; key: keyof JudgeScores; rationale: string }[]
-                    ).map(({ label, key, rationale }) => {
-                      const score = data.coach!.judge![key] as number;
-                      return (
-                        <div key={key} className="bg-white border border-violet-100 rounded-xl p-4 space-y-2">
-                          <div className="flex items-center justify-between">
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-violet-600">{label}</p>
-                            <span className="text-sm font-extrabold text-violet-700">{score}<span className="text-xs font-medium text-violet-400">/10</span></span>
-                          </div>
-                          <div className="h-1.5 bg-violet-100 rounded-full overflow-hidden">
+                </div>
+                <div className="flex items-center gap-4 bg-primary-container px-6 py-4 rounded-lg shrink-0">
+                  <ScoreRing score={coach?.score ?? null} />
+                  <div>
+                    <div className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                      Overall Score
+                    </div>
+                    <div className="font-bold text-on-surface">{scoreVerdict(coach?.score ?? null)}</div>
+                  </div>
+                </div>
+              </header>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                {/* Transcript */}
+                <section className="lg:col-span-7">
+                  <div className="glass-card rounded-xl flex flex-col lg:h-[650px] overflow-hidden">
+                    <div className="p-5 border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low">
+                      <h2 className="font-bold text-lg flex items-center gap-3 text-primary">
+                        <span className="material-symbols-outlined">forum</span>
+                        Session Transcript
+                      </h2>
+                      <span className="text-[10px] font-bold bg-white text-primary px-3 py-1 rounded border border-primary/20">
+                        {data.messages.length} MESSAGES
+                      </span>
+                    </div>
+                    <div className="p-5 lg:overflow-y-auto flex-1 chat-scroll space-y-5 bg-white/50">
+                      {data.messages.length === 0 && (
+                        <div className="py-12 text-center text-on-surface-variant text-sm">
+                          No messages recorded for this session.
+                        </div>
+                      )}
+                      {data.messages.map((msg, i) => {
+                        const isUser = msg.sender === "user";
+                        return (
+                          <div
+                            key={i}
+                            className={`flex flex-col gap-1.5 ${isUser ? "items-end" : "items-start"}`}
+                          >
+                            <span
+                              className={`font-bold text-xs ${isUser ? "text-primary" : "text-on-surface-variant"}`}
+                            >
+                              {isUser ? "You" : data.adversary_role}
+                            </span>
                             <div
-                              className="h-full bg-violet-500 rounded-full transition-all duration-700"
-                              style={{ width: `${(score / 10) * 100}%` }}
-                            />
+                              className={`max-w-[90%] p-4 rounded-lg text-sm leading-relaxed ${
+                                isUser
+                                  ? "bg-primary-container/50 border border-primary/10 rounded-tr-none text-on-surface"
+                                  : "bg-surface-container border border-outline-variant/20 rounded-tl-none text-on-surface"
+                              }`}
+                            >
+                              {msg.content}
+                            </div>
                           </div>
-                          {rationale && (
-                            <p className="text-xs text-slate-600 leading-relaxed">{rationale}</p>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </section>
+
+                {/* Analysis */}
+                <section className="lg:col-span-5 flex flex-col gap-6">
+                  {coach ? (
+                    <>
+                      {/* Mentor's perspective */}
+                      <div className="glass-card rounded-xl p-6 border-l-4 border-l-primary bg-primary-container/20">
+                        <h2 className="font-bold text-lg text-primary flex items-center gap-2 mb-5">
+                          <span className="material-symbols-outlined">auto_awesome</span>
+                          Mentor&apos;s Perspective
+                        </h2>
+                        <div className="space-y-5">
+                          {coach.feedback && (
+                            <p className="text-sm text-on-surface leading-relaxed">{coach.feedback}</p>
+                          )}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            {coach.strengths.length > 0 && (
+                              <div>
+                                <h3 className="text-[11px] font-bold text-primary uppercase mb-2 tracking-wider">
+                                  What Went Well
+                                </h3>
+                                <ul className="space-y-2">
+                                  {coach.strengths.map((s, i) => (
+                                    <li key={i} className="text-sm text-on-surface-variant leading-snug flex gap-2">
+                                      <span className="text-primary font-bold shrink-0">•</span>
+                                      {s}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {coach.areas_for_improvement.length > 0 && (
+                              <div>
+                                <h3 className="text-[11px] font-bold text-secondary uppercase mb-2 tracking-wider">
+                                  Growth Tips
+                                </h3>
+                                <ul className="space-y-2">
+                                  {coach.areas_for_improvement.map((a, i) => (
+                                    <li key={i} className="text-sm text-on-surface-variant leading-snug flex gap-2">
+                                      <span className="text-secondary font-bold shrink-0">•</span>
+                                      {a}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                          {coach.improved_response && (
+                            <div className="bg-white border border-primary/20 rounded-xl p-4 space-y-1">
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                                A Stronger Version
+                              </p>
+                              <p className="text-sm text-on-surface leading-relaxed italic">
+                                &ldquo;{coach.improved_response}&rdquo;
+                              </p>
+                            </div>
+                          )}
+                          {coach.theory_applied && (
+                            <div className="bg-white border border-primary/20 rounded-xl p-4 space-y-1">
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                                Framework Applied
+                              </p>
+                              <p className="text-sm text-on-surface leading-relaxed">
+                                {coach.theory_applied}
+                              </p>
+                            </div>
+                          )}
+                          {coach.frameworks_used.length > 0 && (
+                            <div className="flex flex-wrap gap-2 pt-1">
+                              {coach.frameworks_used.map((f) => (
+                                <span
+                                  key={f}
+                                  className="bg-white border border-primary/20 text-primary px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wide"
+                                >
+                                  {f}
+                                </span>
+                              ))}
+                            </div>
                           )}
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </>
-            )}
+                      </div>
 
-            {/* Practice Again CTA */}
-            <div className="mt-8 mb-4">
-              <Link
-                href={`/preview?scenario=${data.scenario_id}`}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg hover:-translate-y-[2px] transition-all"
-              >
-                <span className="material-symbols-outlined">replay</span>
-                Practice Again
-              </Link>
-            </div>
-          </>
-        )}
+                      {/* Judge scores */}
+                      {judge && (
+                        <div className="glass-card rounded-xl p-6 flex-1">
+                          <div className="flex items-center justify-between mb-2">
+                            <h2 className="font-bold text-lg text-primary flex items-center gap-2">
+                              <span className="material-symbols-outlined">analytics</span>
+                              Core Skills Analysis
+                            </h2>
+                            <span className="text-[10px] font-bold text-primary bg-primary-fixed px-2.5 py-1 rounded-full">
+                              {judge.overall}/10 OVERALL
+                            </span>
+                          </div>
+                          <p className="text-xs text-on-surface-variant mb-5">
+                            The coach&apos;s feedback was independently evaluated by a second AI model.
+                          </p>
+                          <div className="space-y-5">
+                            <SkillBar label="Accuracy" value={judge.accuracy} rationale={judge.accuracy_rationale} />
+                            <SkillBar label="Actionability" value={judge.actionability} rationale={judge.actionability_rationale} />
+                            <SkillBar label="Quality" value={judge.quality} rationale={judge.quality_rationale} />
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="glass-card rounded-xl p-8 text-center space-y-3">
+                      <span className="material-symbols-outlined text-primary/30 text-4xl">psychology</span>
+                      <p className="text-on-surface-variant text-sm">
+                        No coach analysis available for this session.
+                      </p>
+                      <p className="text-on-surface-variant/60 text-xs">
+                        Request coach feedback during a session to see analysis here.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Actions */}
+                  <div className="flex flex-col gap-3">
+                    <Link
+                      href={`/preview?scenario=${data.scenario_id}`}
+                      className="bg-primary text-white font-bold py-3.5 px-8 rounded-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-md shadow-primary/20"
+                    >
+                      <span className="material-symbols-outlined text-base">refresh</span>
+                      Practice Again
+                    </Link>
+                    <Link
+                      href="/dashboard"
+                      className="border-2 border-primary/20 text-primary font-bold py-3 px-8 rounded-lg hover:bg-primary/5 transition-all flex items-center justify-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-base">trending_up</span>
+                      Back to Dashboard
+                    </Link>
+                  </div>
+                </section>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </MainLayout>
+    </PageShell>
   );
 }

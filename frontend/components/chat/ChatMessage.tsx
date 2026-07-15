@@ -3,61 +3,57 @@ import { Message } from "./types";
 
 interface ChatMessageProps {
   msg: Message;
+  adversaryLabel?: string;
 }
 
-export default function ChatMessage({ msg }: ChatMessageProps) {
-  return (
-    <div className={`flex items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${msg.role === "user" ? "justify-end" : ""}`}>
-      {msg.role === "agent" && (
-        <div
-          className="bg-center bg-no-repeat aspect-square bg-cover rounded-sm w-10 shrink-0 border border-slate-200"
-          style={{
-            backgroundImage:
-              'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrZdyO2pJqHx2_FjwpPoNGwWsVD-3mLLzd_Lr4XsRcwoImyj8H_cL0IcVdYMa_7b72jyEhDx8bATF9U_xCL8qTptAmQPFdR_0emTC3anHGCakK6ut2yjG3HaeRZ8qpkN3-yBpPLyyfNhwvbkEf-adsgQWmY1-AG2oEXmkRlUwD843MobJ58SSRg6RbAPPjeYuCLKn_HzRf2YyR4fzSvAMog0u8MxPQntqBGayFubQeUBV6OCub5JquPOzGOIix81pITlcUadN8ElWY")',
-          }}
-        ></div>
-      )}
-
-      <div className={`flex flex-1 flex-col gap-1.5 ${msg.role === "user" ? "items-end" : "items-start"}`}>
-        {msg.role === "agent" ? (
-          <div className="flex items-center gap-2 mb-1">
-            <p className="text-slate-600 text-[10px] font-bold uppercase tracking-wider">
-              Adversary Agent
-            </p>
-            <span className="size-1.5 rounded-full bg-red-400"></span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 mb-1">
-            <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">
-              Leadership Response
-            </p>
-          </div>
-        )}
-
-        {msg.role === "agent" ? (
-          <div className="bg-white rounded-2xl rounded-tl-none border border-slate-100 border-l-[3px] border-l-red-500 px-5 py-4 text-[14px] font-normal leading-relaxed tracking-tight shadow-sm w-[95%] sm:w-[85%]">
-            <p className="text-slate-800">{msg.content}</p>
-          </div>
-        ) : (
-          <div className="bg-[#f0f7ff] border border-blue-100/50 rounded-2xl rounded-tr-none px-5 py-4 text-[14px] font-normal leading-relaxed text-slate-800 max-w-[90%] shadow-sm">
+export default function ChatMessage({ msg, adversaryLabel = "Adversary" }: ChatMessageProps) {
+  if (msg.role === "coach") {
+    return (
+      <div className="coach-insight-pill p-4 rounded-2xl flex gap-3 items-start max-w-[92%] mx-auto my-2 shadow-sm animate-in fade-in duration-300">
+        <span className="material-symbols-outlined text-primary text-[22px] shrink-0">
+          lightbulb
+        </span>
+        <div className="space-y-1 min-w-0">
+          <p className="text-sm text-on-surface leading-relaxed">
+            <strong className="text-primary font-bold">
+              Mentor Note{typeof msg.coachScore === "number" ? ` · ${msg.coachScore}/100` : ""}:
+            </strong>{" "}
             {msg.content}
-          </div>
-        )}
-
-        <p className="text-slate-400 text-[10px] font-medium mt-0.5">
-          {msg.timestamp}
-        </p>
+          </p>
+        </div>
       </div>
+    );
+  }
 
-      {msg.role === "user" && (
-        <div
-          className="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0 border border-blue-200"
-          style={{
-            backgroundImage:
-              'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtxH-VjGPC9lW5Wb9w8dZyeaAk6HiG6-LJSqF79VvPCK_lwSHSJiAyI3ljGm2SJwgoScbmWBaWrFRtLNLS04G0xXgOsuLRJXhvvInQwG6BprDhiOb7dnpk5H6Xe9uPmVpNhFcdblFoSl6MfCJDoffakFQLGlamgYXxfMRCInFOA9KwogCLeHM8aiw-UikZIm_Y1vbv3UOhBIH1AfkjRGgYWQNf27EU1syrcHb7XLeCl-cTN_xgGtk5bcU9nid2K87FUPArLxguNGHn")',
-          }}
-        ></div>
-      )}
+  if (msg.role === "agent") {
+    return (
+      <div className="flex flex-col gap-2 items-start max-w-[85%] animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <div className="flex items-center gap-2 px-1">
+          <div className="w-7 h-7 rounded-full bg-secondary-container text-secondary flex items-center justify-center font-bold text-[10px] border border-secondary/20">
+            <span className="material-symbols-outlined text-[16px]">person</span>
+          </div>
+          <span className="text-on-surface-variant font-bold text-[13px]">{adversaryLabel}</span>
+        </div>
+        <div className="adversary-bubble p-4 px-6 rounded-3xl shadow-sm">
+          <p className="text-on-surface leading-relaxed text-[15px]">{msg.content}</p>
+        </div>
+        <p className="text-on-surface-variant/60 text-[10px] font-medium px-1">{msg.timestamp}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-2 items-end max-w-[85%] self-end animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className="flex items-center gap-2 flex-row-reverse px-1">
+        <div className="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center font-bold text-[10px] shadow-md border border-white/20">
+          <span className="material-symbols-outlined text-[16px]">person</span>
+        </div>
+        <span className="text-on-surface-variant font-bold text-[13px]">You</span>
+      </div>
+      <div className="user-bubble p-4 px-6 rounded-3xl shadow-lg">
+        <p className="text-white leading-relaxed text-[15px]">{msg.content}</p>
+      </div>
+      <p className="text-on-surface-variant/60 text-[10px] font-medium px-1">{msg.timestamp}</p>
     </div>
   );
 }

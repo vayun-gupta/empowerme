@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -30,21 +32,32 @@ _MIGRATIONS = [
     "ALTER TABLE coach_feedback ADD COLUMN judge_quality_rationale TEXT",
 ]
 
+# Each statement gets its own transaction: on Postgres a failed ALTER aborts
+# the surrounding transaction, so without a rollback every later statement
+# would fail with "current transaction is aborted" (SQLite tolerated this).
 with engine.connect() as _conn:
     for _sql in _MIGRATIONS:
         try:
             _conn.execute(text(_sql))
             _conn.commit()
         except Exception:
-            pass  # column already exists
+            _conn.rollback()  # column already exists
 
 from app.seed import seed_scenarios
 
 app = FastAPI(title="EmpowerMe API")
 
+# Comma-separated list of allowed origins; regex covers Vercel preview deploys
+_cors_origins = [
+    o.strip()
+    for o in os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+    if o.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_cors_origins,
+    allow_origin_regex=os.getenv("CORS_ORIGIN_REGEX") or None,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

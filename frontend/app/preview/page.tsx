@@ -3,13 +3,33 @@
 import Link from "next/link";
 import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PageShell from "@/components/layout/PageShell";
 import { getScenario, ScenarioData } from "@/lib/api";
+import { DIFFICULTY_BADGE, scenarioGradient, scenarioIcon } from "@/components/scenarios/ScenarioCard";
 
-const DIFFICULTY_BADGE: Record<string, string> = {
-  Advanced: "border-rose-200 text-rose-700 bg-rose-50",
-  Moderate:  "border-amber-200 text-amber-700 bg-amber-50",
-  Beginner:  "border-emerald-200 text-emerald-700 bg-emerald-50",
-};
+const COMPETENCIES = [
+  {
+    icon: "psychology",
+    accent: "border-l-primary",
+    iconCls: "bg-primary/10 text-primary",
+    title: "Assertiveness",
+    desc: "Hold your ground without aggression — articulate your position with warmth and clarity.",
+  },
+  {
+    icon: "diversity_3",
+    accent: "border-l-tertiary",
+    iconCls: "bg-tertiary/10 text-tertiary",
+    title: "Strategic Framing",
+    desc: "Reframe the narrative in your favour and connect your goals to shared success.",
+  },
+  {
+    icon: "insights",
+    accent: "border-l-secondary",
+    iconCls: "bg-secondary/10 text-secondary",
+    title: "Evidence Use",
+    desc: "Reference concrete achievements and data that advance your objective.",
+  },
+];
 
 function PreviewContent() {
   const params = useSearchParams();
@@ -27,141 +47,189 @@ function PreviewContent() {
 
   if (loading || !scenario) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <p className="text-slate-400 text-sm">Loading scenario…</p>
-      </div>
+      <PageShell>
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <p className="text-on-surface-variant text-sm">Loading scenario…</p>
+        </div>
+      </PageShell>
     );
   }
 
   return (
-    <div className="min-h-screen flex justify-center overflow-y-auto w-full bg-slate-50">
-      <div className="relative flex min-h-screen flex-col w-full max-w-5xl mx-auto px-6 py-8 overflow-hidden bg-slate-50">
+    <PageShell>
+      <div className="relative">
+        <div className="fixed inset-0 pointer-events-none plaid-accent z-0" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 py-10">
+          {/* Breadcrumb */}
+          <nav className="mb-8 flex items-center gap-1 text-on-surface-variant text-sm font-medium">
+            <Link href="/scenarios" className="hover:text-primary transition-colors">
+              Scenarios
+            </Link>
+            <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+            <span className="text-primary">Scenario Preview</span>
+          </nav>
 
-        <header className="pt-12 px-6 flex justify-between items-start z-10 w-full mb-6">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-200 uppercase tracking-tighter">EmpowerMe</span>
-              <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full border ${DIFFICULTY_BADGE[scenario.difficulty_level] ?? "border-slate-200 text-slate-600 bg-slate-50"}`}>
-                <span className="text-[10px] font-bold uppercase">{scenario.difficulty_level}</span>
-              </div>
-            </div>
-            <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">EmpowerMe Simulation</h1>
-          </div>
-          <Link href="/scenarios" className="size-10 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-500 hover:text-slate-900 shadow-sm transition-colors">
-            <span className="material-symbols-outlined text-xl">close</span>
-          </Link>
-        </header>
-
-        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-slate-50/80 to-slate-50" />
-        </div>
-
-        <main className="relative z-10 flex-1 overflow-y-auto px-0 md:px-6 pt-4 pb-20 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
-
-            {/* Left column */}
-            <div className="space-y-8 lg:col-span-2">
-
-              {/* Scenario brief */}
-              <section className="bg-white border border-slate-100 shadow-sm rounded-[2rem] p-8 relative overflow-hidden">
-                <div className="flex items-center gap-3 mb-5">
-                  <span className="material-symbols-outlined text-blue-600">hub</span>
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500">Current Scenario</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            {/* Left: brief */}
+            <div className="lg:col-span-7 space-y-10">
+              <section>
+                <h1 className="text-3xl md:text-5xl font-bold text-primary mb-5 leading-tight font-display">
+                  {scenario.title}
+                </h1>
+                <div className="flex flex-wrap gap-3 mb-8">
+                  <span
+                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${DIFFICULTY_BADGE[scenario.difficulty_level] ?? "bg-surface-container text-on-surface-variant"}`}
+                  >
+                    {scenario.difficulty_level}
+                  </span>
+                  <span className="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                    {scenario.barrier_theme}
+                  </span>
                 </div>
-                <h3 className="text-2xl font-semibold mb-4 text-slate-900 border-b border-slate-100 pb-4">{scenario.title}</h3>
-                <p className="text-slate-600 text-[15px] leading-relaxed mb-6">{scenario.context_description}</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200">
-                    <span className="text-[10px] text-slate-500 block mb-1 uppercase tracking-tighter">You are speaking with</span>
-                    <span className="text-xs font-semibold text-slate-900">{scenario.adversary_role}</span>
-                  </div>
-                  <div className="bg-orange-50 p-3 rounded-2xl border border-orange-100">
-                    <span className="text-[10px] text-orange-600/70 block mb-1 uppercase tracking-tighter">Resistance tactic</span>
-                    <span className="text-xs font-semibold text-orange-700">{scenario.barrier_theme}</span>
-                  </div>
-                </div>
+                <p className="text-lg lg:text-xl text-on-surface-variant leading-relaxed">
+                  {scenario.context_description}
+                </p>
               </section>
 
-              {/* What the coach measures — Task 5 CTA */}
-              <section className="bg-white border border-slate-100 shadow-sm rounded-[2rem] p-8 space-y-5">
-                <div className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-emerald-600">psychology</span>
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500">What You&apos;re Practicing</h2>
-                </div>
-                <p className="text-slate-600 text-[14px] leading-relaxed">
-                  The <span className="font-semibold text-slate-900">Adversary</span> will play the role of{" "}
-                  <span className="font-semibold text-slate-900">{scenario.adversary_role}</span> and use{" "}
-                  <span className="font-semibold text-slate-900">{scenario.barrier_theme}</span> to create friction.
-                  Your goal is to hold your position, reframe the narrative, and advance your objective without escalating.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {[
-                    { icon: "security", label: "Assertiveness", desc: "Hold your ground without aggression" },
-                    { icon: "frame_reload", label: "Strategic Framing", desc: "Reframe the narrative in your favour" },
-                    { icon: "database", label: "Evidence Use", desc: "Reference concrete achievements & data" },
-                  ].map(({ icon, label, desc }) => (
-                    <div key={label} className="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[16px] text-blue-500">{icon}</span>
-                        <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">{label}</span>
+              <section>
+                <h2 className="text-2xl font-bold text-primary mb-6 font-display">
+                  What You&apos;re Practicing
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {COMPETENCIES.map((c) => (
+                    <div
+                      key={c.title}
+                      className={`glass-card p-6 rounded-xl border-l-4 ${c.accent} flex flex-col gap-3`}
+                    >
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center ${c.iconCls}`}
+                      >
+                        <span
+                          className="material-symbols-outlined"
+                          style={{ fontVariationSettings: "'FILL' 1" }}
+                        >
+                          {c.icon}
+                        </span>
                       </div>
-                      <p className="text-[11px] text-slate-500 leading-snug">{desc}</p>
+                      <h3 className="text-lg font-bold text-primary">{c.title}</h3>
+                      <p className="text-sm text-on-surface-variant">{c.desc}</p>
                     </div>
                   ))}
                 </div>
-                <p className="text-[13px] text-slate-500 bg-slate-50 border border-slate-100 rounded-xl p-4 leading-relaxed">
-                  After each exchange, the <span className="font-semibold text-slate-700">Coach</span> will score your response 0–100, show you a stronger version, and name the communication strategy you should apply.
-                </p>
               </section>
-            </div>
 
-            {/* Right column */}
-            <div className="space-y-6 lg:col-span-1">
-              <section className="bg-slate-100 rounded-2xl p-4 border border-slate-200">
-                <div className="flex gap-3">
-                  <span className="material-symbols-outlined text-slate-400 text-lg">timer</span>
-                  <div className="space-y-1">
-                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Estimated time</p>
-                    <p className="text-xs text-slate-600 leading-relaxed">{scenario.estimated_minutes ?? 10}–{(scenario.estimated_minutes ?? 10) + 2} minutes · You can stop at any time.</p>
+              <section className="rounded-2xl overflow-hidden shadow-sm border border-outline-variant/30">
+                <div
+                  className={`relative h-[240px] w-full bg-gradient-to-br ${scenarioGradient(scenario.scenario_id)} flex items-center justify-center`}
+                >
+                  <div className="plaid-accent" />
+                  <span className="material-symbols-outlined text-8xl text-primary/40">
+                    {scenarioIcon(scenario.scenario_id)}
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <p className="text-xs font-bold uppercase tracking-widest opacity-80 mb-1">
+                      Simulation Environment
+                    </p>
+                    <h4 className="text-2xl font-bold">{scenario.adversary_role}</h4>
                   </div>
                 </div>
               </section>
-
-              <section className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-sm space-y-4">
-                <div className="space-y-2">
-                  <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Ready to begin?</p>
-                  <p className="text-xs text-slate-500 leading-relaxed">
-                    The {scenario.adversary_role} is in character. Type your first response to start the simulation.
-                  </p>
-                </div>
-                <a
-                  href={`/chat?scenario=${scenario.scenario_id}`}
-                  className="w-full py-4 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-[2px] text-white transition-all"
-                >
-                  <span className="text-[15px] font-medium tracking-wide">Start Simulation</span>
-                  <span className="material-symbols-outlined text-[18px]">bolt</span>
-                </a>
-                <div className="flex items-center gap-2 bg-amber-50 border border-amber-100 rounded-xl p-3">
-                  <span className="material-symbols-outlined text-amber-500 text-[16px]">info</span>
-                  <p className="text-[11px] text-amber-700 leading-snug">There are no right or wrong openers — the coach scores every response.</p>
-                </div>
-              </section>
             </div>
 
+            {/* Right: meta + CTA */}
+            <aside className="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
+              <div className="glass-card p-8 rounded-xl border-t-8 border-t-primary">
+                <div className="space-y-8">
+                  <div>
+                    <h3 className="text-xs font-bold text-primary uppercase tracking-widest mb-6 border-b border-outline-variant/30 pb-2">
+                      Session Details
+                    </h3>
+                    <div className="space-y-5">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <span className="material-symbols-outlined text-primary">timer</span>
+                          <span className="text-on-surface-variant text-sm">Estimated Time</span>
+                        </div>
+                        <span className="text-lg font-bold text-primary shrink-0">
+                          {scenario.estimated_minutes ?? 10}–{(scenario.estimated_minutes ?? 10) + 2} mins
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <span className="material-symbols-outlined text-primary">theater_comedy</span>
+                          <span className="text-on-surface-variant text-sm">You&apos;ll face</span>
+                        </div>
+                        <span className="text-sm font-bold text-primary text-right">
+                          {scenario.adversary_role}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <span className="material-symbols-outlined text-primary">auto_graph</span>
+                          <span className="text-on-surface-variant text-sm">Complexity</span>
+                        </div>
+                        <span className="text-lg font-bold text-primary shrink-0">
+                          {scenario.difficulty_level}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-primary-container p-5 rounded-lg">
+                    <p className="text-sm text-on-primary-container leading-relaxed">
+                      After each exchange, your <strong>Coach</strong> scores the response
+                      0–100, shows a stronger version, and names the communication strategy
+                      to apply.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <Link
+                      href={`/chat?scenario=${scenario.scenario_id}`}
+                      className="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 active:scale-[0.98] flex items-center justify-center gap-3 group"
+                    >
+                      Enter Simulation
+                      <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
+                        play_arrow
+                      </span>
+                    </Link>
+                    <Link
+                      href="/scenarios"
+                      className="w-full bg-white border border-outline-variant text-primary py-3 rounded-lg font-bold hover:bg-surface-container transition-all flex items-center justify-center"
+                    >
+                      Back to Scenarios
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              <div className="glass-card p-5 rounded-xl flex gap-4 items-center border-l-4 border-l-secondary">
+                <span className="material-symbols-outlined text-secondary text-3xl shrink-0">
+                  tips_and_updates
+                </span>
+                <p className="text-sm italic text-on-surface-variant leading-snug">
+                  There are no right or wrong openers — the coach scores every response, so
+                  just begin.
+                </p>
+              </div>
+            </aside>
           </div>
-        </main>
+        </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
 
 export default function PreviewPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <p className="text-slate-400 text-sm">Loading…</p>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          <p className="text-on-surface-variant text-sm">Loading…</p>
+        </div>
+      }
+    >
       <PreviewContent />
     </Suspense>
   );

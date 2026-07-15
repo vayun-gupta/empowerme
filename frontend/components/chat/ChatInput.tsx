@@ -29,15 +29,12 @@ export default function ChatInput({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden w-full focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all"
-    >
-      <div className="relative group">
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="relative glass-card rounded-3xl p-2 shadow-xl border-primary/30 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
         <textarea
-          className="w-full bg-transparent p-5 pr-12 text-sm text-slate-900 transition-all placeholder:text-slate-400 resize-none focus:outline-none"
-          placeholder="Craft your strategic response..."
-          rows={3}
+          className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none p-4 pr-16 rounded-2xl text-[15px] text-on-surface min-h-[72px] max-h-32 resize-none placeholder:text-on-surface-variant/60"
+          placeholder="Type your leadership response…"
+          rows={2}
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={(e) => {
@@ -47,35 +44,36 @@ export default function ChatInput({
             }
           }}
         />
-      </div>
-
-      <div className="flex items-center justify-between px-3 pb-3 pt-1">
-        <div className="flex items-center gap-1">
-          <button
-            type="button"
-            onClick={canHint ? () => onHint(inputText) : undefined}
-            disabled={!canHint || hintLoading}
-            title={canHint ? "Get a nudge" : "Send a message first"}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl transition-all text-xs font-semibold ${
-              canHint
-                ? "text-amber-600 hover:text-amber-700 hover:bg-amber-50 border border-amber-200 hover:border-amber-300"
-                : "text-slate-300 border border-slate-100 cursor-not-allowed"
-            }`}
-          >
-            <span className="material-symbols-outlined text-[16px]">
-              {hintLoading ? "progress_activity" : "lightbulb"}
-            </span>
-            {hintLoading ? "Getting nudge…" : "Get a nudge"}
-          </button>
-        </div>
         <button
           type="submit"
           disabled={isTyping || !inputText.trim()}
-          className="px-5 py-2 flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-medium text-sm shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
+          aria-label="Send response"
+          className="absolute right-3 bottom-3 w-11 h-11 rounded-2xl bg-primary text-white flex items-center justify-center hover:shadow-lg hover:bg-primary/90 transition-all active:scale-95 shadow-md disabled:opacity-50 group"
         >
-          <span>Send</span>
-          <span className="material-symbols-outlined text-[16px]">send</span>
+          <span className="material-symbols-outlined group-hover:translate-x-0.5 transition-transform">
+            send
+          </span>
         </button>
+      </div>
+
+      <div className="mt-2 flex justify-between items-center px-1">
+        <button
+          type="button"
+          onClick={canHint ? () => onHint(inputText) : undefined}
+          disabled={!canHint || hintLoading}
+          title={canHint ? "Get a Mentor's Tip" : "Send a message first"}
+          className={`flex items-center gap-1.5 text-sm font-bold transition-opacity ${
+            canHint ? "text-primary hover:opacity-80" : "text-on-surface-variant/40 cursor-not-allowed"
+          }`}
+        >
+          <span className="material-symbols-outlined text-[18px]">
+            {hintLoading ? "progress_activity" : "psychology"}
+          </span>
+          {hintLoading ? "Thinking…" : "Get a Mentor's Tip"}
+        </button>
+        <span className="text-[11px] text-on-surface-variant/70 font-medium hidden sm:block">
+          Enter to send · Shift+Enter for a new line
+        </span>
       </div>
     </form>
   );

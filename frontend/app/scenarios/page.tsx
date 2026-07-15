@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import MainLayout from "@/components/layout/MainLayout";
-import ScenarioCard from "@/components/scenarios/ScenarioCard";
+import React, { useState, useEffect, useMemo } from "react";
+import Link from "next/link";
+import PageShell from "@/components/layout/PageShell";
+import ScenarioCard, {
+  DIFFICULTY_BADGE,
+  scenarioGradient,
+  scenarioIcon,
+} from "@/components/scenarios/ScenarioCard";
 import { getScenarios, ScenarioData } from "@/lib/api";
 
 type UserRole = "Faculty" | "Staff" | "Grad Student" | "UG Student";
@@ -14,20 +19,34 @@ const ROLE_SCENARIO_MAP: Record<UserRole, number[]> = {
   "UG Student":   [5],
 };
 
-const SCENARIO_IMAGES = [
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDk-nGcuWxc6sUXHWA4CkJrwU0PZG2z1QJkl9yk593P_zRBlHAkW01mEkFxPfLdKfQ35Lqgxh8S-V_-vsRtnPE85s-FYR0HHDQZNP8DxwT24Dodzix2kRa0U0KNeVocitAQmZK975gRarVt-bqjP2vtWQLkmFlUaEqih1IQq-Jfry1GcQt7NVtDFdZIr2xOXewqaR_C2msTASZ4BWRkSqIxf68gHhjymXhaX13GJRF1QH2SnyBtO90uSdAx-iIjmFDOYspH9reJ3vm_",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCJ_sUCbFiFuBVvbWInBuTSsD8ol4kzEEblcFvtQX-wHwAVAll5sDTjsoB3Ru2FoPvAgdmlQWimpWGR4AedJRaTnINDplKs19iHGy8L0jWfbzs5Rhq8mKGmaUPurq2FJGd075TqkqhqOa6-fHG3BaAa0p13HWqjL4PPM8DUhXpcPZfynccRLmCrnrbXdmc890TKG3D-NNMehRi9N0fBg5Zpwd9VMhb_O2uPFP90oYm9wzvgtzjgPZLZ2TX3f0BVJI-zjC6ciw7LQPco",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAo3nbzEHImTJjSBF3uoEICisBixhzxgqHDM5sm-p5GD7TE4JNyaj24eOhJJ5Pxwv-tkD7ivco2cveKtJ31oGqqc3Pm5nibu5FeJMapBgG3aXuSIiKGBXS4vXjwaJNPDo_Fom_hZd72T8G2fK8vhJr2KlFJ2Xv3FOvskqXCmuBlFe_xiIAisdFVJExdj7GBUOo3foSFjrAwxQDeWDsifUTTQI1D05kfx5lTVMwejHOq8FwEcqnNUFBNoG46hDQOqe-ZRj74C9mDnR4N",
-];
+const ROLES: UserRole[] = ["Faculty", "Staff", "Grad Student", "UG Student"];
 
-const DIFFICULTY_BADGE: Record<string, string> = {
-  Advanced: "border-rose-200 text-rose-700 bg-rose-50",
-  Moderate:  "border-amber-200 text-amber-700 bg-amber-50",
-  Beginner:  "border-emerald-200 text-emerald-700 bg-emerald-50",
-};
+function FilterChip({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-5 py-2 rounded-full text-sm font-semibold transition-all shrink-0 ${
+        active
+          ? "bg-primary text-white shadow-md"
+          : "bg-white text-on-surface-variant border border-outline-variant hover:bg-primary-fixed hover:text-primary"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
 
 export default function ScenariosPage() {
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
   const [scenarios, setScenarios] = useState<ScenarioData[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -39,125 +58,188 @@ export default function ScenariosPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const roles: UserRole[] = ["Faculty", "Staff", "Grad Student", "UG Student"];
+  const difficulties = useMemo(
+    () => Array.from(new Set(scenarios.map((s) => s.difficulty_level))),
+    [scenarios]
+  );
 
-  const filtered = selectedRole
-    ? scenarios.filter(s => ROLE_SCENARIO_MAP[selectedRole].includes(s.scenario_id))
-    : scenarios;
+  const filtered = scenarios.filter(
+    (s) =>
+      (!selectedRole || ROLE_SCENARIO_MAP[selectedRole].includes(s.scenario_id)) &&
+      (!selectedDifficulty || s.difficulty_level === selectedDifficulty)
+  );
 
   const [featured, ...rest] = filtered;
 
   return (
-    <MainLayout>
+    <PageShell>
+      <div className="relative">
+        <div className="fixed inset-0 pointer-events-none plaid-accent z-0" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 py-12">
 
-      {/* Role selector */}
-      <div className="mb-7">
-        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">I am a</p>
-        <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-1">
-          {roles.map(role => (
-            <button
-              key={role}
-              onClick={() => setSelectedRole(prev => prev === role ? null : role)}
-              className={`flex h-9 shrink-0 items-center justify-center rounded-full px-5 shadow-sm text-sm transition-colors ${
-                selectedRole === role
-                  ? "bg-slate-900 text-white font-semibold"
-                  : "bg-white border border-slate-200 text-slate-600 font-medium hover:bg-slate-50"
-              }`}
-            >
-              {role}
-            </button>
-          ))}
-        </div>
-        {!selectedRole && (
-          <p className="text-[13px] text-slate-400 mt-2.5">Select your role to see scenarios relevant to you.</p>
-        )}
-      </div>
+          {/* Header + filters */}
+          <section className="mb-12">
+            <h1 className="text-4xl lg:text-5xl text-primary mb-4 font-bold font-display">
+              Scenario Selection
+            </h1>
+            <p className="text-lg text-on-surface-variant max-w-2xl mb-8">
+              Refine your leadership skills through immersive, academic-focused simulations
+              designed for women navigating Indian institutions.
+            </p>
 
-      {fetchError && (
-        <div className="text-red-500 text-xs text-center py-2 bg-red-50 border border-red-100 rounded-xl px-4 mb-4">
-          API error: {fetchError}
-        </div>
-      )}
-
-      {loading ? (
-        <div className="text-slate-400 text-sm py-12 text-center">Loading scenarios…</div>
-      ) : filtered.length === 0 ? (
-        <div className="text-slate-400 text-sm py-12 text-center">No scenarios available for this role yet.</div>
-      ) : (
-        <>
-          {/* Featured / recommended scenario */}
-          {featured && (
-            <div className="space-y-4 mb-10">
-              <div className="flex items-center">
-                <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 shrink-0">
-                  {selectedRole ? `Recommended for ${selectedRole}` : "Start Here"}
-                </h2>
-                <span className="h-[1px] flex-1 bg-gradient-to-r from-slate-200 to-transparent ml-4" />
-              </div>
-
-              <div className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm relative max-w-3xl mx-auto group">
-                <div className="absolute top-0 right-0 p-3 z-10">
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm border ${DIFFICULTY_BADGE[featured.difficulty_level] ?? ""}`}>
-                    {featured.difficulty_level}
-                  </span>
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">
+                  I am a
+                </p>
+                <div className="flex items-center gap-3 overflow-x-auto pb-1">
+                  <FilterChip
+                    label="All Roles"
+                    active={selectedRole === null}
+                    onClick={() => setSelectedRole(null)}
+                  />
+                  {ROLES.map((role) => (
+                    <FilterChip
+                      key={role}
+                      label={role}
+                      active={selectedRole === role}
+                      onClick={() => setSelectedRole((prev) => (prev === role ? null : role))}
+                    />
+                  ))}
                 </div>
-                <div
-                  className="w-full h-[240px] md:h-[300px] bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
-                  style={{ backgroundImage: `url("${SCENARIO_IMAGES[(featured.scenario_id - 1) % SCENARIO_IMAGES.length]}")` }}
-                />
-                <div className="p-8 space-y-4 relative z-20 bg-white border-t border-slate-100 -mt-4 rounded-t-3xl">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-2xl font-semibold leading-tight text-slate-900 border-b border-slate-100 pb-3">
-                      {featured.title}
-                    </h3>
-                    <div className="flex items-center gap-5 mt-2 text-slate-500">
-                      <div className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[15px] text-blue-500">schedule</span>
-                        <span className="text-xs font-medium">{featured.estimated_minutes ?? 10} mins</span>
+              </div>
+              {difficulties.length > 1 && (
+                <div>
+                  <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">
+                    Difficulty
+                  </p>
+                  <div className="flex items-center gap-3 overflow-x-auto pb-1">
+                    <FilterChip
+                      label="Any"
+                      active={selectedDifficulty === null}
+                      onClick={() => setSelectedDifficulty(null)}
+                    />
+                    {difficulties.map((d) => (
+                      <FilterChip
+                        key={d}
+                        label={d}
+                        active={selectedDifficulty === d}
+                        onClick={() =>
+                          setSelectedDifficulty((prev) => (prev === d ? null : d))
+                        }
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {fetchError && (
+            <div className="text-on-error-container text-sm text-center py-3 bg-error-container border border-error/20 rounded-xl px-4 mb-6">
+              API error: {fetchError}
+            </div>
+          )}
+
+          {loading ? (
+            <div className="text-on-surface-variant text-sm py-16 text-center">
+              Loading scenarios… (the server may take up to a minute to wake up)
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="text-on-surface-variant text-sm py-16 text-center">
+              No scenarios match these filters yet.
+            </div>
+          ) : (
+            <>
+              {/* Featured scenario */}
+              {featured && (
+                <section className="mb-14">
+                  <div className="w-full rounded-2xl overflow-hidden glass-card flex flex-col md:flex-row shadow-lg">
+                    <div
+                      className={`w-full md:w-1/2 h-56 md:h-auto relative bg-gradient-to-br ${scenarioGradient(featured.scenario_id)} flex items-center justify-center`}
+                    >
+                      <div className="plaid-accent" />
+                      <span className="material-symbols-outlined text-8xl text-primary/50">
+                        {scenarioIcon(featured.scenario_id)}
+                      </span>
+                    </div>
+                    <div className="p-8 lg:p-10 flex flex-col flex-1 bg-white/40">
+                      <div className="flex items-center gap-3 mb-4 flex-wrap">
+                        <span className="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold tracking-wide">
+                          FEATURED MODULE
+                        </span>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-bold ${DIFFICULTY_BADGE[featured.difficulty_level] ?? ""}`}
+                        >
+                          {featured.difficulty_level}
+                        </span>
+                        <span className="flex items-center gap-1 text-xs text-secondary font-medium">
+                          <span className="material-symbols-outlined text-[16px]">schedule</span>
+                          {featured.estimated_minutes ?? 10} mins
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[15px] text-purple-500">military_tech</span>
-                        <span className="text-xs font-medium">{featured.difficulty_level}</span>
+                      <h2 className="text-2xl lg:text-3xl text-primary mb-3 leading-tight font-bold font-display">
+                        {featured.title}
+                      </h2>
+                      <p className="text-on-surface-variant mb-3 leading-relaxed line-clamp-3">
+                        {featured.context_description}
+                      </p>
+                      <p className="text-sm text-on-surface-variant mb-8">
+                        <span className="font-semibold text-secondary">{featured.adversary_role}</span>
+                        {" · "}
+                        {featured.barrier_theme}
+                      </p>
+                      <div className="flex items-center gap-6 mt-auto flex-wrap">
+                        <Link
+                          href={`/chat?scenario=${featured.scenario_id}`}
+                          className="px-8 h-12 flex items-center bg-primary text-white rounded-xl font-semibold hover:shadow-lg hover:bg-primary/90 transition-all active:scale-95"
+                        >
+                          Start Practice
+                        </Link>
+                        <Link
+                          href={`/preview?scenario=${featured.scenario_id}`}
+                          className="flex items-center gap-2 text-primary font-semibold hover:opacity-80 transition-opacity"
+                        >
+                          <span className="material-symbols-outlined">info</span>
+                          View Module Details
+                        </Link>
                       </div>
                     </div>
                   </div>
-                  <p className="text-[14px] text-slate-500 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    {featured.barrier_theme} · {featured.adversary_role}
-                  </p>
-                  <a
-                    href={`/preview?scenario=${featured.scenario_id}`}
-                    className="w-auto px-10 py-3 mx-auto flex items-center justify-center bg-slate-900 text-white hover:bg-slate-700 rounded-xl font-medium text-sm shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all max-w-sm"
-                  >
-                    Start Practice
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
+                </section>
+              )}
 
-          {/* Remaining scenarios */}
-          {rest.length > 0 && (
-            <div className="space-y-4 mb-10">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">More Practice Modules</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {rest.map(scenario => (
-                  <ScenarioCard
-                    key={scenario.scenario_id}
-                    title={scenario.title}
-                    difficulty={scenario.difficulty_level as "Beginner" | "Moderate" | "Advanced"}
-                    time={`${scenario.estimated_minutes ?? 10} mins`}
-                    level={scenario.difficulty_level}
-                    description={scenario.barrier_theme}
-                    imageUrl={SCENARIO_IMAGES[(scenario.scenario_id - 1) % SCENARIO_IMAGES.length]}
-                    href={`/preview?scenario=${scenario.scenario_id}`}
-                    badgeContent={scenario.adversary_role.charAt(0)}
-                  />
-                ))}
-              </div>
-            </div>
+              {/* Remaining scenarios */}
+              {rest.length > 0 && (
+                <section>
+                  <div className="mb-8">
+                    <h3 className="text-2xl text-primary font-bold font-display">
+                      Learning Path Modules
+                    </h3>
+                    <p className="text-on-surface-variant text-sm">
+                      Expand your expertise across academic leadership contexts.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {rest.map((scenario) => (
+                      <ScenarioCard
+                        key={scenario.scenario_id}
+                        scenarioId={scenario.scenario_id}
+                        title={scenario.title}
+                        difficulty={scenario.difficulty_level}
+                        time={`${scenario.estimated_minutes ?? 10}m`}
+                        description={scenario.barrier_theme}
+                        adversaryRole={scenario.adversary_role}
+                        href={`/preview?scenario=${scenario.scenario_id}`}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+            </>
           )}
-        </>
-      )}
-    </MainLayout>
+        </div>
+      </div>
+    </PageShell>
   );
 }
